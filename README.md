@@ -11,7 +11,7 @@
 4. [Future Plans for HootyBot](#4) 
 
 
-## 1. About HootyBot <a name = "About-HootyBot"></a>
+## 1. About HootyBot v1.0.1 <a name = "About-HootyBot"></a>
 
 ### Purpose <a name = "Purpose"></a>
 
