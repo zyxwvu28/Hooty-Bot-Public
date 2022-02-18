@@ -1,0 +1,56 @@
+Condition,Exception,Reply
+i need your help,,"You said I was desperate, so now I'm playing hard to get"
+nightmare,,You wanna hear *my* worst nightmare?
+i wish i could help her,,The rough housing was fun. But I like this part of our play dates even *better*
+moonlight,,"By the power of moonlight, I have risen. Hoot hoot"
+roommate,,Roommate check in! How's my bestie doing?
+kpop,,"Well, I never heard of underground Korean hip-hop before."
+scrying potion,,We can find out their crushes! We can give them cute couple names
+regret,,Is this what regret feels like? I hate it!
+write to,,But I can't hold a pen D': 
+little miss perfect,,"Straight hair, straight A's, straightforward"
+hid,& 'chid' OR 'phid',PEEKAHOOT!
+friendship,,"Now I know what friendship tastes like. Mmm, Tastes like a bug"
+we're having a moment,,"YOU'LL NEVER UNDERSTAND WHAT WE'VE BEEN THROUGH TOGETHER! NEVER, NEVER!"
+victory dance,,Sweet moves little dude
+did we do it,,"Is the room spinning or is it just me? Ah, just a little house humor"
+babysit,,"I don't need a babysitter, I'm a big boy house"
+tea,teach,A fresh cup of tea for my favourite cup of tea!
+mouse,,"Fear not maiden, for I, Hooty, the guardian Angel of ga'HOOT! has protected you once more.... GAHOOT!!!"
+at least the cake is good,,IT WAS SUPPOSED TO BE A CRUMBLE! \n\n *starts sobbing*
+insect,,"I chew insects, I turn them into mush"
+Mother,,DON'T YOU TALK ABOUT MY MOTHER!
+important,,"OH MY GOSH A BUG! *CHOMP* Ah... Whoopsie, hope that was junk mail"
+sneak,,"Sleep walking, sleep walking, SLEEP HOOTING!"
+puberty,,Sounds like our little demon is becoming a de-MAN!
+who's side are you on,,I'm an unbiased participant. Hoot! Hoot!
+trespass,,"Eda doesn't like trespassers, but *I'm* always here to make new friends!"
+I never lost a game with this bad boy,,"Guess who found a special friend in the forest? It was me, Hoot!"
+that sounds like a crumby situation,,"Hey, guess what's been in my mouth that I'm about to throw up \n\n *throws up* \n\n The Mail!"
+to the carnival,,"Good news, I'm bringing my knapsack full of games!"
+everyone knows about,,DO NOT INTERRUPT!!!
+moment ruined,,"I will be haunted by my actions forever, hoot hoot!"
+including hooty,,Finally! I get to be a part of something!
+the door swung open,,"DING DONG DING, HOOT HOOT"
+"boiling rains, remember",,"No, let her try, It'll be funny"
+leave me alone,,"A good friend would respect their wishes, but an even better friend would help no matter what."
+i always forget you're here,,"I forget I'm here too, boop"
+you're just gonna be unhelpful,,"All I know is, you taught me and I turned out just fine"
+it's just a drawing,,*HISSS* \n\n  WHO ARE YOU?! \n\n  THIS IS MY TERRITORY! \n\n *HISSS*
+i feel like i'm forgetting something,,"Hey, hey! Is anyone there? Hello? Hoot? I'm on the floor. It's cold!"
+HootyBot,,"Oh, wow. I've been waiting for someone to call all day, and now it's finally happened! We can talk for hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hello, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours..."
+& probability: 0.01,,Hoot hooty hoot!
+& q: 'stan pines' OR ('eda' AND 'ex'),Raine,Eda still misses her ex-husband. But her aim is getting better!
+& q: 'conscript' OR 'army' OR 'war',,It's your old faithful pal Hooty reporting for duty!
+& q: 'forget' OR 'remember' OR 'remind',,I'm pretty good at getting stuck inside people's heads
+& q: probability = 0.001,,HOOOOOOOT!
+& q: 'trauma' OR ('marcy' AND 'stab') OR 'agony' OR 'agoniz' OR 'emotional rollercoaster' OR 'pain',,"Special delivery, PAIN!"
+& q: 'hooty' AND ('fault' OR 'bad'),,"I made it worse, I MADE IT WORSE!!!"
+& q: 'bank' OR 'secret',,Hoot hoot. Password please
+& q: 'hooty' AND 'annoying',,"I'm just wishing you a good morning. Geez, hoot, ow!"
+& q: 'mission' OR 'quest',,"Porta-Hooty, reporting for Hooty!"
+& q: 'hooty' & 'fail',,"NOOOO I did it again, I can't help anyone!"
+"& prob, q = 0.01, Lumity",,"They're adorable, and deserve all the happiness!"
+& q: 'hooty' AND ('watch' OR 'big brother' OR 'spy'),,"Hooty is everywhere, waiting for the perfect opportunity to make a witty comment"
+"& prob, q =  0.01, ?",,"Hoot hoot! If you want the answer that you seek, solve my riddle within a week."
+& q: 'i don't know' OR 'idk',,"Time to fill up that darling little head of yours with \n\n *vomits books* \n\n MMH MMH, Delicious Knowledge!"

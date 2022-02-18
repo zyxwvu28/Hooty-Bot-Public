@@ -1,0 +1,5 @@
+# Run the command on the line below to install all necessary Python packages: 
+# py -m pip install -U -r requirements.txt
+requests
+praw
+pandas
