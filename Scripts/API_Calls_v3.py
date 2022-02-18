@@ -54,16 +54,17 @@ blacklist_words = pd.read_csv(blacklist_words_path)['Blacklist']
 
 # Custom function for logging and printing a message
 def log_and_print(message, level = 'info'):
+    log_message = message.encode('unicode_escape')
     if level == 'debug':
-        log.debug(message)
+        log.debug(log_message)
     elif level == 'info':
-        log.info(message)
+        log.info(log_message)
     elif level == 'warning':
-        log.warning(message)
+        log.warning(log_message)
     elif level == 'error':
-        log.error(message)
+        log.error(log_message)
     elif level == 'critical':
-        log.critical(message)
+        log.critical(log_message)
     print(message)        
 
 # Monitoring new posts
