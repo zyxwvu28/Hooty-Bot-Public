@@ -1,7 +1,7 @@
 '''
 Main script controlling u/HootyBot
 To install all necessary packages, 
-(ensure that your working directory is setup to be the Hooty-Bot folder)
+(ensure that your working directory is setup to be the Hooty-Bot-Public folder)
 type the command below into your terminal:
 py -m pip install -U -r requirements.txt
 '''
