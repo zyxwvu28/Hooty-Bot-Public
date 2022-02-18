@@ -251,7 +251,8 @@ def reply_to(msg_obj, username, reply_to_self = False):
         return
     
     # Template reply ending for a bot
-    reply_ending = '^(I am a bot written by [{i}](https://www.reddit.com/user/{i}) | Check out my [Github](https://github.com/{i}))'.format(i = creator)
+    reply_ending = '^(I am a bot written by [{i}](https://www.reddit.com/user/{i}) | Check out my [Github](https://github.com/{i}) ) \n\n'.format(i = creator) 
+    reply_ending += '^(Current version: {v} )'.format(v = version)
     
     # Check if there's poll text, if so, add that to the detection
     try:
