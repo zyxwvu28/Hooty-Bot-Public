@@ -36,9 +36,10 @@ if USERNAME == '':
 
 def main():
     """Provide the program's entry point when directly executed."""
-    scope_input = input(
-        "Enter a comma separated list of scopes, or `*` for all scopes: "
-    )
+    scope_input = 'identity, read, submit'
+    # input(
+    #     "Enter a comma separated list of scopes, or `*` for all scopes: "
+    # )
     scopes = [scope.strip() for scope in scope_input.strip().split(",")]
 
     reddit = praw.Reddit(USERNAME,
