@@ -24,10 +24,10 @@ reddit = pr.Reddit(username)
 ### API Calls
 
 # 1. Monitor new posts
-# sr = "TheOwlHouse"
-# reply_mode = False
-
-sr = 'TOH_Bot_Testing'
+sr = "TheOwlHouse"
 reply_mode = True
+
+# sr = 'TOH_Bot_Testing'
+# reply_mode = True
 
 api.monitor_new_posts(reddit, sr, skip_existing = reply_mode, pause_after = 2, replies_enabled = reply_mode)
