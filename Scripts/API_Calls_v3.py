@@ -13,7 +13,7 @@ import csv
 from os import path, environ
 
 # Set version number
-version = 'v1.0'
+version = 'v1.0.1'
 
 # Define creator of bot
 creator = environ.get('REDDIT_BOT_CREATOR')
