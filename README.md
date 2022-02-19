@@ -1,5 +1,5 @@
 # Hooty-Bot README Table of Contents
-1. [About HootyBot (v1.0.2)](#About-HootyBot)
+1. [About HootyBot (v1.0.3)](#About-HootyBot)
     1. [Purpose](#Purpose)
     2. [How does HootyBot work? (TLDR Version)](#1b)
     3. [Does HootyBot use machine learning or neural networks?](#1c)
@@ -12,7 +12,7 @@
 5. [Version Logs](#5) 
 
 
-## 1. About HootyBot (v1.0.2) <a name = "About-HootyBot"></a>
+## 1. About HootyBot (v1.0.3) <a name = "About-HootyBot"></a>
 
 ### Purpose <a name = "Purpose"></a>
 
@@ -75,6 +75,8 @@ If you have any concerns, comments, compliments, insults, etc. fill out this for
 - v.1.0.2: 
     - Changed the way data is input into HootyBot so that the entire system is more modular. 
     - Live changes to csvs now result in live changes to HootyBot's memory
+- v1.0.3:
+    - Added reply suggestions form to Hooty's reply ending
 
 
 HOOT HOOT!
