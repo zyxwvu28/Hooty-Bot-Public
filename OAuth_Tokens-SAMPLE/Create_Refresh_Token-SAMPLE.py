@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 
-"""This example demonstrates the flow for retrieving a refresh token.
+"""
+UPDATE THE `praw.ini` FILE BEFORE RUNNING THIS SCRIPT!!!!
+
+This example demonstrates the flow for retrieving a refresh token.
 
 This tool can be used to conveniently create refresh tokens for later use with your web
 application OAuth2 credentials.
@@ -32,7 +35,7 @@ import praw
 
 USERNAME = ''
 if USERNAME == '':
-    raise NameError('Please define the variable \'USERNAME\' (two lines above this error message) with your bot\'s username')
+    USERNAME = input('Please input your Reddit username without the \'u/\':\n')
 
 def main():
     """Provide the program's entry point when directly executed."""
