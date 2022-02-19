@@ -15,13 +15,10 @@ we're having a moment,,"YOU'LL NEVER UNDERSTAND WHAT WE'VE BEEN THROUGH TOGETHER
 victory dance,,Sweet moves little dude
 did we do it,,"Is the room spinning or is it just me? Ah, just a little house humor"
 babysit,,"I don't need a babysitter, I'm a big boy house"
-tea,& 'teach' OR 'tear',A fresh cup of tea for my favourite cup of tea!
 mouse,,"Fear not maiden, for I, Hooty, the guardian Angel of ga'HOOT! has protected you once more.... GAHOOT!!!"
 at least the cake is good,,IT WAS SUPPOSED TO BE A CRUMBLE! \n\n *starts sobbing*
 insect,,"I chew insects, I turn them into mush"
-Mother,,DON'T YOU TALK ABOUT MY MOTHER!
-important,,"OH MY GOSH A BUG! *CHOMP* Ah... Whoopsie, hope that was junk mail"
-sneak,,"Sleep walking, sleep walking, SLEEP HOOTING!"
+sneak,sneaker,"Sleep walking, sleep walking, SLEEP HOOTING!"
 puberty,,Sounds like our little demon is becoming a de-MAN!
 who's side are you on,,I'm an unbiased participant. Hoot! Hoot!
 trespass,,"Eda doesn't like trespassers, but *I'm* always here to make new friends!"
@@ -54,3 +51,6 @@ HootyBot,,"Oh, wow. I've been waiting for someone to call all day, and now it's 
 & q: 'hooty' AND ('watch' OR 'big brother' OR 'spy'),,"Hooty is everywhere, waiting for the perfect opportunity to make a witty comment"
 "& prob, q =  0.01, ?",,"Hoot hoot! If you want the answer that you seek, solve my riddle within a week."
 & q: 'i don't know' OR 'idk',,"Time to fill up that darling little head of yours with \n\n *vomits books* \n\n MMH MMH, Delicious Knowledge!"
+& THINK OF SOMETHING ELSE: tea,& 'teach' OR 'tear' OR 'instead' OR 'team',A fresh cup of tea for my favourite cup of tea!
+& THINK OF SOMETHING ELSE! important,,"OH MY GOSH A BUG! \n\n *CHOMP* \n\n Ah... Whoopsie, hope that was junk mail"
+& THINK OF SOMETHING ELSE! Mother,,DON'T YOU TALK ABOUT MY MOTHER!
