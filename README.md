@@ -1,5 +1,5 @@
 # Hooty-Bot README Table of Contents
-1. [About HootyBot](#About-HootyBot)
+1. [About HootyBot (v1.0.1)](#About-HootyBot)
     1. [Purpose](#Purpose)
     2. [How does HootyBot work? (TLDR Version)](#1b)
     3. [Does HootyBot use machine learning or neural networks?](#1c)
