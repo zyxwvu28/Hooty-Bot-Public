@@ -11,11 +11,47 @@ import requests as r
 import time as t
 import API_Calls_v3 as api
 import praw as pr
+from datetime import date as da
+import logging as log
 
 # Define global 'constants'
-version = api.version # Version number is set in API_Calls module
+with open('version.txt') as f:
+    version = f.readlines()[0]
 APP_ID = os.environ.get('REDDIT_HOOTY_APP_ID')
 user_agent = 'reddit:' + APP_ID + ':' + version + ' (by /u/zyxwvu28)'
+today = str(da.today())
+log_prefix = 'Logs/HootyBot_' + version + '_' + today
+log_file_name = log_prefix + ".log"
+csv_log_name = log_prefix + ".csv"
+responseDF_path = 'ReplyDFs\HootyBotResponseDF.csv'
+blacklist_words_path = 'ReplyDFs\BlacklistWords.csv'
+
+# Configure logging
+log.basicConfig(format='%(asctime)s [%(levelname)s]: %(message)s', 
+                filename=log_file_name, 
+                # encoding='utf-8', 
+                level=log.DEBUG
+                )
+
+# Define creator of bot
+bot_creator = os.environ.get('REDDIT_BOT_CREATOR')
+if bot_creator is None:
+    bot_creator = '' # Change this string to be your main Reddit account username (without the u/)
+    while bot_creator == '':
+        bot_creator = input('Enter your Reddit username with the \'u/\':\n')
+        print('Welcome u/' + bot_creator)
+    
+# Variables and data importamt for configuring HootyBot
+bot_config = {
+    'version': version, 
+    'bot_creator': bot_creator,
+    # 'today': today,
+    # 'log_prefix': log_prefix,
+    'log_file_name': log_file_name,
+    'csv_log_name': csv_log_name,
+    'responseDF_path': responseDF_path,
+    'blacklist_words_path': blacklist_words_path
+}
 
 # Load credentials from praw.ini to generate a Reddit instance
 username = 'HootyBot'
@@ -30,4 +66,4 @@ reply_mode = True
 # sr = 'TOH_Bot_Testing'
 # reply_mode = True
 
-api.monitor_new_posts(reddit, sr, skip_existing = reply_mode, pause_after = 2, replies_enabled = reply_mode)
+api.monitor_new_posts(reddit, sr, bot_config = bot_config, skip_existing = reply_mode, pause_after = 2, replies_enabled = reply_mode)
