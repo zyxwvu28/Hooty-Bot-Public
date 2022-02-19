@@ -210,14 +210,18 @@ def monitor_new_posts(reddit_instance, sr, bot_config, skip_existing = False, pa
             except:
                 poll_text = ''
             
-            # Define variables for post data
-            timestamp = dt.fromtimestamp(post.created_utc)
-            author = post.author.name
-            post_title = post.title
-            body = post.selftext + poll_text
-            url = post.url
-            s_id = post.id      
-            post_or_comment = 'post'  
+            try:
+                # Define variables for post data
+                timestamp = dt.fromtimestamp(post.created_utc)
+                author = post.author.name
+                post_title = post.title
+                body = post.selftext + poll_text
+                url = post.url
+                s_id = post.id      
+                post_or_comment = 'post'  
+            except:
+                print("Error, post probably deleted...")
+                continue
             
             # Encode emojis differently
             post_title_to_csv = post_title.encode('unicode_escape')
@@ -253,13 +257,18 @@ def monitor_new_posts(reddit_instance, sr, bot_config, skip_existing = False, pa
                 break
             failed_delay = 0.1
             
-            # Define variables for comment data
-            timestamp = dt.fromtimestamp(comment.created_utc)
-            author = comment.author.name
-            post_title = comment.link_title
-            body = comment.body
-            url = 'https://www.reddit.com' + comment.permalink
-            s_id = comment.id
+            try:
+                # Define variables for comment data
+                timestamp = dt.fromtimestamp(comment.created_utc)
+                author = comment.author.name
+                post_title = comment.link_title
+                body = comment.body
+                url = 'https://www.reddit.com' + comment.permalink
+                s_id = comment.id
+            except:
+                print("Error, comment likely deleted...")
+                continue
+                
             if author == username:
                 post_or_comment = 'reply'
             else:
