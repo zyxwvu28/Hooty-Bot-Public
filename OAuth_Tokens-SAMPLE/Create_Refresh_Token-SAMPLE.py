@@ -35,7 +35,7 @@ import praw
 
 USERNAME = ''
 if USERNAME == '':
-    USERNAME = input('Please input your Reddit username without the \'u/\':\n')
+    USERNAME = input('Please input your bot\'s Reddit username without the \'u/\':\n')
 
 def main():
     """Provide the program's entry point when directly executed."""
