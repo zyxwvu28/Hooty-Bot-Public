@@ -1,5 +1,5 @@
 # Hooty-Bot README Table of Contents
-1. [About HootyBot (v1.0.1)](#About-HootyBot)
+1. [About HootyBot (v1.0.2)](#About-HootyBot)
     1. [Purpose](#Purpose)
     2. [How does HootyBot work? (TLDR Version)](#1b)
     3. [Does HootyBot use machine learning or neural networks?](#1c)
@@ -12,7 +12,7 @@
 5. [Version Logs](#5) 
 
 
-## 1. About HootyBot (v1.0.1) <a name = "About-HootyBot"></a>
+## 1. About HootyBot (v1.0.2) <a name = "About-HootyBot"></a>
 
 ### Purpose <a name = "Purpose"></a>
 
@@ -70,7 +70,11 @@ If you have any concerns, comments, compliments, insults, etc. fill out this for
 4. If there is enough demand, I may create more detailed documentation, or even a YouTube video detailing how I created HootyBot. But I will assume that most people who want to create their own TOH bot are skilled enough to read through my code and make one for themselves. If I'm wrong about this and you actually do want detailed documentation, or a YouTube tutorial, please let me know, the more people that want it, the more motivation I'll have to make it.
 
 ## 5. Version Logs <a name = "5"></a>
-- v.1.0.1: HootyBot can do simple search queries to find posts/comments to respond to
+- v.1.0.1: 
+    - HootyBot can do simple search queries to find posts/comments to respond to
+- v.1.0.2: 
+    - Changed the way data is input into HootyBot so that the entire system is more modular. 
+    - Live changes to csvs now result in live changes to HootyBot's memory
 
 
 HOOT HOOT!
