@@ -97,7 +97,7 @@ def reply_to(msg_obj, bot_config, username, reply_to_self = False):
         return
     
     # Template reply ending for a bot
-    reply_ending = '^(I am a bot written by [{i}](https://www.reddit.com/user/{i}) | Check out my [Github](https://github.com/{i}) ) \n\n'.format(i = bot_creator) 
+    reply_ending = '^(I am a bot written by [{i}](https://www.reddit.com/user/{i}) | Check out my [Github](https://github.com/{i}/Hooty-Bot-Public/blob/main/README.md) ) \n\n'.format(i = bot_creator) 
     reply_ending += '^(Help improve Hooty\'s [vocabulary](https://forms.gle/jJzJTGC36ykLhWxB6) | Current version: {v} )'.format(v = version)
     
     # Check if there's poll text, if so, add that to the detection
@@ -305,7 +305,7 @@ def monitor_new_posts(reddit_instance, sr, bot_config, skip_existing = False, pa
         t.sleep(failed_delay)
         if failed_delay < 16:
             failed_delay *= 1.2
-            
+           
 def activate_bot(username, sr, bot_config, skip_existing = False, pause_after = 3, replies_enabled = False):
     # Load credentials from praw.ini to generate a Reddit instance
     reddit = pr.Reddit(username)
