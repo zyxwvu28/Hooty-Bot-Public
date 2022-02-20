@@ -159,6 +159,19 @@ def advanced_keyword_parser(text_to_reply_to: str, cond: str) -> bool:
     
     return False
 
+def except_parser(excepts_DF, response_index, text_to_reply_to) -> bool:
+    DONT_REPLY = -1 
+    text_to_reply_to_casefold = text_to_reply_to.casefold()
+    except_words = excepts_DF[response_index]
+    if except_words == '':
+        return False
+    elif except_words[0] == '&':
+        except_cond = advanced_keyword_parser(text_to_reply_to, except_words)
+    else:
+        except_cond = except_words.casefold() in text_to_reply_to_casefold
+        
+    return except_cond
+
 def cond_except_parser(text_to_reply_to: str, bot_config: dict) -> int: 
     '''
     str, dict -> int
@@ -206,24 +219,44 @@ def cond_except_parser(text_to_reply_to: str, bot_config: dict) -> int:
         # print('Insert special parsing code here')
         if i[0] == '&':                 
             parsed_cond = advanced_keyword_parser(text_to_reply_to, i)
+            response_index = responseDF[responseDF['Condition'] == i].index[0]
             
             if parsed_cond:
-                response_index = responseDF[responseDF['Condition'] == i].index[0]
-                return response_index
+                except_cond = except_parser(excepts, response_index, text_to_reply_to)
+                if except_cond:
+                    return DONT_REPLY
+                else:
+                    return response_index
                 
-        
+                # except_words = excepts[response_index]
+                # if except_words[0] == '&':
+                #     except_cond = advanced_keyword_parser(text_to_reply_to, except_words)
+                # else:
+                #     except_cond = except_words.casefold() in text_to_reply_to_casefold
+                    
+                # if except_cond:
+                #     return DONT_REPLY
+                # else:
+                #     return response_index                       
         
         ### For simple queries
         # If the condition word is a substring of the message body, 
         # then return the index for the proper response.
-        if i.casefold() in text_to_reply_to_casefold:               
-            # If an exception keyword is found, don't reply
-            for j in excepts: 
-                if (j != '') and (j.casefold() in text_to_reply_to_casefold):
-                    return DONT_REPLY
-                            
+        if i.casefold() in text_to_reply_to_casefold:                           
             response_index = responseDF[responseDF['Condition'] == i].index[0]
-            return response_index
+            
+            # If an exception keyword is found, don't reply            
+            except_cond = except_parser(excepts, response_index, text_to_reply_to)
+            if except_cond:
+                return DONT_REPLY
+            else:
+                return response_index            
+            
+            # for j in excepts: 
+            #     if (j != '') and (j.casefold() in text_to_reply_to_casefold):
+            #         return DONT_REPLY
+                            
+            # return response_index
     
     
     # If no matches are found, don't reply
@@ -489,6 +522,7 @@ def bot_offline(username, bot_status_post_id):
     bot_status_post.edit('# ❌ HootyBot is currently offline D: \n\n' +
                     'Note: HootyBot will only monitor and respond to posts and comments on r/TheOwlHouse. '
                     + 'If you pm it, it won\'t respond automatically.')
+    log_and_print('Status post edited to indicate that HootyBot is now offline')
            
 def activate_bot(username: str, 
                  sr: str, 
@@ -520,6 +554,7 @@ def activate_bot(username: str,
             bot_status_post.edit('# ✅ HootyBot is currently online! \n\n' +
                                 'Note: HootyBot will only monitor and respond to posts and comments on r/TheOwlHouse. '
                                 + 'If you pm it, it won\'t respond automatically.')
+            log_and_print('Status post edited to indicate that HootyBot is now online')
         
         # for i in reddit.user.me().subreddit.stream.submissions(skip_existing = False):
         #     print(i.title)
@@ -536,7 +571,7 @@ def activate_bot(username: str,
     except BaseException as e:
         if sr == 'TheOwlHouse':
             bot_offline(username, bot_status_post_id)
-        
+        err_message = 'An error occurred in the code: \n\n' + str(e) 
+        print(err_message)
         reddit.redditor(bot_creator).message('HootyBot is now offline', 
-                                             'An error occurred in the code: \n\n' 
-                                             + str(e))
+                                            err_message )
