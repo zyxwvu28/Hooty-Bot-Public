@@ -48,7 +48,10 @@ def advanced_query(parsed_query: str) -> bool:
     while curr_idx < pq_len - 1:
         prev_idx = curr_idx - 1
         next_idx = curr_idx + 1
+        lb_count = 0
+        rb_count = 0
         if '(' == parsed_query[curr_idx]:
+            lb_count += 1
             rb_idx = parsed_query.index(')')
             replace_bracket = advanced_query(parsed_query[next_idx:rb_idx])
             if rb_idx + 1 == pq_len:
@@ -162,6 +165,9 @@ def cond_except_parser(text_to_reply_to: str, bot_config: dict) -> int:
     # lowercase all strings for comparison to remove case-sensitivity
     text_to_reply_to_casefold = text_to_reply_to.casefold()
     
+    # returns a reply index, returns -1 if not found    
+    DONT_REPLY = -1
+    
     # Load the BlacklistWords
     blacklist_words = pd.read_csv(blacklist_words_path)['Blacklist']
     # If a blacklisted keyword is found, don't reply
@@ -169,8 +175,6 @@ def cond_except_parser(text_to_reply_to: str, bot_config: dict) -> int:
         if bword.casefold() in text_to_reply_to_casefold:
             return DONT_REPLY  
               
-    # returns a reply index, returns -1 if not found    
-    DONT_REPLY = -1
      
     ### For simple queries
     

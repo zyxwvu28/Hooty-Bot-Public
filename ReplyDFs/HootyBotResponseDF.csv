@@ -1,7 +1,7 @@
 Index,Condition,Exception,Reply
-0,& q: 'stan pines' OR ('eda' AND 'ex'),Raine,Eda still misses her ex-husband. But her aim is getting better!
+0,& q: 'stan pines' OR ('eda' AND ('aim' OR 'husband')),Raine,Eda still misses her ex-husband. But her aim is getting better!
 1,& prob: 0.01,,Hoot hooty hoot!
-2,& q: 'conscript' OR 'army' OR 'war',,It's your old faithful pal Hooty reporting for duty!
+2,& q: 'conscript' OR 'army' OR 'battle',,It's your old faithful pal Hooty reporting for duty!
 3,& q: 'forget' OR 'remember' OR 'remind',,I'm pretty good at getting stuck inside people's heads
 4,& prob: 0.001,,HOOOOOOOT!
 5,& q: 'trauma' OR ('marcy' AND 'stab') OR 'agony' OR 'agoniz' OR 'emotional rollercoaster' OR 'pain',,"Special delivery, PAIN!"
