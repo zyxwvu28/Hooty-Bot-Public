@@ -118,7 +118,7 @@ def advanced_keyword_parser(text_to_reply_to: str, cond: str) -> bool:
                 continue
             i += 1
                         
-        print(parsed_query)
+        # print(parsed_query)
         # print('')
             
         text_to_reply_to_casefold = text_to_reply_to.casefold()
@@ -128,11 +128,11 @@ def advanced_keyword_parser(text_to_reply_to: str, cond: str) -> bool:
             if not(x in ['(', ')', 'AND', 'OR']):
                 parsed_query[i] = x.casefold() in text_to_reply_to_casefold
         
-        print(parsed_query)                
+        # print(parsed_query)                
         
         query_result = advanced_query(parsed_query)
-        print(query_result)
-        print('')
+        # print(query_result)
+        # print('')
         return query_result
     
         
@@ -182,11 +182,11 @@ def cond_except_parser(text_to_reply_to: str, bot_config: dict) -> int:
         ### For advanced queries
         
         # Insert special convos code here
-        print('Insert special convos code here')
+        # print('Insert special convos code here')
         
         
         # Insert special parsing code here
-        print('Insert special parsing code here')
+        # print('Insert special parsing code here')
         if i[0] == '&':                 
             parsed_cond = advanced_keyword_parser(text_to_reply_to, i)
             
