@@ -3,7 +3,6 @@ Functions for common API calls that HootyBot makes
 Detects new posts and comments on a specific subreddit
 '''
 
-from ast import parse
 import pandas as pd
 import praw as pr
 import time as t
@@ -85,7 +84,6 @@ def advanced_query(parsed_query: str) -> bool:
             new_lst = [new_bool] + parsed_query[(next_idx+1):]
             return advanced_query(new_lst)
         curr_idx += 1    
-    
 
 def advanced_keyword_parser(text_to_reply_to: str, cond: str) -> bool: 
     '''
@@ -98,17 +96,21 @@ def advanced_keyword_parser(text_to_reply_to: str, cond: str) -> bool:
     colon_idx = cond.find(':')
     str_cmd = cond[2:colon_idx]
     
+    # probq represents a query with a probability
     if str_cmd == 'probq':
-        
         return False
 
+    # q represents an advanced query
     elif str_cmd == 'q':
         parsed_query = []
         cond_len = len(cond)
         i = colon_idx + 2
+        
+        # Loop through all chars in the cond str
         while i < cond_len:
             ch1 = cond[i]
-            # print(i, ":", ch1)
+            
+            # if a ' is detected, parse the enclosed word as one str
             if '\'' == ch1:
                 temp_word = ''
                 for j in range(i+1, cond_len):
@@ -123,44 +125,47 @@ def advanced_keyword_parser(text_to_reply_to: str, cond: str) -> bool:
                         continue
                     temp_word += ch2
                 parsed_query.append(temp_word)
+                
+            # if any bracket is detected, parse it as-is
             elif ch1 in ['(', ')']:
                 parsed_query.append(ch1)
+                
+            # if either boolean operator is detected, parse the entire operator
             elif cond[i:i+2] == "OR":
                 parsed_query.append('OR')
             elif cond[i:i+3] == 'AND':
                 parsed_query.append('AND')
-            else:
-                i += 1
-                continue
+                
+            # ignore whitespaces and other foreign characters, then iterate
             i += 1
-                        
-        # print(parsed_query)
-        # print('')
-            
+        
+        # convert all keywords in the cond into a boolean value 
+        # based on whether the keyword is found in the msg_obj                   
         text_to_reply_to_casefold = text_to_reply_to.casefold()
         pq_len = len(parsed_query)
         for i in range(pq_len):
             x = parsed_query[i]
             if not(x in ['(', ')', 'AND', 'OR']):
-                parsed_query[i] = x.casefold() in text_to_reply_to_casefold
+                parsed_query[i] = x.casefold() in text_to_reply_to_casefold            
         
-        # print(parsed_query)                
-        
+        # Return the query's result
         query_result = advanced_query(parsed_query)
-        # print(query_result)
-        # print('')
         return query_result
-    
         
+    # prob represents a probability
     elif str_cmd == 'prob':
-        
         return False
-    
     
     return False
 
-def except_parser(excepts_DF, response_index, text_to_reply_to) -> bool:
-    DONT_REPLY = -1 
+def except_parser(excepts_DF: pd.DataFrame, response_index: int, text_to_reply_to: str) -> bool:
+    '''
+    Dataframe, int, str -> bool
+    
+    Parses the except messages. Returns a boolean that represents whether the except condition
+    has been detected.    
+    '''
+    
     text_to_reply_to_casefold = text_to_reply_to.casefold()
     except_words = excepts_DF[response_index]
     if except_words == '':
