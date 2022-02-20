@@ -7,7 +7,7 @@ If your suggestion isn't on this list, it means I haven't seen it yet. Check bac
 
 To see a full list of all keyword-reply pairs, go to [HootyBotResponseDF.csv](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv)
 
-### Suggestions Table
+# Suggestions Table
 
 | Legend | Description |
 | ------ | ----------- |
