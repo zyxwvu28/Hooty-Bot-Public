@@ -16,7 +16,16 @@
 
 ### Purpose <a name = "Purpose"></a>
 
-Created by [u/zyxwvu28](https://www.reddit.com/user/zyxwvu28) (he/him), the purpose of [u/HootyBot](https://www.reddit.com/user/HootyBot) is to entertain the members of [r/TheOwlHouse](https://www.reddit.com/r/TheOwlHouse/) by providing a bot that will automatically respond to new posts and comments with something that Hooty might say. Hooty is a comic relief character from The Owl House, an animated TV show from the Disney Channel. The code for this bot has been made open source in [this repository](https://github.com/zyxwvu28/Hooty-Bot-Public). You are free to use this code anyway you like, but it is provided 'as-is' (i.e. there is no warranty for this source code). 
+Created by [u/zyxwvu28](https://www.reddit.com/user/zyxwvu28) (he/him), the purpose of [u/HootyBot](https://www.reddit.com/user/HootyBot) is to entertain the members of [r/TheOwlHouse](https://www.reddit.com/r/TheOwlHouse/) by providing a bot that will automatically respond to new posts and comments with something that Hooty might say. Hooty is a comic relief character from The Owl House, an animated TV show from the Disney Channel. 
+
+I want this project to have community input in order to improve it. You can contribute in many ways including:
+- Providing keyword-reply suggestions to [improve Hooty's vocabulary](https://forms.gle/67fM5hwX78DHaf6s6)
+- [Providing your feedback](https://forms.gle/Ct6V5KxEHe3n73g57), even if it's negative (you can remain anonymous)
+- Improve documentation of code on this repository by making a Pull Request
+- Finding bugs and reporting them in Issues (If the bug is security/authentication related, please pm me on Reddit @ [u/zyxwvu28](https://www.reddit.com/user/zyxwvu28) instead)
+- Suggest features either by submitting an Issue or a Pull Request
+
+The code for this bot has been made open source in [this repository](https://github.com/zyxwvu28/Hooty-Bot-Public). You are free to use this code anyway you like, but it is provided 'as-is' (i.e. there is no warranty for this source code). 
 
 ### How does HootyBot work? (TLDR Version)<a name = "1b"></a>
 HootyBot constantly monitors the r/TheOwlHouse subreddit for new posts and comments (herein refered to as a 'message'). When it detects a message, it will iterate through a dataframe (saved as a .csv file) that contains the following hardcoded information: 
