@@ -13,7 +13,7 @@ If your suggestion isn't on this list, it means I haven't seen it yet. Check bac
 
 | Condition   | Reply                                         | Status             |
 | ----------- | --------------------------------------------- | ------------------ |
-| Hoot        | hoot hoot                                     | :white_check_mark: |
+| Hoot        | hoot hoot                                     | :pencil: |
 | eda         | i stole her potions once... it didn't go well | :pencil: |
 | lumity | what hooty said at the end of knock knock knockin of hootys door | :x: Keyword too common |
 | Lilith | LULU! | :x: Already added something similar |
