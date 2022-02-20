@@ -9,7 +9,7 @@ py -m pip install -U -r requirements.txt
 import os
 import requests as r
 import time as t
-import API_Calls_v3 as api
+import API_Calls as api
 import praw as pr
 from datetime import date as da
 import logging as log
@@ -53,17 +53,15 @@ bot_config = {
     'blacklist_words_path': blacklist_words_path
 }
 
-# Load credentials from praw.ini to generate a Reddit instance
+# Set bot's username
 username = 'HootyBot'
-reddit = pr.Reddit(username)
 
-### API Calls
-
-# 1. Monitor new posts
+# Set subreddit and reply mode
 sr = "TheOwlHouse"
 reply_mode = True
 
 # sr = 'TOH_Bot_Testing'
 # reply_mode = True
 
-api.monitor_new_posts(reddit, sr, bot_config = bot_config, skip_existing = reply_mode, pause_after = 2, replies_enabled = reply_mode)
+### Call API
+api.activate_bot(username, sr, bot_config = bot_config, skip_existing = reply_mode, pause_after = 2, replies_enabled = reply_mode)

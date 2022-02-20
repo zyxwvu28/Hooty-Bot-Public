@@ -305,3 +305,15 @@ def monitor_new_posts(reddit_instance, sr, bot_config, skip_existing = False, pa
         t.sleep(failed_delay)
         if failed_delay < 16:
             failed_delay *= 1.2
+            
+def activate_bot(username, sr, bot_config, skip_existing = False, pause_after = 3, replies_enabled = False):
+    # Load credentials from praw.ini to generate a Reddit instance
+    reddit = pr.Reddit(username)
+    
+    # Monitor new posts
+    monitor_new_posts(reddit, 
+                      sr, 
+                      bot_config = bot_config, 
+                      skip_existing = skip_existing, 
+                      pause_after = pause_after, 
+                      replies_enabled = replies_enabled)        
