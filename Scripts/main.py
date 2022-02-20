@@ -65,11 +65,11 @@ external_urls = {
 username = 'HootyBot'
 
 # Set subreddit and reply mode
-# sr = "TheOwlHouse"
-# reply_mode = True
-
-sr = 'TOH_Bot_Testing'
+sr = "TheOwlHouse"
 reply_mode = True
+
+# sr = 'TOH_Bot_Testing'
+# reply_mode = True
 
 ### Call API
 api.activate_bot(username, sr, bot_config = bot_config, external_urls = external_urls, skip_existing = reply_mode, pause_after = 2, replies_enabled = reply_mode)
