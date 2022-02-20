@@ -8,6 +8,7 @@ If your suggestion isn't on this list, it means I haven't seen it yet. I need to
 | Legend | Description |
 | ------ | ----------- |
 | :white_check_mark: | Added |
+| :heavy_check_mark: | Already added something similar |
 | :pencil: | Pending, modifications considered |
 | :x: | Rejected: \<Reason\> |
 
@@ -16,8 +17,8 @@ If your suggestion isn't on this list, it means I haven't seen it yet. I need to
 | Hoot        | hoot hoot                                     | :pencil: Originally added, but ended up being too spammy, will consider a modification|
 | eda         | i stole her potions once... it didn't go well | :pencil: |
 | lumity | what hooty said at the end of knock knock knockin of hootys door | :x: Keyword too common |
-| Lilith | LULU! | :x: Already added something similar |
-| Fly | Oh! A fly! Oopsie, hope that was junkmail | :x: Already added something similar
+| Lilith | LULU! | :heavy_check_mark: |
+| Fly | Oh! A fly! Oopsie, hope that was junkmail | :heavy_check_mark: |
 
 # Common reasons for rejection:
 | Reason   | Explanation |
