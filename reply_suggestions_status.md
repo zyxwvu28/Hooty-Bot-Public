@@ -1,7 +1,7 @@
 # HootyBot Reply Suggestions Update
 
 The purpose of this document is to provide an update on all suggestions provided by the [HootyBot Reply Suggestions form](https://forms.gle/67fM5hwX78DHaf6s6). 
-If your suggestion isn't on this list, it means I haven't seen it yet. Check back later.
+If your suggestion isn't on this list, it means I haven't seen it yet. Check back later. If you have questions about my decision, pm me on Reddit @ [u/zyxwvu28](https://www.reddit.com/user/zyxwvu28/) (Note, you will no longer remain anonymous to me)
 
 ### SPOILER ALERT ❗ 
 
@@ -13,7 +13,7 @@ To see a full list of all keyword-reply pairs, go to [HootyBotResponseDF.csv](ht
 | ------ | ----------- |
 | :white_check_mark: | Added |
 | :pencil: | Pending, modifications considered |
-| :x: | Rejected: <Reason> |
+| :x: | Rejected: \<Reason\> |
 
 | Condition   | Reply                                         | Status             |
 | ----------- | --------------------------------------------- | ------------------ |
