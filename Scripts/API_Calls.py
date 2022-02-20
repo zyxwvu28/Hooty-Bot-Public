@@ -3,6 +3,7 @@ Functions for common API calls that HootyBot makes
 Detects new posts and comments on a specific subreddit
 '''
 
+from ast import parse
 import pandas as pd
 import praw as pr
 import time as t
@@ -32,6 +33,116 @@ def log_and_print(message: str, level: str = 'info' ) -> None:
         log.critical(log_message)
     print(message)        
 
+def advanced_query(parsed_query: str) -> bool:
+    '''
+    str -> bool
+    
+    Processes the boolean operations inside of a parsed query
+    '''
+    
+    pq_len = len(parsed_query)
+    if pq_len == 1:
+        return parsed_query[0]  
+    
+    curr_idx = 0
+    while curr_idx < pq_len - 1:
+        prev_idx = curr_idx - 1
+        next_idx = curr_idx + 1
+        if '(' == parsed_query[curr_idx]:
+            rb_idx = parsed_query.index(')')
+            replace_bracket = advanced_query(parsed_query[next_idx:rb_idx])
+            if rb_idx + 1 == pq_len:
+                after_rb = []
+            else:
+                after_rb = parsed_query[(rb_idx+1):]
+            if type(replace_bracket) is bool:
+                new_lst = parsed_query[:curr_idx] + [replace_bracket] + after_rb 
+            else:
+                new_lst = parsed_query[:curr_idx] + replace_bracket + after_rb
+            return advanced_query(new_lst)
+        elif parsed_query[curr_idx] == 'OR' and parsed_query[next_idx] != '(':
+            new_bool = parsed_query[prev_idx] or parsed_query[next_idx]
+            new_lst = [new_bool] + parsed_query[(next_idx+1):]
+            return advanced_query(new_lst)
+        elif parsed_query[curr_idx] == 'AND' and parsed_query[next_idx] != '(':
+            new_bool = parsed_query[prev_idx] and parsed_query[next_idx]
+            new_lst = [new_bool] + parsed_query[(next_idx+1):]
+            return advanced_query(new_lst)
+        curr_idx += 1    
+    
+
+def advanced_keyword_parser(text_to_reply_to: str, cond: str) -> bool: 
+    '''
+    str, str -> bool
+    
+    Parses the advanced keyword search, checks if text_to_reply_to satisfies the condition
+    '''
+    
+    # What's the command?
+    colon_idx = cond.find(':')
+    str_cmd = cond[2:colon_idx]
+    
+    if str_cmd == 'probq':
+        
+        return False
+
+    elif str_cmd == 'q':
+        parsed_query = []
+        cond_len = len(cond)
+        i = colon_idx + 2
+        while i < cond_len:
+            ch1 = cond[i]
+            print(i, ":", ch1)
+            if '\'' == ch1:
+                temp_word = ''
+                for j in range(i+1, cond_len):
+                    ch2 = cond[j]                        
+                    if '\'' == ch2:
+                        if '\\' == cond[j-1]:
+                            temp_word += ch2
+                            continue
+                        i = j
+                        break
+                    if '\\' == ch2:
+                        continue
+                    temp_word += ch2
+                parsed_query.append(temp_word)
+            elif ch1 in ['(', ')']:
+                parsed_query.append(ch1)
+            elif cond[i:i+2] == "OR":
+                parsed_query.append('OR')
+            elif cond[i:i+3] == 'AND':
+                parsed_query.append('AND')
+            else:
+                i += 1
+                continue
+            i += 1
+                        
+        print(parsed_query)
+        # print('')
+            
+        text_to_reply_to_casefold = text_to_reply_to.casefold()
+        pq_len = len(parsed_query)
+        for i in range(pq_len):
+            x = parsed_query[i]
+            if not(x in ['(', ')', 'AND', 'OR']):
+                parsed_query[i] = x.casefold() in text_to_reply_to_casefold
+        
+        print(parsed_query)                
+        
+        query_result = advanced_query(parsed_query)
+        print(query_result)
+        print('')
+        return query_result
+    
+        
+    elif str_cmd == 'prob':
+        
+        return False
+    
+    
+    return False
+
 def cond_except_parser(text_to_reply_to: str, bot_config: dict) -> int: 
     '''
     str, dict -> int
@@ -60,17 +171,7 @@ def cond_except_parser(text_to_reply_to: str, bot_config: dict) -> int:
               
     # returns a reply index, returns -1 if not found    
     DONT_REPLY = -1
-    
-    ### For advanced queries
-        
-    # Insert special convos code here
-    print('Insert special convos code here')
-    
-    # Insert special parsing code here
-    print('Insert special parsing code here')
-    # response_index = -1
-    
-    
+     
     ### For simple queries
     
     # Read in the conditions and exceptions
@@ -78,6 +179,24 @@ def cond_except_parser(text_to_reply_to: str, bot_config: dict) -> int:
     excepts = responseDF['Exception']
         
     for i in conditions:
+        ### For advanced queries
+        
+        # Insert special convos code here
+        print('Insert special convos code here')
+        
+        
+        # Insert special parsing code here
+        print('Insert special parsing code here')
+        if i[0] == '&':                 
+            parsed_cond = advanced_keyword_parser(text_to_reply_to, i)
+            
+            if parsed_cond:
+                response_index = responseDF[responseDF['Condition'] == i].index[0]
+                return response_index
+                
+        
+        
+        ### For simple queries
         # If the condition word is a substring of the message body, 
         # then return the index for the proper response.
         if i.casefold() in text_to_reply_to_casefold:               
