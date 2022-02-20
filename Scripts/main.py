@@ -25,6 +25,7 @@ log_file_name = log_prefix + ".log"
 csv_log_name = log_prefix + ".csv"
 responseDF_path = 'ReplyDFs\HootyBotResponseDF.csv'
 blacklist_words_path = 'ReplyDFs\BlacklistWords.csv'
+bot_status_post_id = 'svj2yd'
 
 # Configure logging
 log.basicConfig(format='%(asctime)s [%(levelname)s]: %(message)s', 
@@ -48,7 +49,8 @@ bot_config = {
     'log_file_name': log_file_name,
     'csv_log_name': csv_log_name,
     'responseDF_path': responseDF_path,
-    'blacklist_words_path': blacklist_words_path
+    'blacklist_words_path': blacklist_words_path,
+    'bot_status_post_id': bot_status_post_id,
 }
 
 # Setting external urls

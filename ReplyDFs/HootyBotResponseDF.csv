@@ -8,7 +8,7 @@ Index,Condition,Exception,Reply
 6,& q: 'hooty' AND ('fault' OR 'bad'),,"I made it worse, I MADE IT WORSE!!!"
 7,& q: 'bank' OR 'secret',,Hoot hoot. Password please
 8,& q: 'hooty' AND 'annoying',,"I'm just wishing you a good morning. Geez, hoot, ow!"
-9,& q: 'mission' OR 'quest',,"Porta-Hooty, reporting for Hooty!"
+9,& q: 'mission' OR 'quest',questi,"Porta-Hooty, reporting for Hooty!"
 10,& q: 'hooty' AND 'fail',,"NOOOO I did it again, I can't help anyone!"
 11,"& probq: 0.01, Lumity",,"They're adorable, and deserve all the happiness!"
 12,& q: 'hooty' AND ('watch' OR 'big brother' OR 'spy'),,"Big Brother Hooty is everywhere, waiting for the perfect opportunity to make a witty comment"
