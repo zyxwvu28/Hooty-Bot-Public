@@ -45,12 +45,20 @@ if bot_creator is None:
 bot_config = {
     'version': version, 
     'bot_creator': bot_creator,
-    # 'today': today,
-    # 'log_prefix': log_prefix,
     'log_file_name': log_file_name,
     'csv_log_name': csv_log_name,
     'responseDF_path': responseDF_path,
     'blacklist_words_path': blacklist_words_path
+}
+
+# Setting external urls
+# creator_reddit_profile = 'https://www.reddit.com/user/{}'.format(bot_creator)
+github_README_url = 'https://github.com/{}/Hooty-Bot-Public/blob/main/README.md'.format(bot_creator)
+reply_suggestions_form = 'https://forms.gle/jJzJTGC36ykLhWxB6'
+external_urls = {
+    # 'creator_reddit_profile': creator_reddit_profile,
+    'github_README_url': github_README_url,
+    'reply_suggestions_form': reply_suggestions_form
 }
 
 # Set bot's username
@@ -64,4 +72,4 @@ reply_mode = True
 # reply_mode = True
 
 ### Call API
-api.activate_bot(username, sr, bot_config = bot_config, skip_existing = reply_mode, pause_after = 2, replies_enabled = reply_mode)
+api.activate_bot(username, sr, bot_config = bot_config, external_urls = external_urls, skip_existing = reply_mode, pause_after = 2, replies_enabled = reply_mode)

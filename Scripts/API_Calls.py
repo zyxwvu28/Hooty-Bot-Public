@@ -79,7 +79,7 @@ def cond_except_parser(text_to_reply_to, bot_config):
     return DONT_REPLY   
             
 # Reply to posts or comments
-def reply_to(msg_obj, bot_config, username, reply_to_self = False):
+def reply_to(msg_obj, bot_config, external_urls, username, reply_to_self = False):
     # msg_obj: Object representing a post or comment
     
     # Load necessary bot config data
@@ -87,6 +87,9 @@ def reply_to(msg_obj, bot_config, username, reply_to_self = False):
     bot_creator = bot_config['bot_creator']
     responseDF_path = bot_config['responseDF_path']
     
+    # Load External URLs
+    github_README_url = external_urls['github_README_url']
+    reply_suggestions_form = external_urls['reply_suggestions_form']
     
     # Load the ResponseDF
     responseDF = pd.read_csv(responseDF_path)
@@ -97,8 +100,8 @@ def reply_to(msg_obj, bot_config, username, reply_to_self = False):
         return
     
     # Template reply ending for a bot
-    reply_ending = '^(I am a bot written by [{i}](https://www.reddit.com/user/{i}) | Check out my [Github](https://github.com/{i}/Hooty-Bot-Public/blob/main/README.md) ) \n\n'.format(i = bot_creator) 
-    reply_ending += '^(Help improve Hooty\'s [vocabulary](https://forms.gle/jJzJTGC36ykLhWxB6) | Current version: {v} )'.format(v = version)
+    reply_ending = '^(I am a bot written by [{i}](https://www.reddit.com/user/{i}) | Check out my [Github]({github_README_url}) ) \n\n'.format(i = bot_creator, github_README_url = github_README_url) 
+    reply_ending += '^(Help improve Hooty\'s [vocabulary]({reply_suggestions_form}) | Current version: {v} )'.format(v = version, reply_suggestions_form = reply_suggestions_form)
     
     # Check if there's poll text, if so, add that to the detection
     try:
@@ -144,7 +147,7 @@ def reply_to(msg_obj, bot_config, username, reply_to_self = False):
     return
 
 # Monitoring new posts
-def monitor_new_posts(reddit_instance, sr, bot_config, skip_existing = False, pause_after = 3, replies_enabled = False):
+def monitor_new_posts(reddit_instance, sr, bot_config, external_urls, skip_existing = False, pause_after = 3, replies_enabled = False):
     # This function has no return statement, it is written to run forever (Take that halting problem!)
     # reddit_instance: a praw object for interacting with the Reddit API
     # sr: a string representing a subreddit
@@ -246,7 +249,7 @@ def monitor_new_posts(reddit_instance, sr, bot_config, skip_existing = False, pa
             
             # reply to the message if keywords are detected
             if replies_enabled:
-                reply_to(post, bot_config, username = username)
+                reply_to(post, bot_config, external_urls, username = username)
                     
                     
         # This loop checks for new comments
@@ -297,7 +300,7 @@ def monitor_new_posts(reddit_instance, sr, bot_config, skip_existing = False, pa
             
             # reply to the message if keywords are detected
             if replies_enabled:
-                reply_to(comment, bot_config, username = username)
+                reply_to(comment, bot_config, external_urls, username = username)
         
         # If no new post/comment has been detected recently, 
         # introduce an exponeentially increasing delay before checking again  
@@ -306,7 +309,7 @@ def monitor_new_posts(reddit_instance, sr, bot_config, skip_existing = False, pa
         if failed_delay < 16:
             failed_delay *= 1.2
            
-def activate_bot(username, sr, bot_config, skip_existing = False, pause_after = 3, replies_enabled = False):
+def activate_bot(username, sr, bot_config, external_urls, skip_existing = False, pause_after = 3, replies_enabled = False):
     # Load credentials from praw.ini to generate a Reddit instance
     reddit = pr.Reddit(username)
     
@@ -314,6 +317,7 @@ def activate_bot(username, sr, bot_config, skip_existing = False, pause_after = 
     monitor_new_posts(reddit, 
                       sr, 
                       bot_config = bot_config, 
+                      external_urls = external_urls,
                       skip_existing = skip_existing, 
                       pause_after = pause_after, 
                       replies_enabled = replies_enabled)        
