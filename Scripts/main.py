@@ -54,11 +54,9 @@ bot_config = {
 }
 
 # Setting external urls
-# creator_reddit_profile = 'https://www.reddit.com/user/{}'.format(bot_creator)
 github_README_url = 'https://github.com/{}/Hooty-Bot-Public/blob/main/README.md'.format(bot_creator)
 reply_suggestions_form = 'https://forms.gle/jJzJTGC36ykLhWxB6'
 external_urls = {
-    # 'creator_reddit_profile': creator_reddit_profile,
     'github_README_url': github_README_url,
     'reply_suggestions_form': reply_suggestions_form
 }

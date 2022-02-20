@@ -521,7 +521,12 @@ def monitor_new_posts(reddit_instance: pr.Reddit,
         if failed_delay < 16:
             failed_delay *= 1.2
     
-def bot_offline(username, bot_status_post_id):
+def bot_offline(username: str, bot_status_post_id: str) -> None:
+    '''
+    str, str -> None
+    
+    Updates the status post to the OFFLINE state.
+    '''
     reddit = pr.Reddit(username)
     bot_status_post = reddit.submission(id = bot_status_post_id)
     bot_status_post.edit('# ❌ HootyBot is currently offline D: \n\n' +
@@ -548,13 +553,9 @@ def activate_bot(username: str,
     # Load credentials from praw.ini to generate a Reddit instance
     reddit = pr.Reddit(username)
     
-    # bot_creator = bot_config['bot_creator']
-    # reddit.redditor(bot_creator).message('HootyBot is now online', 'test msg from praw')
-    
     bot_creator = bot_config['bot_creator']
     bot_status_post_id = bot_config['bot_status_post_id']
     
-    # Monitor new posts
     try:
         # Update bot status to 'online'
         if sr == 'TheOwlHouse':
@@ -566,11 +567,7 @@ def activate_bot(username: str,
                                  'Note: HootyBot will only monitor and respond to posts and comments on r/TheOwlHouse. ' +
                                  'If you pm it, it won\'t respond automatically.')
             log_and_print('Status post edited to indicate that HootyBot is now online')
-        
-        # for i in reddit.user.me().subreddit.stream.submissions(skip_existing = False):
-        #     print(i.title)
-        #     print('')
-        
+                
         # Monitor for new posts/comments
         monitor_new_posts(reddit, 
                         sr, 
@@ -578,7 +575,9 @@ def activate_bot(username: str,
                         external_urls = external_urls,
                         skip_existing = skip_existing, 
                         pause_after = pause_after, 
-                        replies_enabled = replies_enabled)   
+                        replies_enabled = replies_enabled)  
+        
+    # If an error is detected, notify creator and update status post 
     except BaseException as e:
         if sr == 'TheOwlHouse':
             bot_offline(username, bot_status_post_id)
