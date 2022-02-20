@@ -52,8 +52,9 @@ def advanced_query(parsed_query: str) -> bool:
         rb_count = 0
         if '(' == parsed_query[curr_idx]:
             lb_count += 1
-            i = curr_idx 
-            while i < pq_len - 1:
+            i = curr_idx + 1
+            rb_idx = 0
+            while i < pq_len:
                 ch1 = parsed_query[i]
                 if ')' == ch1:
                     rb_count += 1
@@ -61,7 +62,8 @@ def advanced_query(parsed_query: str) -> bool:
                     lb_count += 1
                 
                 if lb_count == rb_count:
-                    rb_idx = parsed_query.index(')')  
+                    rb_idx = i  
+                    break
                 i += 1
                 
             replace_bracket = advanced_query(parsed_query[next_idx:rb_idx])
