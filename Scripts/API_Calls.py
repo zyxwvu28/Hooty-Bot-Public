@@ -92,7 +92,7 @@ def advanced_keyword_parser(text_to_reply_to: str, cond: str) -> bool:
         i = colon_idx + 2
         while i < cond_len:
             ch1 = cond[i]
-            print(i, ":", ch1)
+            # print(i, ":", ch1)
             if '\'' == ch1:
                 temp_word = ''
                 for j in range(i+1, cond_len):
