@@ -1,7 +1,7 @@
 # HootyBot Reply Suggestions Update
 
 The purpose of this document is to provide an update on all suggestions provided by the [HootyBot Reply Suggestions form](https://forms.gle/67fM5hwX78DHaf6s6). 
-If your suggestion isn't on this list, it means I haven't seen it yet. Check back later. If you have questions about my decision, pm me on Reddit @ [u/zyxwvu28](https://www.reddit.com/user/zyxwvu28/) (Note, you will no longer remain anonymous to me)
+If your suggestion isn't on this list, it means I haven't seen it yet. I need to manually update this list, so check back later. If you have questions about my decision, pm me on Reddit @ [u/zyxwvu28](https://www.reddit.com/user/zyxwvu28/) (Note, you will no longer remain anonymous to me)
 
 # Suggestions Table
 
@@ -17,6 +17,7 @@ If your suggestion isn't on this list, it means I haven't seen it yet. Check bac
 | eda         | i stole her potions once... it didn't go well | :pencil: |
 | lumity | what hooty said at the end of knock knock knockin of hootys door | :x: Keyword too common |
 | Lilith | LULU! | :x: Already added something similar |
+| Fly | Oh! A fly! Oopsie, hope that was junkmail | :x: Already added something similar
 
 # Common reasons for rejection:
 | Reason   | Explanation |
