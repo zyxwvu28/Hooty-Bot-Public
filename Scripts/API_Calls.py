@@ -10,9 +10,15 @@ from datetime import datetime as dt
 import logging as log
 import csv
 from os import path
+import random as rng
 
-# Custom function for logging and printing a message
-def log_and_print(message, level = 'info'):
+def log_and_print(message: str, level: str = 'info' ) -> None:
+    '''
+    str, str -> None
+    
+    Custom function for logging and printing a message. Function doesn't output anything
+    '''
+    
     log_message = message.encode('unicode_escape')
     if level == 'debug':
         log.debug(log_message)
@@ -26,9 +32,13 @@ def log_and_print(message, level = 'info'):
         log.critical(log_message)
     print(message)        
 
-# Reads in messages, detects keywords in them, then responds appropriately
-# str, str -> int
-def cond_except_parser(text_to_reply_to, bot_config): 
+def cond_except_parser(text_to_reply_to: str, bot_config: dict) -> int: 
+    '''
+    str, dict -> int
+    
+    Reads in messages, detects keywords in them, then returns an integer representing
+    and index that can be used to output a response.
+    '''
     
     # Load necessary bot config data
     responseDF_path = bot_config['responseDF_path']
@@ -38,50 +48,65 @@ def cond_except_parser(text_to_reply_to, bot_config):
     responseDF = pd.read_csv(responseDF_path)
     responseDF = responseDF.fillna('')
     
+    # lowercase all strings for comparison to remove case-sensitivity
+    text_to_reply_to_casefold = text_to_reply_to.casefold()
+    
     # Load the BlacklistWords
     blacklist_words = pd.read_csv(blacklist_words_path)['Blacklist']
-      
+    # If a blacklisted keyword is found, don't reply
+    for bword in blacklist_words:
+        if bword.casefold() in text_to_reply_to_casefold:
+            return DONT_REPLY  
+              
     # returns a reply index, returns -1 if not found    
     DONT_REPLY = -1
+    
+    ### For advanced queries
+        
+    # Insert special convos code here
+    print('Insert special convos code here')
+    
+    # Insert special parsing code here
+    print('Insert special parsing code here')
+    # response_index = -1
+    
+    
+    ### For simple queries
     
     # Read in the conditions and exceptions
     conditions = responseDF['Condition']
     excepts = responseDF['Exception']
-    
-    # lowercase all strings for comparison to remove case-sensitivity
-    text_to_reply_to_casefold = text_to_reply_to.casefold()
+        
     for i in conditions:
         # If the condition word is a substring of the message body, 
         # then return the index for the proper response.
-        if i.casefold() in text_to_reply_to_casefold:  
-            # If a blacklisted keyword is found, don't reply
-            for bword in blacklist_words:
-                if bword.casefold() in text_to_reply_to_casefold:
-                    return DONT_REPLY        
-              
+        if i.casefold() in text_to_reply_to_casefold:               
             # If an exception keyword is found, don't reply
             for j in excepts: 
                 if (j != '') and (j.casefold() in text_to_reply_to_casefold):
                     return DONT_REPLY
                             
-            # Implement exceptions!!!
-            print('Remember to implement exceptions!!!')
-                
-            return responseDF[responseDF['Condition'] == i].index[0]
+            response_index = responseDF[responseDF['Condition'] == i].index[0]
+            return response_index
     
-    # Insert special parsing code here
-    print('Insert special parsing code here')
-    
-    # Insert special convos code here
-    print('Insert special convos code here')
     
     # If no matches are found, don't reply
     return DONT_REPLY   
             
-# Reply to posts or comments
-def reply_to(msg_obj, bot_config, external_urls, username, reply_to_self = False):
-    # msg_obj: Object representing a post or comment
+def reply_to(msg_obj: str, 
+             bot_config: dict, 
+             external_urls: dict, 
+             username: str, 
+             reply_to_self: bool = False
+             ) -> None:
+    '''
+    str, dict, dict, str, bool -> None
     
+    msg_obj: A praw object representing a post or comment
+    
+    Replies to posts or comments
+    '''
+        
     # Load necessary bot config data
     version = bot_config['version']
     bot_creator = bot_config['bot_creator']
@@ -146,15 +171,28 @@ def reply_to(msg_obj, bot_config, external_urls, username, reply_to_self = False
             
     return
 
-# Monitoring new posts
-def monitor_new_posts(reddit_instance, sr, bot_config, external_urls, skip_existing = False, pause_after = 3, replies_enabled = False):
-    # This function has no return statement, it is written to run forever (Take that halting problem!)
-    # reddit_instance: a praw object for interacting with the Reddit API
-    # sr: a string representing a subreddit
-    # skip_existing: a bool, tells the function whether or not to skip the last 100 existing posts and comments
-    # pause_after: int, after 'pause_after' failed API calls, pause the current API call and move on to the next one
-    # replies_enabled: bool, decides whether to allow the bot to reply to comments and posts
+def monitor_new_posts(reddit_instance: pr.Reddit, 
+                      sr: str, 
+                      bot_config: dict, 
+                      external_urls: dict, 
+                      skip_existing: bool = False, 
+                      pause_after: int = 3, 
+                      replies_enabled: bool = False
+                      ) -> None:
+    '''
+    Reddit, str, dict, dict, bool, int, bool -> None
     
+    Monitors new posts.
+    This function has no return statement, it is written to run forever 
+    (Take that halting problem!)
+    
+    reddit_instance: a praw object for interacting with the Reddit API
+    sr: a string representing a subreddit
+    skip_existing: a bool, tells the function whether or not to skip the last 100 existing posts and comments
+    pause_after: int, after 'pause_after' failed API calls, pause the current API call and move on to the next one
+    replies_enabled: bool, decides whether to allow the bot to reply to comments and posts
+    '''
+       
     # Template for loading bot config
     # version = bot_config['version']
     # bot_creator = bot_config['bot_creator']
@@ -309,7 +347,19 @@ def monitor_new_posts(reddit_instance, sr, bot_config, external_urls, skip_exist
         if failed_delay < 16:
             failed_delay *= 1.2
            
-def activate_bot(username, sr, bot_config, external_urls, skip_existing = False, pause_after = 3, replies_enabled = False):
+def activate_bot(username: str, 
+                 sr: str, 
+                 bot_config: dict, 
+                 external_urls: dict, 
+                 skip_existing: bool = False, 
+                 pause_after: int = 3, 
+                 replies_enabled: bool = False
+                 ) -> None:
+    '''
+    str, str, dict, dict, bool, int, bool -> None
+    
+    Activates the bot    
+    '''
     # Load credentials from praw.ini to generate a Reddit instance
     reddit = pr.Reddit(username)
     
