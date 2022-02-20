@@ -50,6 +50,9 @@ def cond_except_parser(text_to_reply_to: str, bot_config: dict) -> int:
     
     # lowercase all strings for comparison to remove case-sensitivity
     text_to_reply_to_casefold = text_to_reply_to.casefold()
+              
+    # returns a reply index, returns -1 if not found    
+    DONT_REPLY = -1
     
     # Load the BlacklistWords
     blacklist_words = pd.read_csv(blacklist_words_path)['Blacklist']
@@ -57,9 +60,6 @@ def cond_except_parser(text_to_reply_to: str, bot_config: dict) -> int:
     for bword in blacklist_words:
         if bword.casefold() in text_to_reply_to_casefold:
             return DONT_REPLY  
-              
-    # returns a reply index, returns -1 if not found    
-    DONT_REPLY = -1
     
     ### For advanced queries
         
