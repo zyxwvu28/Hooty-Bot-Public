@@ -525,8 +525,11 @@ def bot_offline(username, bot_status_post_id):
     reddit = pr.Reddit(username)
     bot_status_post = reddit.submission(id = bot_status_post_id)
     bot_status_post.edit('# ❌ HootyBot is currently offline D: \n\n' +
-                    'Note: HootyBot will only monitor and respond to posts and comments on r/TheOwlHouse. '
-                    + 'If you pm it, it won\'t respond automatically.')
+                         'This automatic status message only detects errors in the source code. ' + 
+                         'I run HootyBot on my personal laptop, so if my laptop fails or turns off for any reason, ' +
+                         'this post will not update to reflect that HootyBot has gone offline. \n\n' +  
+                         'Note: HootyBot will only monitor and respond to posts and comments on r/TheOwlHouse. '+
+                         'If you pm it, it won\'t respond automatically.')
     log_and_print('Status post edited to indicate that HootyBot is now offline')
            
 def activate_bot(username: str, 
@@ -557,8 +560,11 @@ def activate_bot(username: str,
         if sr == 'TheOwlHouse':
             bot_status_post = reddit.submission(id = bot_status_post_id)
             bot_status_post.edit('# ✅ HootyBot is currently online! \n\n' +
-                                'Note: HootyBot will only monitor and respond to posts and comments on r/TheOwlHouse. '
-                                + 'If you pm it, it won\'t respond automatically.')
+                                 'This automatic status message only detects errors in the source code. ' + 
+                                 'I run HootyBot on my personal laptop, so if my laptop fails or turns off for any reason, ' +
+                                 'this post will not update to reflect that HootyBot has gone offline. \n\n' +  
+                                 'Note: HootyBot will only monitor and respond to posts and comments on r/TheOwlHouse. ' +
+                                 'If you pm it, it won\'t respond automatically.')
             log_and_print('Status post edited to indicate that HootyBot is now online')
         
         # for i in reddit.user.me().subreddit.stream.submissions(skip_existing = False):
