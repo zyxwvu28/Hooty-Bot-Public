@@ -419,7 +419,7 @@ def monitor_new_posts(reddit_instance: pr.Reddit,
                 poll_options = post.poll_data.options
                 i = 1
                 for opt in poll_options:
-                    poll_text = poll_text + '\n\n {}. '.format(i) + opt.text
+                    poll_text = poll_text + '\n\n [Option {}]: '.format(i) + opt.text
                     i += 1
                 poll_text = poll_text + '\n\n'
             except:
