@@ -529,7 +529,7 @@ def bot_offline(username: str, bot_status_post_id: str) -> None:
     '''
     reddit = pr.Reddit(username)
     bot_status_post = reddit.submission(id = bot_status_post_id)
-    bot_status_post.edit('# ❌ HootyBot is currently offline D: \n\n' +
+    bot_status_post.edit('# ❌ HootyBot is currently offline D: ❌ \n\n' +
                          'This automatic status message only detects errors in the source code. ' + 
                          'I run HootyBot on my personal laptop, so if my laptop fails or turns off for any reason, ' +
                          'this post will not update to reflect that HootyBot has gone offline. \n\n' +  
@@ -560,7 +560,7 @@ def activate_bot(username: str,
         # Update bot status to 'online'
         if sr == 'TheOwlHouse':
             bot_status_post = reddit.submission(id = bot_status_post_id)
-            bot_status_post.edit('# ✅ HootyBot is currently online! \n\n' +
+            bot_status_post.edit('# ✅ HootyBot is currently online! ✅ \n\n' +
                                  'This automatic status message only detects errors in the source code. ' + 
                                  'I run HootyBot on my personal laptop, so if my laptop fails or turns off for any reason, ' +
                                  'this post will not update to reflect that HootyBot has gone offline. \n\n' +  
