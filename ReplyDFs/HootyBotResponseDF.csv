@@ -6,7 +6,7 @@ Index,Condition,Exception,Reply
 4,& prob: 0.001,,HOOOOOOOT!
 5,& q: 'trauma' OR ('marcy' AND 'stab') OR 'agony' OR 'agoniz' OR 'emotional rollercoaster' OR 'pain',,"Special delivery, PAIN!"
 6,& q: 'hooty' AND ('fault' OR 'bad'),,"I made it worse, I MADE IT WORSE!!!"
-7,& q: 'bank' OR 'secret',,Hoot hoot. Password please
+7,& q: 'secret message' OR 'secret entrance',,Hoot hoot. Password please
 8,& q: 'hooty' AND 'annoying',,"I'm just wishing you a good morning. Geez, hoot, ow!"
 9,& q: 'mission' OR 'quest',& q: 'permission' OR 'questi',"Porta-Hooty, reporting for Hooty!"
 10,& q: 'hooty' AND 'fail',,"NOOOO I did it again, I can't help anyone!"
