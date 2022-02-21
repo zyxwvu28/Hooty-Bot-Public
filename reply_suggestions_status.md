@@ -8,17 +8,19 @@ If your suggestion isn't on this list, it means I haven't seen it yet. I need to
 | Legend | Description |
 | ------ | ----------- |
 | :white_check_mark: | Added |
-| :heavy_check_mark: | Already added something similar |
+| :heavy_check_mark: | Added something similar |
 | :pencil: | Pending, modifications considered |
 | :x: | Rejected: \<Reason\> |
 
 | Condition   | Reply                                         | Status             |
 | ----------- | --------------------------------------------- | ------------------ |
-| Hoot        | hoot hoot                                     | :pencil: Originally added, but ended up being too spammy, will consider a modification|
-| eda         | i stole her potions once... it didn't go well | :pencil: |
-| lumity | what hooty said at the end of knock knock knockin of hootys door | :x: Keyword too common |
-| Lilith | LULU! | :heavy_check_mark: |
+| Hoot        | hoot hoot                                     | :pencil: Originally added, but ended up being too spammy, will consider a modification |
+| eda         | i stole her potions once... it didn't go well | :heavy_check_mark: I don't think this is a quote from the show, but I added it anyways... |
+| lumity | what hooty said at the end of knock knock knockin of hootys door | :heavy_check_mark: |
+| Lilith | LULU! | :pencil: Originally added, but ended up being too spammy, will consider a modification  |
 | Fly | Oh! A fly! Oopsie, hope that was junkmail | :heavy_check_mark: |
+| Star Wars | Execute Order 66! Hoot hoot! | :white_check_mark: |
+
 
 # Common reasons for rejection:
 | Reason   | Explanation |
