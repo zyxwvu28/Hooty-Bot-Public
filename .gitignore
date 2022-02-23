@@ -149,3 +149,4 @@ Scripts/Reddit_Scopes.py
 ReplyDFs/HootyBotResponseDF_DarkMode.xlsx
 test.py
 ReplyDFs/HootyBotResponseDF(AutoRecovered).csv
+data/last_comment_time.txt
