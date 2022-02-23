@@ -436,8 +436,9 @@ def monitor_new_posts(reddit_instance: pr.Reddit,
                 url = post.url
                 s_id = post.id      
                 post_or_comment = 'post'  
-            except:
-                print("Error, post probably deleted...")
+            except BaseException as e:
+                print('Error!')
+                print(e)
                 continue
             
             # Encode emojis differently
