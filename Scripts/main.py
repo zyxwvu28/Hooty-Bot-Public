@@ -70,11 +70,11 @@ external_urls = {
 username = 'HootyBot'
 
 # Set subreddit and reply mode
-# sr = "TheOwlHouse"
-# reply_mode = True
-
-sr = 'TOH_Bot_Testing'
+sr = "TheOwlHouse"
 reply_mode = True
+
+# sr = 'TOH_Bot_Testing'
+# reply_mode = True
 
 # Variables and data importamt for configuring HootyBot
 bot_config = {
