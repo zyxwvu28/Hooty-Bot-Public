@@ -7,6 +7,7 @@ import pandas as pd
 import praw as pr
 import time as t
 from datetime import datetime as dt
+from datetime import timedelta
 import logging as log
 import csv
 from os import path
@@ -280,15 +281,32 @@ def reply_to(msg_obj: str,
     
     Replies to posts or comments
     '''
-        
+                
     # Load necessary bot config data
     version = bot_config['version']
     bot_creator = bot_config['bot_creator']
     responseDF_path = bot_config['responseDF_path']
+    min_between_replies = bot_config['min_between_replies']
     
     # Load External URLs
     github_README_url = external_urls['github_README_url']
     reply_suggestions_form = external_urls['reply_suggestions_form']
+    
+    
+    # Create most recent reply file if missing:
+    last_comment_time_path = bot_config['last_comment_time_path']
+    if not(path.exists(last_comment_time_path)):
+        with open(last_comment_time_path, 'w') as f:
+            f.write('')   
+                      
+    # Check the time of the most recent HootyBot reply
+    with open(last_comment_time_path, 'r') as f:
+        last_comment_time = f.readline()
+    
+    if (last_comment_time != ''):    
+        last_comment_time_obj = dt.strptime(last_comment_time, "%Y-%m-%d %H:%M:%S.%f")
+        if (dt.now() - last_comment_time_obj < timedelta(minutes = min_between_replies)):
+            return
     
     # Load the ResponseDF
     responseDF = pd.read_csv(responseDF_path)
@@ -332,6 +350,8 @@ def reply_to(msg_obj: str,
         message_body = responseDF['Reply'][reply_index]
         message = message_body + '\n\n' + reply_ending
         msg_obj.reply(message)
+        with open(last_comment_time_path, 'w') as f:
+            f.write(str(dt.now()))
         print('')
         log_and_print("Replied to " + url + ' with the following message:')
         log_and_print('v----------------------v')
@@ -345,9 +365,6 @@ def monitor_new_posts(reddit_instance: pr.Reddit,
                       sr: str, 
                       bot_config: dict, 
                       external_urls: dict, 
-                      skip_existing: bool = False, 
-                      pause_after: int = 3, 
-                      replies_enabled: bool = False
                       ) -> None:
     '''
     Reddit, str, dict, dict, bool, int, bool -> None
@@ -372,15 +389,24 @@ def monitor_new_posts(reddit_instance: pr.Reddit,
     # csv_log_name = bot_config['csv_log_name']
     # responseDF_path = bot_config['responseDF_path']
     # blacklist_words_path = bot_config['blacklist_words_path']
+    # bot_status_post_id = bot_config['bot_status_post_id']
+    # skip_existing = bot_config['skip_existing']
+    # replies_enabled = bot_config['replies_enabled']
+    # pause_after = bot_config['pause_after']
+    
+    # Load bot config settings
+    skip_existing = bot_config['skip_existing']
+    replies_enabled = bot_config['replies_enabled']
+    pause_after = bot_config['pause_after']
         
-    # Set up csv file
+    # Create csv file if missing
     csv_log_name = bot_config['csv_log_name']
     header = ['Timestamp', 'Type', 'Author', 'Post_Title', 'Body', 'URL', 'ID']
     if not(path.exists(csv_log_name)):
         with open(csv_log_name, 'w', encoding='UTF8', newline='') as f:
             writer = csv.writer(f)
             writer.writerow(header)
-    
+                
     # Record which bot is being used and which subreddit it's monitoring
     username = reddit_instance.user.me().name
     subreddit = reddit_instance.subreddit(sr)
@@ -422,13 +448,14 @@ def monitor_new_posts(reddit_instance: pr.Reddit,
                 poll_text = ''
             
             try:
-                # Define variables for post datais_dst = t.localtime().tm_isdst
+                # Define variables for post data
+                is_dst = t.localtime().tm_isdst
                 if is_dst == 1:
                     tz = ' EDT'
                 else:
                     tz = ' EST'
                     
-                timestamp = dt.fromtimestamp(comment.created_utc)
+                timestamp = dt.fromtimestamp(post.created_utc)
                 timestamp = str(timestamp) + tz
                 author = post.author.name
                 post_title = post.title
@@ -490,8 +517,9 @@ def monitor_new_posts(reddit_instance: pr.Reddit,
                 body = comment.body
                 url = 'https://www.reddit.com' + comment.permalink
                 s_id = comment.id
-            except:
-                print("Error, comment likely deleted...")
+            except BaseException as e:
+                print('Error!')
+                print(e)
                 continue
                 
             if author == username:
@@ -552,10 +580,7 @@ def bot_offline(username: str, bot_status_post_id: str) -> None:
 def activate_bot(username: str, 
                  sr: str, 
                  bot_config: dict, 
-                 external_urls: dict, 
-                 skip_existing: bool = False, 
-                 pause_after: int = 3, 
-                 replies_enabled: bool = False
+                 external_urls: dict
                  ) -> None:
     '''
     str, str, dict, dict, bool, int, bool -> None
@@ -566,7 +591,7 @@ def activate_bot(username: str,
     reddit = pr.Reddit(username)
     
     bot_creator = bot_config['bot_creator']
-    bot_status_post_id = bot_config['bot_status_post_id']
+    bot_status_post_id = bot_config['bot_status_post_id']  
     
     while True:
         try:
@@ -586,9 +611,7 @@ def activate_bot(username: str,
                             sr, 
                             bot_config = bot_config, 
                             external_urls = external_urls,
-                            skip_existing = skip_existing, 
-                            pause_after = pause_after, 
-                            replies_enabled = replies_enabled)  
+                            )  
             
         # If an error is detected, notify creator and update status post 
         except BaseException as e:
