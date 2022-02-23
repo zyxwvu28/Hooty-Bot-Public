@@ -311,11 +311,7 @@ def reply_to(msg_obj: str,
         poll_text = poll_text + '\n\n'
     except:
         poll_text = ''
-    
-    timestamp = dt.fromtimestamp(msg_obj.created_utc)
-    author = msg_obj.author.name
-    s_id = msg_obj.id 
-    
+        
     # Check if message object is a post or comment, 
     # then modify the url and text to reply to accordingly
     if type(msg_obj) is pr.models.Submission:
@@ -426,8 +422,14 @@ def monitor_new_posts(reddit_instance: pr.Reddit,
                 poll_text = ''
             
             try:
-                # Define variables for post data
-                timestamp = dt.fromtimestamp(post.created_utc)
+                # Define variables for post datais_dst = t.localtime().tm_isdst
+                if is_dst == 1:
+                    tz = ' EDT'
+                else:
+                    tz = ' EST'
+                    
+                timestamp = dt.fromtimestamp(comment.created_utc)
+                timestamp = str(timestamp) + tz
                 author = post.author.name
                 post_title = post.title
                 body = post.selftext + poll_text
@@ -474,7 +476,14 @@ def monitor_new_posts(reddit_instance: pr.Reddit,
             
             try:
                 # Define variables for comment data
+                is_dst = t.localtime().tm_isdst
+                if is_dst == 1:
+                    tz = ' EDT'
+                else:
+                    tz = ' EST'
+                    
                 timestamp = dt.fromtimestamp(comment.created_utc)
+                timestamp = str(timestamp) + tz
                 author = comment.author.name
                 post_title = comment.link_title
                 body = comment.body
@@ -516,7 +525,8 @@ def monitor_new_posts(reddit_instance: pr.Reddit,
         
         # If no new post/comment has been detected recently, 
         # introduce an exponeentially increasing delay before checking again  
-        log_and_print("Failed Delay = " + str(failed_delay))  
+        log_and_print('API calls have found no new posts/comments.')
+        log_and_print('Sleeping for ' + str(failed_delay) + ' s' )  
         t.sleep(failed_delay)
         if failed_delay < 16:
             failed_delay *= 1.2
