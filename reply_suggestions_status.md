@@ -20,6 +20,11 @@ If your suggestion isn't on this list, it means I haven't seen it yet. I need to
 | Lilith | LULU! | :pencil: Originally added, but ended up being too spammy, will consider a modification  |
 | Fly | Oh! A fly! Oopsie, hope that was junkmail | :heavy_check_mark: |
 | Star Wars | Execute Order 66! Hoot hoot! | :white_check_mark: |
+| No (only on replies to his "wanna hear MY worst nightmare" posts) | :( | :x: At the moment, Hooty is incapable of carrying out conversations. When I implement that feature, I'll consider adding this. |
+| nightmare | Am I your worst nightmare? | :heavy_check_mark: |
+| Hootie | Yaaaay a new nickname | :white_check_mark: |
+| a secret | I'm the secret! | :white_check_mark: |
+
 
 
 # Common reasons for rejection:
