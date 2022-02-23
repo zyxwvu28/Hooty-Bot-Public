@@ -1,78 +1,83 @@
 Index,Condition,Exception,Reply
 0,& q: 'stan pines' OR ('eda' AND ('aim' OR 'husband')),Raine,Eda still misses her ex-husband. But her aim is getting better!
 1,& prob: 0.01,,Hoot hooty hoot!
-2,& q: 'conscript' OR 'army' OR 'battle',,It's your old faithful pal Hooty reporting for duty!
-3,& q: 'forget' OR 'remember' OR 'remind',,I'm pretty good at getting stuck inside people's heads
+2,# & q: 'conscript' OR 'army' OR 'battle',,It's your old faithful pal Hooty reporting for duty!
+3,& q: 'stuck inside people\'s head' OR ('stuck in' AND 'head') OR ('hooty' AND ('forget' OR 'remember' OR 'remind')),,I'm pretty good at getting stuck inside people's heads
 4,& prob: 0.001,,HOOOOOOOT!
 5,& q: 'trauma' OR ('marcy' AND 'stab') OR 'agony' OR 'agoniz' OR 'emotional rollercoaster' OR 'pain',,"Special delivery, PAIN!"
 6,& q: 'hooty' AND ('fault' OR 'bad'),,"I made it worse, I MADE IT WORSE!!!"
-7,& q: 'bank' OR 'secret',,Hoot hoot. Password please
+7,& q: 'secret message' OR 'secret entrance',,Hoot hoot. Password please
 8,& q: 'hooty' AND 'annoying',,"I'm just wishing you a good morning. Geez, hoot, ow!"
-9,& q: 'mission' OR 'quest',,"Porta-Hooty, reporting for Hooty!"
+9,& q: 'mission' OR 'quest',& q: 'permission' OR 'questi',"Porta-Hooty, reporting for Hooty!"
 10,& q: 'hooty' AND 'fail',,"NOOOO I did it again, I can't help anyone!"
 11,"& probq: 0.01, Lumity",,"They're adorable, and deserve all the happiness!"
-12,& q: 'hooty' AND ('watch' OR 'big brother' OR 'spy'),,"Big Brother Hooty is everywhere, waiting for the perfect opportunity to make a witty comment"
+12,& q: 'hooty' AND ('watch' OR 'big brother' OR 'spy' OR 'everywhere'),,"Big Brother Hooty is everywhere, waiting for the perfect opportunity to make a witty comment"
 13,"& probq:  0.01, ?",,"Hoot hoot! If you want the answer that you seek, solve my riddle within a week."
 14,& q: 'i don\'t know' OR 'idk',,"Time to fill up that darling little head of yours with  
  
 *vomits books* 
 
 MMH MMH, Delicious Knowledge!"
-15,& THINK OF SOMETHING ELSE: tea,& 'teach' OR 'tear' OR 'instead' OR 'team',A fresh cup of tea for my favourite cup of tea!
-16,& THINK OF SOMETHING ELSE! important,,"OH MY GOSH A BUG! 
+15,& q: 'eda' AND 'potions',& q: 'illness' OR 'sick',I stole Eda's potions once. It didn't go well...
+16,& q: 'lilith' AND 'tea',& q: 'teach' OR 'tear' OR 'instead' OR 'team',A fresh cup of tea for my favourite cup of tea!
+17,& q: 'bug' AND 'mail',,"OH MY GOSH A BUG! 
 
 *CHOMP*
 
 Ah... Whoopsie, hope that was junk mail"
-17,& THINK OF SOMETHING ELSE! Mother,,DON'T YOU TALK ABOUT MY MOTHER!
-18,i need your help,,"You said I was desperate, so now I'm playing hard to get"
-19,nightmare,,You wanna hear *my* worst nightmare?
-20,i wish i could help her,,The rough housing was fun. But I like this part of our play dates even *better*
-21,moonlight,,"By the power of moonlight, I have risen. Hoot hoot"
-22,roommate,,Roommate check in! How's my bestie doing?
-23,kpop,,"Well, I never heard of underground Korean hip-hop before."
-24,scrying potion,,We can find out their crushes! We can give them cute couple names
-25,regret,,Is this what regret feels like? I hate it!
-26,write to,,But I can't hold a pen D': 
-27,little miss perfect,,"Straight hair, straight A's, straightforward"
-28,hid,& 'chid' OR 'phid',PEEKAHOOT!
-29,# friendship,,"Now I know what friendship tastes like. Mmm, Tastes like a bug"
-30,we're having a moment,,"YOU'LL NEVER UNDERSTAND WHAT WE'VE BEEN THROUGH TOGETHER! NEVER, NEVER!"
-31,victory dance,,Sweet moves little dude
-32,did we do it,,"Is the room spinning or is it just me? Ah, just a little house humor"
-33,babysit,,"I don't need a babysitter, I'm a big boy house"
-34,mouse,,"Fear not maiden, for I, Hooty, the guardian Angel of ga'HOOT! has protected you once more.... GAHOOT!!!"
-35,at least the cake is good,,"IT WAS SUPPOSED TO BE A CRUMBLE! 
+18,& q: 'hooty\'s mom' OR 'hooty's mother' OR 'ur mum' OR 'ur mom' OR 'your mom' OR 'your mum',,DON'T YOU TALK ABOUT MY MOTHER!
+19,& q: 'dressing up and travel' AND (('luz' AND 'amity') OR 'lumity'),,"They're adorable, and deserve all the happiness!"
+20,i need your help,,"You said I was desperate, so now I'm playing hard to get"
+21,nightmare,,You wanna hear *my* worst nightmare?
+22,i wish i could help her,,The rough housing was fun. But I like this part of our play dates even *better*
+23,moonlight,,"By the power of moonlight, I have risen. Hoot hoot"
+24,roommate,,Roommate check in! How's my bestie doing?
+25,kpop,,"Well, I never heard of underground Korean hip-hop before."
+26,scrying potion,,We can find out their crushes! We can give them cute couple names
+27,regret,,Is this what regret feels like? I hate it!
+28,write to,,But I can't hold a pen D': 
+29,little miss perfect,,"Straight hair, straight A's, straightforward"
+30,# hid,& 'chid' OR 'phid',PEEKAHOOT!
+31,# friendship,,"Now I know what friendship tastes like. Mmm, Tastes like a bug"
+32,we're having a moment,,"YOU'LL NEVER UNDERSTAND WHAT WE'VE BEEN THROUGH TOGETHER! NEVER, NEVER!"
+33,victory dance,,Sweet moves little dude
+34,did we do it,,"Is the room spinning or is it just me? Ah, just a little house humor"
+35,babysit,,"I don't need a babysitter, I'm a big boy house"
+36,mouse,,"Fear not maiden, for I, Hooty, the guardian Angel of ga'HOOT! has protected you once more.... GAHOOT!!!"
+37,at least the cake is good,,"IT WAS SUPPOSED TO BE A CRUMBLE! 
 
 *starts sobbing*"
-36,insect,,"I chew insects, I turn them into mush"
-37,sneak,sneaker,"Sleep walking, sleep walking, SLEEP HOOTING!"
-38,puberty,,Sounds like our little demon is becoming a de-MAN!
-39,who's side are you on,,I'm an unbiased participant. Hoot! Hoot!
-40,trespass,,"Eda doesn't like trespassers, but *I'm* always here to make new friends!"
-41,I never lost a game with this bad boy,,"Guess who found a special friend in the forest? It was me, Hoot!"
-42,that sounds like a crumby situation,,"Hey, guess what's been in my mouth that I'm about to throw up 
+38,insect,,"I chew insects, I turn them into mush"
+39,sneak,sneaker,"Sleep walking, sleep walking, SLEEP HOOTING!"
+40,puberty,,Sounds like our little demon is becoming a de-MAN!
+41,who's side are you on,,I'm an unbiased participant. Hoot! Hoot!
+42,trespass,,"Eda doesn't like trespassers, but *I'm* always here to make new friends!"
+43,I never lost a game with this bad boy,,"Guess who found a special friend in the forest? It was me, Hoot!"
+44,that sounds like a crumby situation,,"Hey, guess what's been in my mouth that I'm about to throw up 
 
 *throws up* 
 
 The Mail!"
-43,to the carnival,,"Good news, I'm bringing my knapsack full of games!"
-44,everyone knows about,,DO NOT INTERRUPT!!!
-45,moment ruined,,"I will be haunted by my actions forever, hoot hoot!"
-46,including hooty,,Finally! I get to be a part of something!
-47,the door swung open,,"DING DONG DING, HOOT HOOT"
-48,"boiling rains, remember",,"No, let her try, It'll be funny"
-49,leave me alone,,"A good friend would respect their wishes, but an even better friend would help no matter what."
-50,i always forget you're here,,"I forget I'm here too, boop"
-51,you're just gonna be unhelpful,,"All I know is, you taught me and I turned out just fine"
-52,it's just a drawing,,"*HISSS* 
+45,to the carnival,,"Good news, I'm bringing my knapsack full of games!"
+46,everyone knows about,,DO NOT INTERRUPT!!!
+47,& q: 'moment ruined' OR 'bad bot /s',,"I will be haunted by my actions forever, hoot hoot!"
+48,including hooty,,Finally! I get to be a part of something!
+49,the door swung open,,"DING DONG DING, HOOT HOOT"
+50,"boiling rains, remember",,"No, let her try, It'll be funny"
+51,leave me alone,,"A good friend would respect their wishes, but an even better friend would help no matter what."
+52,i always forget you're here,,"I forget I'm here too, boop"
+53,you're just gonna be unhelpful,,"All I know is, you taught me and I turned out just fine"
+54,it's just a drawing,,"*HISSS* 
 
 WHO ARE YOU?! 
 
 THIS IS MY TERRITORY! 
 
 *HISSS*"
-53,i feel like i'm forgetting something,,"Hey, hey! Is anyone there? Hello? Hoot? I'm on the floor. It's cold!"
-54,HootyBot,,"Oh, wow. I've been waiting for someone to call all day, and now it's finally happened! We can talk for hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hello, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours..."
-55,lilith,,"I'm here for you, Lulu. No witch is an island. Now face my wrath!"
-56,# hoot,,Hoot hoot!
+55,i feel like i'm forgetting something,,"Hey, hey! Is anyone there? Hello? Hoot? I'm on the floor. It's cold!"
+56,HootyBot,,"Oh, wow. I've been waiting for someone to call all day, and now it's finally happened! We can talk for hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hello, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours..."
+57,lilith needs help,,"I'm here for you, Lulu. No witch is an island. Now face my wrath!"
+58,# hoot,,Hoot hoot!
+59,star wars,,Execute Order 66! Hoot hoot!
+60,hootie,,Yaaaaay! A new nickname!
+61,a secret,,I'm the secret!
