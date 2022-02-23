@@ -1,5 +1,5 @@
 # Hooty-Bot README Table of Contents
-1. [About HootyBot (v1.1.0 Beta)](#About-HootyBot)
+1. [About HootyBot (v1.1.1 Beta)](#About-HootyBot)
     1. [Purpose](#Purpose)
     2. [How does HootyBot work? (TLDR Version)](#1b)
     3. [Does HootyBot use machine learning or neural networks?](#1c)
@@ -12,7 +12,7 @@
 5. [Version Logs](#5) 
 
 
-## 1. About HootyBot (v1.1.0 Beta) <a name = "About-HootyBot"></a>
+## 1. About HootyBot (v1.1.1 Beta) <a name = "About-HootyBot"></a>
 
 ### Purpose <a name = "Purpose"></a>
 
@@ -88,6 +88,8 @@ If you have any concerns, comments, compliments, insults, etc. fill out this for
     - Added reply suggestions form to Hooty's reply ending
 - v1.1.0 Beta:
     - Added advanced keyword searching functionality (currently being hosted on the advanced-word-search-parser branch of this repo)
+- v1.1.1 Beta:
+    - Added a minimum time between replies
 
 
 HOOT HOOT!
