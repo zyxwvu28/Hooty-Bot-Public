@@ -8,7 +8,7 @@ If your suggestion isn't on this list, it means I haven't seen it yet. I need to
 | Legend | Description |
 | ------ | ----------- |
 | :white_check_mark: | Added |
-| :heavy_check_mark: | Added something similar |
+| :heavy_check_mark: | I already added something similar |
 | :pencil: | Pending, modifications considered |
 | :x: | Rejected: \<Reason\> |
 
