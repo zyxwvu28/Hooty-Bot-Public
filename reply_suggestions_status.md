@@ -32,3 +32,4 @@ If your suggestion isn't on this list, it means I haven't seen it yet. I need to
 | -------- | ----------- |
 | Keyword too common | I don't want HootyBot to spam the subreddit too often, so if your keyword is a word that's commonly used on the subreddit, I'm unlikely to add it. Exceptions are granted to jokes that I think are extremely good |
 | Already added something similar | SPOILER ALERT ❗ To see a full list of all keyword-reply pairs, go to [HootyBotResponseDF.csv](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
+| Hooty can't do conversations yet | At the moment, Hooty can only make one-sided conversations. It cannot properly respond to someone that has responded to HootyBot (although sometimes it does that by coincidence). I plan on adding that feature though, and when I do, I'll consider adding these past suggestions. |
