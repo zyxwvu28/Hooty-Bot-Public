@@ -592,7 +592,9 @@ def activate_bot(username: str,
         # If an error is detected, notify creator and update status post 
         except BaseException as e:
             
-            if e.message == 'Something is broken, please try again later.':
+            if e.message in ['Something is broken, please try again later.',
+                            'Comments are locked.'
+                            ]:
                 t.sleep(60)
                 continue
             
