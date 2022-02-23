@@ -536,6 +536,7 @@ def bot_offline(username: str, bot_status_post_id: str) -> None:
                          'Note: HootyBot will only monitor and respond to posts and comments on r/TheOwlHouse. '+
                          'If you pm it, it won\'t respond automatically.')
     log_and_print('Status post edited to indicate that HootyBot is now offline')
+    print('')
            
 def activate_bot(username: str, 
                  sr: str, 
@@ -556,32 +557,39 @@ def activate_bot(username: str,
     bot_creator = bot_config['bot_creator']
     bot_status_post_id = bot_config['bot_status_post_id']
     
-    try:
-        # Update bot status to 'online'
-        if sr == 'TheOwlHouse':
-            bot_status_post = reddit.submission(id = bot_status_post_id)
-            bot_status_post.edit('# ✅ HootyBot is currently online! ✅ \n\n' +
-                                 'This automatic status message only detects errors in the source code. ' + 
-                                 'I run HootyBot on my personal laptop, so if my laptop fails or turns off for any reason, ' +
-                                 'this post will not update to reflect that HootyBot has gone offline. \n\n' +  
-                                 'Note: HootyBot will only monitor and respond to posts and comments on r/TheOwlHouse. ' +
-                                 'If you pm it, it won\'t respond automatically.')
-            log_and_print('Status post edited to indicate that HootyBot is now online')
-                
-        # Monitor for new posts/comments
-        monitor_new_posts(reddit, 
-                        sr, 
-                        bot_config = bot_config, 
-                        external_urls = external_urls,
-                        skip_existing = skip_existing, 
-                        pause_after = pause_after, 
-                        replies_enabled = replies_enabled)  
+    while True:
+        try:
+            # Update bot status to 'online'
+            if sr == 'TheOwlHouse':
+                bot_status_post = reddit.submission(id = bot_status_post_id)
+                bot_status_post.edit('# ✅ HootyBot is currently online! ✅ \n\n' +
+                                    'This automatic status message only detects errors in the source code. ' + 
+                                    'I run HootyBot on my personal laptop, so if my laptop fails or turns off for any reason, ' +
+                                    'this post will not update to reflect that HootyBot has gone offline. \n\n' +  
+                                    'Note: HootyBot will only monitor and respond to posts and comments on r/TheOwlHouse. ' +
+                                    'If you pm it, it won\'t respond automatically.')
+                log_and_print('Status post edited to indicate that HootyBot is now online')
+                    
+            # Monitor for new posts/comments
+            monitor_new_posts(reddit, 
+                            sr, 
+                            bot_config = bot_config, 
+                            external_urls = external_urls,
+                            skip_existing = skip_existing, 
+                            pause_after = pause_after, 
+                            replies_enabled = replies_enabled)  
+            
+        # If an error is detected, notify creator and update status post 
+        except BaseException as e:
+            
+            if e.message == 'Something is broken, please try again later.':
+                t.sleep(60)
+                continue
+            
+            if sr == 'TheOwlHouse':
+                bot_offline(username, bot_status_post_id)
         
-    # If an error is detected, notify creator and update status post 
-    except BaseException as e:
-        if sr == 'TheOwlHouse':
-            bot_offline(username, bot_status_post_id)
-        err_message = 'An error occurred in the code: \n\n' + str(e) 
-        print(err_message)
-        reddit.redditor(bot_creator).message('HootyBot is now offline', 
-                                            err_message )
+            err_message = 'An error occurred in the code: \n\n' + str(e) 
+            print(err_message)
+            reddit.redditor(bot_creator).message('HootyBot is now offline', err_message )
+            break
