@@ -480,7 +480,7 @@ def monitor_new_posts(reddit_instance: pr.Reddit,
             
             # Log and print post data
             print('')
-            log_and_print('timestamp: ' + str(timestamp) + " EST")
+            log_and_print('timestamp: ' + timestamp)
             log_and_print("New post from u/" + author + ' titled \"{}\":'.format(post_title) )
             log_and_print('v----------------------v')
             log_and_print(body)
@@ -539,7 +539,7 @@ def monitor_new_posts(reddit_instance: pr.Reddit,
             
             # Log and print comment data         
             print('')   
-            log_and_print('timestamp: ' + str(timestamp) + " EST")
+            log_and_print('timestamp: ' + timestamp)
             log_and_print("New comment from u/" + author + ' on a post titled \"{}\":'.format(post_title) )
             log_and_print('v----------------------v')
             log_and_print(body)
