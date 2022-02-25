@@ -396,6 +396,7 @@ def log_msg(username: str, msg_obj, msg_obj_type: pr.Reddit, bot_config: dict, e
         except BaseException as e:
             print('Error!')
             print(e)
+            return msg_obj_type
         
         # Encode emojis differently
         post_title_to_csv = post_title.encode('unicode_escape')
