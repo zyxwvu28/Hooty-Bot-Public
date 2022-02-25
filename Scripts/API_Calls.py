@@ -342,9 +342,8 @@ def reply_to(msg_obj: str,
         url = 'https://www.reddit.com' + msg_obj.permalink
         text_to_reply_to = body     
     else:
-        raise TypeError("Error, post_or_comment must be a \'pr.models.Submission\' or \'pr.models.Comment object\'")
-    
-                
+        raise TypeError("Error, msg_obj_type must be a \'pr.models.Submission\' or \'pr.models.Comment object\'")
+        
     reply_index = cond_except_parser(text_to_reply_to, bot_config) 
     if -1 != reply_index:
         message_body = responseDF['Reply'][reply_index]
@@ -360,6 +359,99 @@ def reply_to(msg_obj: str,
         print('')
             
     return
+
+def log_msg(username: str, msg_obj, msg_obj_type: pr.Reddit, bot_config: dict, external_urls: dict) -> str:
+    '''
+    str, praw object, dict, dict -> str 
+    
+    Logs msg_obj data and then calls reply_to on the object.
+    
+    Returns msg_obj_type.
+    '''
+    
+    csv_log_name = bot_config['csv_log_name']
+    replies_enabled = bot_config['replies_enabled']
+    
+    if msg_obj_type != 'None':
+                    
+        # If the post is a poll, add the options to body
+        try:
+            poll_text = ''
+            poll_options = msg_obj.poll_data.options
+            i = 1
+            for opt in poll_options:
+                poll_text = poll_text + '\n\n [Option {}]: '.format(i) + opt.text
+                i += 1
+            poll_text = poll_text + '\n\n'
+        except:
+            poll_text = ''
+        
+        try:
+            # Define variables for post data
+            is_dst = t.localtime().tm_isdst
+            if is_dst == 1:
+                tz = ' EDT'
+            else:
+                tz = ' EST'
+                
+            timestamp = dt.fromtimestamp(msg_obj.created_utc)
+            timestamp = str(timestamp) + tz
+            author = msg_obj.author.name
+            s_id = msg_obj.id      
+            
+            if msg_obj_type == 'post':
+                post_title = msg_obj.title
+                body = msg_obj.selftext + poll_text
+                url = msg_obj.url
+            elif msg_obj_type == 'comment':
+                post_title = msg_obj.link_title
+                body = msg_obj.body
+                url = 'https://www.reddit.com' + msg_obj.permalink
+            else: 
+                print('Error: msg_obj_type must be one of [post, comment, None]')
+                
+        except BaseException as e:
+            print('Error!')
+            print(e)
+        
+        # Encode emojis differently
+        post_title_to_csv = post_title.encode('unicode_escape')
+        body_to_csv = body.encode('unicode_escape')
+        
+        # Log post data to csv
+        with open(csv_log_name, 'a', newline='') as csvfile:
+            writer = csv.writer(csvfile)
+            post_entry = [timestamp, msg_obj_type, author, post_title_to_csv, body_to_csv, url, s_id]
+            writer.writerow(post_entry)
+        
+        # Log and print post data
+        if msg_obj_type == 'comment':
+            on_a_post_ = ' on a post'
+        else:
+            on_a_post_ = ''
+            
+        msg_description = "New {msg_obj_type} from u/".format(msg_obj_type = msg_obj_type)
+        msg_description += author 
+        msg_description += '{on_a_post_} titled \"{post_title}\":'.format(on_a_post_ = on_a_post_, post_title = post_title)
+        
+        print('')
+        log_and_print('timestamp: ' + timestamp)
+        log_and_print(msg_description)
+        log_and_print('v----------------------v')
+        log_and_print(body)
+        log_and_print('^----------------------^')
+        log_and_print("url: " + url)
+        log_and_print("id: " + s_id)
+        print('')
+        
+        # reply to the message if keywords are detected
+        if replies_enabled:
+            reply_to(msg_obj, bot_config, external_urls, username = username)
+            
+    msg_obj_type = 'None'
+    return msg_obj_type
+
+     
 
 def monitor_new_posts(reddit_instance: pr.Reddit, 
                       sr: str, 
@@ -426,132 +518,33 @@ def monitor_new_posts(reddit_instance: pr.Reddit,
     
     # Loop that continuously monitors and replies to posts and comments
     while True:
+        
+        
                 
         # This loop checks for new posts
         log_and_print("Checking for new posts...")
         for post in posts:            
             # If no new post has been detected, break
             if post is None:
+                msg_obj_type = 'None'
                 break
-            failed_delay = 0.1
-                        
-            # If the post is a poll, add the options to body
-            try:
-                poll_text = ''
-                poll_options = post.poll_data.options
-                i = 1
-                for opt in poll_options:
-                    poll_text = poll_text + '\n\n [Option {}]: '.format(i) + opt.text
-                    i += 1
-                poll_text = poll_text + '\n\n'
-            except:
-                poll_text = ''
-            
-            try:
-                # Define variables for post data
-                is_dst = t.localtime().tm_isdst
-                if is_dst == 1:
-                    tz = ' EDT'
-                else:
-                    tz = ' EST'
-                    
-                timestamp = dt.fromtimestamp(post.created_utc)
-                timestamp = str(timestamp) + tz
-                author = post.author.name
-                post_title = post.title
-                body = post.selftext + poll_text
-                url = post.url
-                s_id = post.id      
-                post_or_comment = 'post'  
-            except BaseException as e:
-                print('Error!')
-                print(e)
-                continue
-            
-            # Encode emojis differently
-            post_title_to_csv = post_title.encode('unicode_escape')
-            body_to_csv = body.encode('unicode_escape')
-            
-            # Log post data to csv
-            with open(csv_log_name, 'a', newline='') as csvfile:
-                writer = csv.writer(csvfile)
-                post_entry = [timestamp, post_or_comment, author, post_title_to_csv, body_to_csv, url, s_id]
-                writer.writerow(post_entry)
-            
-            # Log and print post data
-            print('')
-            log_and_print('timestamp: ' + timestamp)
-            log_and_print("New post from u/" + author + ' titled \"{}\":'.format(post_title) )
-            log_and_print('v----------------------v')
-            log_and_print(body)
-            log_and_print('^----------------------^')
-            log_and_print("url: " + url)
-            log_and_print("id: " + s_id)
-            print('')
-            
-            # reply to the message if keywords are detected
-            if replies_enabled:
-                reply_to(post, bot_config, external_urls, username = username)
-                    
-                    
+            msg_obj_type = 'post'
+            msg_obj = post
+            msg_obj_type = log_msg(username, msg_obj, msg_obj_type, bot_config, external_urls)
+            failed_delay = 0.1         
+                  
         # This loop checks for new comments
         log_and_print("Checking for new comments...")
-        for comment in comments:            
+        for comment in comments: 
             # If no new comment has been detected, break
             if comment is None:
+                msg_obj_type = 'None'
                 break
+            msg_obj_type = 'comment'
+            msg_obj = comment
+            msg_obj_type = log_msg(username, msg_obj, msg_obj_type, bot_config, external_urls)
             failed_delay = 0.1
-            
-            try:
-                # Define variables for comment data
-                is_dst = t.localtime().tm_isdst
-                if is_dst == 1:
-                    tz = ' EDT'
-                else:
-                    tz = ' EST'
-                    
-                timestamp = dt.fromtimestamp(comment.created_utc)
-                timestamp = str(timestamp) + tz
-                author = comment.author.name
-                post_title = comment.link_title
-                body = comment.body
-                url = 'https://www.reddit.com' + comment.permalink
-                s_id = comment.id
-            except BaseException as e:
-                print('Error!')
-                print(e)
-                continue
                 
-            if author == username:
-                post_or_comment = 'reply'
-            else:
-                post_or_comment = 'comment'  
-            
-            # Encode emojis differently
-            post_title_to_csv = post_title.encode('unicode_escape')
-            body_to_csv = body.encode('unicode_escape')
-            
-            # Log comment data to csv
-            with open(csv_log_name, 'a', newline='') as csvfile:
-                writer = csv.writer(csvfile)
-                comment_entry = [timestamp, post_or_comment, author, post_title_to_csv, body_to_csv, url, s_id]
-                writer.writerow(comment_entry)
-            
-            # Log and print comment data         
-            print('')   
-            log_and_print('timestamp: ' + timestamp)
-            log_and_print("New comment from u/" + author + ' on a post titled \"{}\":'.format(post_title) )
-            log_and_print('v----------------------v')
-            log_and_print(body)
-            log_and_print('^----------------------^')
-            log_and_print("url: " + url)
-            log_and_print("id: " + s_id)
-            print('')
-            
-            # reply to the message if keywords are detected
-            if replies_enabled:
-                reply_to(comment, bot_config, external_urls, username = username)
-        
         # If no new post/comment has been detected recently, 
         # introduce an exponeentially increasing delay before checking again  
         log_and_print('API calls have found no new posts/comments.')
