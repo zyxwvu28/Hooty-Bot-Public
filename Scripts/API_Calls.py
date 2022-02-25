@@ -232,18 +232,7 @@ def cond_except_parser(text_to_reply_to: str, bot_config: dict) -> int:
                 if except_cond:
                     return DONT_REPLY
                 else:
-                    return response_index
-                
-                # except_words = excepts[response_index]
-                # if except_words[0] == '&':
-                #     except_cond = advanced_keyword_parser(text_to_reply_to, except_words)
-                # else:
-                #     except_cond = except_words.casefold() in text_to_reply_to_casefold
-                    
-                # if except_cond:
-                #     return DONT_REPLY
-                # else:
-                #     return response_index                       
+                    return response_index                    
         
         ### For simple queries
         # If the condition word is a substring of the message body, 
@@ -256,17 +245,11 @@ def cond_except_parser(text_to_reply_to: str, bot_config: dict) -> int:
             if except_cond:
                 return DONT_REPLY
             else:
-                return response_index            
-            
-            # for j in excepts: 
-            #     if (j != '') and (j.casefold() in text_to_reply_to_casefold):
-            #         return DONT_REPLY
-                            
-            # return response_index
-    
+                return response_index                
     
     # If no matches are found, don't reply
     return DONT_REPLY   
+
             
 def reply_to(msg_obj: str, 
              bot_config: dict, 
@@ -518,9 +501,7 @@ def monitor_new_posts(reddit_instance: pr.Reddit,
     
     # Loop that continuously monitors and replies to posts and comments
     while True:
-        
-        
-                
+          
         # This loop checks for new posts
         log_and_print("Checking for new posts...")
         for post in posts:            
