@@ -590,11 +590,14 @@ def activate_bot(username: str,
         # If an error is detected, notify creator and update status post 
         except BaseException as e:
             
-            if e.message in ['Something is broken, please try again later.',
-                            'Comments are locked.'
-                            ]:
-                t.sleep(60)
-                continue
+            try:
+                if e.message in ['Something is broken, please try again later.',
+                                'Comments are locked.'
+                                ]:
+                    t.sleep(60)
+                    continue
+            except:
+                print(e)
             
             if sr == 'TheOwlHouse':
                 bot_offline(username, bot_status_post_id)
