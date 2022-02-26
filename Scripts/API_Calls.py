@@ -254,11 +254,10 @@ def cond_except_parser(text_to_reply_to: str, bot_config: dict) -> int:
 def reply_to(msg_obj: str, 
              bot_config: dict, 
              external_urls: dict, 
-             username: str, 
              reply_to_self: bool = False
              ) -> None:
     '''
-    str, dict, dict, str, bool -> None
+    str, dict, dict, bool -> None
     
     msg_obj: A praw object representing a post or comment
     
@@ -267,6 +266,7 @@ def reply_to(msg_obj: str,
                 
     # Load necessary bot config data
     version = bot_config['version']
+    username = bot_config['username']
     bot_creator = bot_config['bot_creator']
     responseDF_path = bot_config['responseDF_path']
     min_between_replies = bot_config['min_between_replies']
@@ -343,7 +343,7 @@ def reply_to(msg_obj: str,
             
     return
 
-def log_msg(username: str, msg_obj, msg_obj_type: pr.Reddit, bot_config: dict, external_urls: dict) -> str:
+def log_msg(msg_obj, msg_obj_type: pr.Reddit, bot_config: dict, external_urls: dict) -> str:
     '''
     str, praw object, dict, dict -> str 
     
@@ -352,8 +352,10 @@ def log_msg(username: str, msg_obj, msg_obj_type: pr.Reddit, bot_config: dict, e
     Returns msg_obj_type.
     '''
     
+    # Load necessary bot config data
     csv_log_name = bot_config['csv_log_name']
     replies_enabled = bot_config['replies_enabled']
+    username = bot_config['username']
     
     if msg_obj_type != 'None':
                     
@@ -430,7 +432,7 @@ def log_msg(username: str, msg_obj, msg_obj_type: pr.Reddit, bot_config: dict, e
         
         # reply to the message if keywords are detected
         if replies_enabled:
-            reply_to(msg_obj, bot_config, external_urls, username = username)
+            reply_to(msg_obj, bot_config, external_urls)
             
     msg_obj_type = 'None'
     return msg_obj_type
@@ -438,7 +440,6 @@ def log_msg(username: str, msg_obj, msg_obj_type: pr.Reddit, bot_config: dict, e
      
 
 def monitor_new_posts(reddit_instance: pr.Reddit, 
-                      sr: str, 
                       bot_config: dict, 
                       external_urls: dict, 
                       ) -> None:
@@ -457,23 +458,26 @@ def monitor_new_posts(reddit_instance: pr.Reddit,
     '''
        
     # Template for loading bot config
-    # version = bot_config['version']
-    # bot_creator = bot_config['bot_creator']
-    # today = bot_config['today']
-    # log_prefix = bot_config['log_prefix']
-    # log_file_name = bot_config['log_file_name']
-    # csv_log_name = bot_config['csv_log_name']
+    # username = bot_config['username']
+    # subreddit = bot_config['subreddit']
     # responseDF_path = bot_config['responseDF_path']
     # blacklist_words_path = bot_config['blacklist_words_path']
+    # last_comment_time_path = bot_config['last_comment_time_path']
+    # version = bot_config['version']
+    # bot_creator = bot_config['bot_creator']
+    # log_file_name = bot_config['log_file_name']
+    # csv_log_name = bot_config['csv_log_name']
     # bot_status_post_id = bot_config['bot_status_post_id']
     # skip_existing = bot_config['skip_existing']
     # replies_enabled = bot_config['replies_enabled']
     # pause_after = bot_config['pause_after']
+    # min_between_replies = bot_config['min_between_replies']
     
     # Load bot config settings
     skip_existing = bot_config['skip_existing']
     replies_enabled = bot_config['replies_enabled']
     pause_after = bot_config['pause_after']
+    sr = bot_config['subreddit']
         
     # Create csv file if missing
     csv_log_name = bot_config['csv_log_name']
@@ -552,9 +556,7 @@ def bot_offline(username: str, bot_status_post_id: str) -> None:
     log_and_print('Status post edited to indicate that HootyBot is now offline')
     print('')
            
-def activate_bot(username: str, 
-                 sr: str, 
-                 bot_config: dict, 
+def activate_bot(bot_config: dict, 
                  external_urls: dict
                  ) -> None:
     '''
@@ -562,6 +564,11 @@ def activate_bot(username: str,
     
     Activates the bot    
     '''
+    
+    # Load necessary bot config data
+    username = bot_config['username']
+    subreddit = bot_config['subreddit']
+    
     # Load credentials from praw.ini to generate a Reddit instance
     reddit = pr.Reddit(username)
     
@@ -571,7 +578,7 @@ def activate_bot(username: str,
     while True:
         try:
             # Update bot status to 'online'
-            if sr == 'TheOwlHouse':
+            if subreddit == 'TheOwlHouse':
                 bot_status_post = reddit.submission(id = bot_status_post_id)
                 bot_status_post.edit('# ✅ HootyBot is currently online! ✅ \n\n' +
                                     'This automatic status message only detects errors in the source code. ' + 
@@ -582,8 +589,7 @@ def activate_bot(username: str,
                 log_and_print('Status post edited to indicate that HootyBot is now online')
                     
             # Monitor for new posts/comments
-            monitor_new_posts(reddit, 
-                            sr, 
+            monitor_new_posts(
                             bot_config = bot_config, 
                             external_urls = external_urls,
                             )  
@@ -600,7 +606,7 @@ def activate_bot(username: str,
             except:
                 print(e)
             
-            if sr == 'TheOwlHouse':
+            if subreddit == 'TheOwlHouse':
                 bot_offline(username, bot_status_post_id)
         
             err_message = 'An error occurred in the code: \n\n' + str(e) 
