@@ -3,6 +3,7 @@ Functions for common API calls that HootyBot makes
 Detects new posts and comments on a specific subreddit
 '''
 
+import sys
 import pandas as pd
 import praw as pr
 import time as t
@@ -20,6 +21,9 @@ def log_and_print(message: str, level: str = 'info' ) -> None:
     Custom function for logging and printing a message. Function doesn't output anything
     '''
     
+    print(message)
+    
+    # Encode emojis differently    
     log_message = message.encode('unicode_escape')
     if level == 'debug':
         log.debug(log_message)
@@ -30,8 +34,7 @@ def log_and_print(message: str, level: str = 'info' ) -> None:
     elif level == 'error':
         log.error(log_message)
     elif level == 'critical':
-        log.critical(log_message)
-    print(message)        
+        log.critical(log_message)      
 
 def advanced_query(parsed_query: str) -> bool:
     '''
@@ -249,8 +252,7 @@ def cond_except_parser(text_to_reply_to: str, bot_config: dict) -> int:
     
     # If no matches are found, don't reply
     return DONT_REPLY   
-
-            
+           
 def reply_to(msg_obj: str, 
              bot_config: dict, 
              external_urls: dict, 
@@ -263,18 +265,18 @@ def reply_to(msg_obj: str,
     
     Replies to posts or comments
     '''
-                
+                    
     # Load necessary bot config data
-    version = bot_config['version']
+    # version = bot_config['version']
     username = bot_config['username']
-    bot_creator = bot_config['bot_creator']
+    # bot_creator = bot_config['bot_creator']
     responseDF_path = bot_config['responseDF_path']
     min_between_replies = bot_config['min_between_replies']
+    reply_ending = bot_config['reply_ending']
     
-    # Load External URLs
-    github_README_url = external_urls['github_README_url']
-    reply_suggestions_form = external_urls['reply_suggestions_form']
-    
+    # # Load External URLs
+    # github_README_url = external_urls['github_README_url']
+    # reply_suggestions_form = external_urls['reply_suggestions_form']
     
     # Create most recent reply file if missing:
     last_comment_time_path = bot_config['last_comment_time_path']
@@ -299,9 +301,9 @@ def reply_to(msg_obj: str,
     if (msg_obj.author.name == username) and not(reply_to_self):
         return
     
-    # Template reply ending for a bot
-    reply_ending = '^(I am a bot written by [{i}](https://www.reddit.com/user/{i}) | Check out my [Github]({github_README_url}) ) \n\n'.format(i = bot_creator, github_README_url = github_README_url) 
-    reply_ending += '^(Help improve Hooty\'s [vocabulary]({reply_suggestions_form}) | Current version: {v} )'.format(v = version, reply_suggestions_form = reply_suggestions_form)
+    # # Template reply ending for a bot
+    # reply_ending = '^(I am a bot written by [{i}](https://www.reddit.com/user/{i}) | Check out my [Github]({github_README_url}) ) \n\n'.format(i = bot_creator, github_README_url = github_README_url) 
+    # reply_ending += '^(Help improve Hooty\'s [vocabulary]({reply_suggestions_form}) | Current version: {v} )'.format(v = version, reply_suggestions_form = reply_suggestions_form)
     
     # Check if there's poll text, if so, add that to the detection
     try:
@@ -343,6 +345,68 @@ def reply_to(msg_obj: str,
             
     return
 
+def check_admin_codes(msg_obj, bot_config):
+    '''
+    Checks comments to see if an admin code has been detected
+    
+    Returns a boolean that represents whether or not replies should be enabled
+    ''' 
+    
+    # Load data from msg_obj
+    body = msg_obj.body
+    author = msg_obj.author
+    url = 'https://www.reddit.com' + msg_obj.permalink
+    
+    # Load necessary data from bot_config
+    admin_codes_path = bot_config['admin_codes_path']
+    admin_code_users_path = bot_config['admin_code_users_path']
+    replies_enabled = bot_config['replies_enabled']
+    reply_ending = bot_config['reply_ending']
+    bot_creator = bot_config['bot_creator']
+    
+    # Load the admin codes
+    admin_codes = pd.read_csv(admin_codes_path)
+    
+    # Find the mods of the subreddit and the bot creator
+    admin_code_users = [bot_creator]
+    for i in msg_obj.subreddit.moderator():
+        admin_code_users.append(i)
+    
+    
+    # with open(admin_code_users_path, 'r') as f:
+    #     admin_code_users = f.readlines()
+    # for i in range(len(admin_code_users)):
+    #     if '\n' in admin_code_users[i]:
+    #         admin_code_users[i] = admin_code_users[i][:-1]
+    
+    codes = admin_codes['Code']
+    responses = admin_codes['Response']
+    
+    for code in codes:
+        if (code in body) and (author in admin_code_users):
+            
+            reply_msg = responses[code == codes].array[0]+ reply_ending
+            msg_obj.reply(reply_msg)
+            
+            print('')
+            log_and_print("Replied to " + url + ' with the following message:')
+            log_and_print('v----------------------v')
+            log_and_print(reply_msg)
+            log_and_print('^----------------------^')
+            print('')
+            
+            if codes[0] == code: # pause code
+                return False
+            elif codes[1] == code: # stop code
+                exit_msg = '`' + code + '` admin code detected. The HootyBot program is now exiting.'
+                sys.exit(exit_msg)
+            elif codes[2] == code: # unpause code
+                return True
+            
+            return replies_enabled
+    
+    return replies_enabled
+
 def log_msg(msg_obj, msg_obj_type: pr.Reddit, bot_config: dict, external_urls: dict) -> str:
     '''
     str, praw object, dict, dict -> str 
@@ -355,7 +419,6 @@ def log_msg(msg_obj, msg_obj_type: pr.Reddit, bot_config: dict, external_urls: d
     # Load necessary bot config data
     csv_log_name = bot_config['csv_log_name']
     replies_enabled = bot_config['replies_enabled']
-    username = bot_config['username']
     
     if msg_obj_type != 'None':
                     
@@ -455,6 +518,8 @@ def monitor_new_posts(reddit_instance: pr.Reddit,
     skip_existing: a bool, tells the function whether or not to skip the last 100 existing posts and comments
     pause_after: int, after 'pause_after' failed API calls, pause the current API call and move on to the next one
     replies_enabled: bool, decides whether to allow the bot to reply to comments and posts
+    
+    Returns whether or not replies should be enabled
     '''
        
     # Template for loading bot config
@@ -514,10 +579,15 @@ def monitor_new_posts(reddit_instance: pr.Reddit,
             if post is None:
                 msg_obj_type = 'None'
                 break
+            
+            # Reset delay, save message data
+            failed_delay = 0.1
             msg_obj_type = 'post'
             msg_obj = post
-            msg_obj_type = log_msg(username, msg_obj, msg_obj_type, bot_config, external_urls)
-            failed_delay = 0.1         
+            
+            # Log the message, and reply if keywords are detected
+            msg_obj_type = log_msg(msg_obj, msg_obj_type, bot_config, external_urls)
+                     
                   
         # This loop checks for new comments
         log_and_print("Checking for new comments...")
@@ -526,10 +596,19 @@ def monitor_new_posts(reddit_instance: pr.Reddit,
             if comment is None:
                 msg_obj_type = 'None'
                 break
+            
+            # Reset delay, save message data
+            failed_delay = 0.1
             msg_obj_type = 'comment'
             msg_obj = comment
-            msg_obj_type = log_msg(username, msg_obj, msg_obj_type, bot_config, external_urls)
-            failed_delay = 0.1
+            
+            # Check if any admin codes have been used
+            replies_enabled = check_admin_codes(msg_obj, bot_config)
+            bot_config['replies_enabled'] = replies_enabled
+            
+            # Log the message, and reply if keywords are detected
+            msg_obj_type = log_msg(msg_obj, msg_obj_type, bot_config, external_urls)
+            
                 
         # If no new post/comment has been detected recently, 
         # introduce an exponeentially increasing delay before checking again  
@@ -589,10 +668,12 @@ def activate_bot(bot_config: dict,
                 log_and_print('Status post edited to indicate that HootyBot is now online')
                     
             # Monitor for new posts/comments
-            monitor_new_posts(
-                            bot_config = bot_config, 
-                            external_urls = external_urls,
-                            )  
+            replies_enabled = monitor_new_posts(
+                                reddit_instance = reddit,
+                                bot_config = bot_config, 
+                                external_urls = external_urls,
+                                )  
+            bot_config['replies_enabled'] = replies_enabled
             
         # If an error is detected, notify creator and update status post 
         except BaseException as e:
