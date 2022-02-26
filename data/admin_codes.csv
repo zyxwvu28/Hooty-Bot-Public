@@ -1,10 +1,10 @@
 Code,Response
-hb!pause,"Admin code detected. HootyBot is now paused. HootyBot will continue to monitor the subreddit for new posts and comments but it will NOT reply to any of them until unpaused. To unpause HootyBot, comment `HootyBot!unpause` on any post in this subreddit.
+hb!pause,"Admin code `hb!pause` detected. HootyBot is now paused. HootyBot will continue to monitor the subreddit for new posts and comments but it will NOT reply to any of them until unpaused (with the exception of admin codes). To unpause HootyBot, comment `hb!unpause` on any post in this subreddit.
 
 Note that HootyBot responds to admin codes ONLY IF they were created by a mod of this subreddit or the bot creator."
-hb!stop,"Admin code detected. HootyBot has now stopped. HootyBot is no longer monitoring the subreddit and will not reply to any more posts or comments until manually activated again.
+hb!stop,"Admin code  `hb!stop` detected. HootyBot has now stopped. HootyBot is no longer monitoring the subreddit and will not reply to any more posts or comments until manually activated again.
 
 Note that HootyBot responds to admin codes ONLY IF they were created by a mod of this subreddit or the bot creator."
-hb!unpause,"Admin code detected. HootyBot is now unpaused. HootyBot will now monitor the subreddit for new posts and comments and will respond to them if keywords are detected.
+hb!unpause,"Admin code `hb!unpause` detected. HootyBot is now unpaused. HootyBot will now monitor the subreddit for new posts and comments and will respond to them if keywords are detected.
 
 Note that HootyBot responds to admin codes ONLY IF they were created by a mod of this subreddit or the bot creator."
