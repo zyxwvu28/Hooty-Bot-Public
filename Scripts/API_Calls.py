@@ -371,14 +371,8 @@ def check_admin_codes(msg_obj, bot_config):
     admin_code_users = [bot_creator]
     for i in msg_obj.subreddit.moderator():
         admin_code_users.append(i)
-    
-    
-    # with open(admin_code_users_path, 'r') as f:
-    #     admin_code_users = f.readlines()
-    # for i in range(len(admin_code_users)):
-    #     if '\n' in admin_code_users[i]:
-    #         admin_code_users[i] = admin_code_users[i][:-1]
-    
+        
+    # Load the codes and responses
     codes = admin_codes['Code']
     responses = admin_codes['Response']
     
