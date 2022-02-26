@@ -78,18 +78,20 @@ reply_mode = True
 
 # Variables and data importamt for configuring HootyBot
 bot_config = {
-    'responseDF_path': responseDF_path,
-    'blacklist_words_path': blacklist_words_path,
-    'last_comment_time_path': last_comment_time_path,
-    'version': version, 
-    'bot_creator': bot_creator,
-    'log_file_name': log_file_name,
-    'csv_log_name': csv_log_name,
-    'bot_status_post_id': bot_status_post_id,
-    'skip_existing': reply_mode, 
-    'replies_enabled': reply_mode,
-    'pause_after': 2, 
-    'min_between_replies': 30
+    'username': username,                               # str: the bots username
+    'subreddit': sr,                                    # str: the subreddit being monitored
+    'responseDF_path': responseDF_path,                 # str: the directory path of responseDF
+    'blacklist_words_path': blacklist_words_path,       # str: the directory path of blacklist_words
+    'last_comment_time_path': last_comment_time_path,   # str: the directory path of last_comment_time
+    'version': version,                                 # str: the version of the bot
+    'bot_creator': bot_creator,                         # str: the username of the bot creator
+    'log_file_name': log_file_name,                     # str: name of log file
+    'csv_log_name': csv_log_name,                       # str: name of csv log file
+    'bot_status_post_id': bot_status_post_id,           # str: Reddit id of the bot status post
+    'skip_existing': reply_mode,                        # bool: if true, tells the bot to skip the 100 most recent msgs 
+    'replies_enabled': reply_mode,                      # bool: if true, allows the bot to reply to msgs
+    'pause_after': 2,                                   # int: How many failed API calls to make before pausing
+    'min_between_replies': 30                           # int: Min minutes between replies
 }
 
 ### Call API
