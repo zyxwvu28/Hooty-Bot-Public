@@ -14,11 +14,21 @@ import praw as pr
 from datetime import date as da
 import logging as log
 
-# Define global 'constants'
+# Read in the bot's version number
 with open('data/version.txt') as f:
     version = f.readlines()[0]
+    
+# Define creator of bot
+bot_creator = os.environ.get('REDDIT_BOT_CREATOR')
+if bot_creator is None:
+    bot_creator = '' # Change this string to be your main Reddit account username (without the u/)
+    while bot_creator == '':
+        bot_creator = input('Enter your Reddit username with the \'u/\':\n')
+        print('Welcome u/' + bot_creator)
+        
+# Define global 'constants'
 APP_ID = os.environ.get('REDDIT_HOOTY_APP_ID')
-user_agent = 'reddit:' + APP_ID + ':' + version + ' (by /u/zyxwvu28)'
+user_agent = 'reddit:' + APP_ID + ':' + version + ' (by /u/{})'.format(bot_creator)
 today = str(da.today())
 log_prefix = 'Logs/HootyBot_' + version + '_' + today
 log_file_name = log_prefix + ".log"
@@ -49,16 +59,7 @@ with open('Directories_needed.txt', 'r') as f:
 lst_dir = os.listdir()
 for needed in dirs_needed:
     if not(needed in lst_dir):
-        os.mkdir(needed)
-
-# Define creator of bot
-bot_creator = os.environ.get('REDDIT_BOT_CREATOR')
-if bot_creator is None:
-    bot_creator = '' # Change this string to be your main Reddit account username (without the u/)
-    while bot_creator == '':
-        bot_creator = input('Enter your Reddit username with the \'u/\':\n')
-        print('Welcome u/' + bot_creator)
-    
+        os.mkdir(needed)  
 
 # Setting external urls
 github_README_url = 'https://github.com/{}/Hooty-Bot-Public/blob/main/README.md'.format(bot_creator)
