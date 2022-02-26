@@ -147,4 +147,6 @@ Scripts/API_Calls_v4.py
 # Misc
 Scripts/Reddit_Scopes.py
 ReplyDFs/HootyBotResponseDF_DarkMode.xlsx
-Scripts/test.py
+test.py
+ReplyDFs/HootyBotResponseDF(AutoRecovered).csv
+data/last_comment_time.txt
