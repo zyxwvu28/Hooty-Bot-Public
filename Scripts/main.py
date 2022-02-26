@@ -86,12 +86,11 @@ reply_mode = True
 # Variables and data importamt for configuring HootyBot
 bot_config = {
     'username': username,                               # str: the bots username
-    'subreddit': sr,                                    # str: the subreddit being monitored
+    'sr': sr,                                           # str: the subreddit being monitored
     'responseDF_path': responseDF_path,                 # str: the directory path of responseDF
     'blacklist_words_path': blacklist_words_path,       # str: the directory path of blacklist_words
     'last_comment_time_path': last_comment_time_path,   # str: the directory path of last_comment_time
     'admin_codes_path': admin_codes_path,               # str: the directory path of admin codes
-    'admin_code_users_path': admin_code_users_path,     # str: the directory path of admin code users
     'version': version,                                 # str: the version of the bot
     'bot_creator': bot_creator,                         # str: the username of the bot creator
     'log_file_name': log_file_name,                     # str: name of log file

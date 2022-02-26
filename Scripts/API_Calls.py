@@ -359,7 +359,6 @@ def check_admin_codes(msg_obj, bot_config):
     
     # Load necessary data from bot_config
     admin_codes_path = bot_config['admin_codes_path']
-    admin_code_users_path = bot_config['admin_code_users_path']
     replies_enabled = bot_config['replies_enabled']
     reply_ending = bot_config['reply_ending']
     bot_creator = bot_config['bot_creator']
@@ -518,7 +517,7 @@ def monitor_new_posts(reddit_instance: pr.Reddit,
        
     # Template for loading bot config
     # username = bot_config['username']
-    # subreddit = bot_config['subreddit']
+    # subreddit = bot_config['sr']
     # responseDF_path = bot_config['responseDF_path']
     # blacklist_words_path = bot_config['blacklist_words_path']
     # last_comment_time_path = bot_config['last_comment_time_path']
@@ -536,7 +535,7 @@ def monitor_new_posts(reddit_instance: pr.Reddit,
     skip_existing = bot_config['skip_existing']
     replies_enabled = bot_config['replies_enabled']
     pause_after = bot_config['pause_after']
-    sr = bot_config['subreddit']
+    sr = bot_config['sr']
         
     # Create csv file if missing
     csv_log_name = bot_config['csv_log_name']
@@ -640,7 +639,7 @@ def activate_bot(bot_config: dict,
     
     # Load necessary bot config data
     username = bot_config['username']
-    subreddit = bot_config['subreddit']
+    sr = bot_config['sr']
     
     # Load credentials from praw.ini to generate a Reddit instance
     reddit = pr.Reddit(username)
@@ -651,7 +650,7 @@ def activate_bot(bot_config: dict,
     while True:
         try:
             # Update bot status to 'online'
-            if subreddit == 'TheOwlHouse':
+            if sr == 'TheOwlHouse':
                 bot_status_post = reddit.submission(id = bot_status_post_id)
                 bot_status_post.edit('# ✅ HootyBot is currently online! ✅ \n\n' +
                                     'This automatic status message only detects errors in the source code. ' + 
@@ -681,7 +680,7 @@ def activate_bot(bot_config: dict,
             except:
                 print(e)
             
-            if subreddit == 'TheOwlHouse':
+            if sr == 'TheOwlHouse':
                 bot_offline(username, bot_status_post_id)
         
             err_message = 'An error occurred in the code: \n\n' + str(e) 
