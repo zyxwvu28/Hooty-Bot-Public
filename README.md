@@ -1,5 +1,5 @@
 # Hooty-Bot README Table of Contents
-1. [About HootyBot (v1.1.1 Beta)](#About-HootyBot)
+1. [About HootyBot (v1.1.2)](#About-HootyBot)
     1. [Purpose](#Purpose)
     2. [How does HootyBot work? (TLDR Version)](#1b)
     3. [Does HootyBot use machine learning or neural networks?](#1c)
@@ -12,7 +12,7 @@
 5. [Version Logs](#5) 
 
 
-## 1. About HootyBot (v1.1.1 Beta) <a name = "About-HootyBot"></a>
+## 1. About HootyBot (v1.1.2) <a name = "About-HootyBot"></a>
 
 ### Purpose <a name = "Purpose"></a>
 
@@ -90,6 +90,11 @@ If you have any concerns, comments, compliments, insults, etc. fill out this for
     - Added advanced keyword searching functionality (currently being hosted on the advanced-word-search-parser branch of this repo)
 - v1.1.1 Beta:
     - Added a minimum time between replies
+- v1.1.2:
+    - Subreddit mods and the bot creator now have remote access control over HootyBot via admin codes. Remote controls are limited to:
+        - Pausing bot replies
+        - Unpausing bot replies
+        - And stopping the bot entirely
 
 
 HOOT HOOT!
