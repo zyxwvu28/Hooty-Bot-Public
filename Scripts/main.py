@@ -14,9 +14,36 @@ import praw as pr
 from datetime import date as da
 import logging as log
 
+# Create missing directories
+with open('Directories_needed.txt', 'r') as f:
+    dirs_needed = []
+    line = f.readline()[:-1]
+    while line:
+        dirs_needed.append(line)
+        line = f.readline()
+        if '\n' in line:
+            line = line[:-1]
+lst_dir = os.listdir()
+for needed in dirs_needed:
+    if not(needed in lst_dir):
+        os.mkdir(needed)  
+
+files_required = ['data/version.txt',
+                  'data/admin_codes.csv',
+                  'ReplyDFs\BlacklistWords.csv',
+                  'ReplyDFs\HootyBotResponseDF.csv',
+                  'Scripts\API_Calls.py',
+                  'praw.ini',
+                  ]
+
+# Notify user about missing files
+for i in files_required:
+    if not(os.path.exists(i)):
+        print('WARNING! file ' + i + ' not found.')
+
 # Read in the bot's version number
 with open('data/version.txt') as f:
-    version = f.readlines()[0]
+    version = f.readlines()[0] 
     
 # Define creator of bot
 bot_creator = os.environ.get('REDDIT_BOT_CREATOR')
@@ -49,20 +76,6 @@ handler = log.FileHandler(log_file_name,
                           ) 
 handler.setFormatter(log.Formatter('%(asctime)s [%(levelname)s]: %(message)s'))
 root_logger.addHandler(handler)
-
-# Create missing directories
-with open('Directories_needed.txt', 'r') as f:
-    dirs_needed = []
-    line = f.readline()[:-1]
-    while line:
-        dirs_needed.append(line)
-        line = f.readline()
-        if '\n' in line:
-            line = line[:-1]
-lst_dir = os.listdir()
-for needed in dirs_needed:
-    if not(needed in lst_dir):
-        os.mkdir(needed)  
 
 # Setting external urls
 github_README_url = 'https://github.com/{}/Hooty-Bot-Public/blob/main/README.md'.format(bot_creator)
