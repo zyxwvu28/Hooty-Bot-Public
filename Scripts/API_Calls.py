@@ -345,8 +345,54 @@ def reply_to(msg_obj: str,
             
     return
 
-def check_admin_codes(msg_obj, bot_config):
+def edit_status(bot_config: dict, is_online: bool) -> None:
     '''
+    dict, bool -> None
+    
+    Edits the bot's status message. Outputs None.
+    '''
+    
+    # Load bot config variables
+    username = bot_config['username']
+    sr = bot_config['sr']
+    bot_status_post_id = bot_config['bot_status_post_id']
+    replies_enabled = bot_config['replies_enabled']
+    
+    # Set the API to be ready to edit the post
+    reddit = pr.Reddit(username)
+    bot_status_post = reddit.submission(id = bot_status_post_id)
+    
+    # Detect which status message to output
+    if is_online: # Online, replies enabled
+        if replies_enabled:
+            status_post_msg = ('# ✅ {username} is currently online! ✅ \n\n'.format(username=username) +
+                           '## {username} is currently monitoring r/{sr} and is allowed to make replies.\n\n'.format(username=username, sr=sr) 
+                            )
+            terminal_status_msg = 'Status post edited to indicate that {username} is now ✅ online and replying ✅'.format(username=username)
+        else: # Online, replies disabled
+            status_post_msg = ('# ✳️ {username} is currently online, but won\'t reply! ✳️ \n\n'.format(username=username) +
+                           '## {username} is currently monitoring r/{sr} and is NOT allowed to make replies.\n\n'.format(username=username, sr=sr)
+                            )
+            terminal_status_msg = 'Status post edited to indicate that {username} is now ✳️ online and NOT replying ✳️'.format(username=username)
+    else: # Offline
+        status_post_msg = '# ❌ {username} is currently offline D,: ❌ \n\n' .format(username=username)
+        terminal_status_msg = 'Status post edited to indicate that {username} is now ❌ offline ❌'.format(username=username)
+   
+    # Append the end of the status message   
+    status_post_msg += ('This automatic status message only detects errors in the source code. ' + 
+                    'I run HootyBot on my personal laptop, so if my laptop fails or turns off for any reason, ' +
+                    'this post will not update to reflect that HootyBot has gone offline. \n\n' +  
+                    'Note: HootyBot will only monitor and respond to posts and comments on r/TheOwlHouse. '+
+                    'If you pm it, it won\'t respond automatically.')
+    
+    bot_status_post.edit(status_post_msg)
+    log_and_print(terminal_status_msg)
+    print('')
+
+def check_admin_codes(msg_obj: pr.Reddit, bot_config: dict) -> bool:
+    '''
+    msg_obj, dict -> bool
+    
     Checks comments to see if an admin code has been detected
     
     Returns a boolean that represents whether or not replies should be enabled
@@ -407,9 +453,9 @@ def check_admin_codes(msg_obj, bot_config):
     
     return replies_enabled
 
-def log_msg(msg_obj, msg_obj_type: pr.Reddit, bot_config: dict, external_urls: dict) -> str:
+def log_msg(msg_obj: pr.Reddit, msg_obj_type: str, bot_config: dict, external_urls: dict) -> str:
     '''
-    str, praw object, dict, dict -> str 
+    msg_obj, dict, dict -> str 
     
     Logs msg_obj data and then calls reply_to on the object.
     
@@ -499,50 +545,6 @@ def log_msg(msg_obj, msg_obj_type: pr.Reddit, bot_config: dict, external_urls: d
             
     msg_obj_type = 'None'
     return msg_obj_type
-
-def edit_status(bot_config: dict, is_online: bool) -> None:
-    '''
-    dict, bool -> None
-    
-    Edits the bot's status message. Outputs None.
-    '''
-    
-    # Load bot config variables
-    username = bot_config['username']
-    sr = bot_config['sr']
-    bot_status_post_id = bot_config['bot_status_post_id']
-    replies_enabled = bot_config['replies_enabled']
-    
-    # Set the API to be ready to edit the post
-    reddit = pr.Reddit(username)
-    bot_status_post = reddit.submission(id = bot_status_post_id)
-    
-    # Detect which status message to output
-    if is_online: # Online, replies enabled
-        if replies_enabled:
-            status_post_msg = ('# ✅ {username} is currently online! ✅ \n\n'.format(username=username) +
-                           '## {username} is currently monitoring r/{sr} and is allowed to make replies.\n\n'.format(username=username, sr=sr) 
-                            )
-            terminal_status_msg = 'Status post edited to indicate that {username} is now ✅ online and replying ✅'.format(username=username)
-        else: # Online, replies disabled
-            status_post_msg = ('# ✳️ {username} is currently online, but won\'t reply! ✳️ \n\n'.format(username=username) +
-                           '## {username} is currently monitoring r/{sr} and is NOT allowed to make replies.\n\n'.format(username=username, sr=sr)
-                            )
-            terminal_status_msg = 'Status post edited to indicate that {username} is now ✳️ online and NOT replying ✳️'.format(username=username)
-    else: # Offline
-        status_post_msg = '# ❌ {username} is currently offline D,: ❌ \n\n' .format(username=username)
-        terminal_status_msg = 'Status post edited to indicate that {username} is now ❌ offline ❌'.format(username=username)
-   
-    # Append the end of the status message   
-    status_post_msg += ('This automatic status message only detects errors in the source code. ' + 
-                    'I run HootyBot on my personal laptop, so if my laptop fails or turns off for any reason, ' +
-                    'this post will not update to reflect that HootyBot has gone offline. \n\n' +  
-                    'Note: HootyBot will only monitor and respond to posts and comments on r/TheOwlHouse. '+
-                    'If you pm it, it won\'t respond automatically.')
-    
-    bot_status_post.edit(status_post_msg)
-    log_and_print(terminal_status_msg)
-    print('')
     
 def monitor_new_posts(reddit_instance: pr.Reddit, 
                       bot_config: dict, 
