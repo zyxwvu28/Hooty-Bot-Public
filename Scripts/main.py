@@ -40,12 +40,15 @@ last_comment_time_path = 'data/last_comment_time.txt'
 admin_codes_path = 'data/admin_codes.csv'
 admin_code_users_path = 'data/admin_code_users.txt'
 
-# Configure logging
-log.basicConfig(format='%(asctime)s [%(levelname)s]: %(message)s', 
-                filename=log_file_name, 
-                # encoding='utf-8', 
-                level=log.DEBUG
-                )
+# # Configure logging
+root_logger= log.getLogger()
+root_logger.setLevel(log.DEBUG) 
+handler = log.FileHandler(log_file_name, 
+                          'w', 
+                          'utf-8'
+                          ) 
+handler.setFormatter(log.Formatter('%(asctime)s [%(levelname)s]: %(message)s'))
+root_logger.addHandler(handler)
 
 # Create missing directories
 with open('Directories_needed.txt', 'r') as f:
