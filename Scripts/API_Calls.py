@@ -493,8 +493,6 @@ def log_msg(msg_obj, msg_obj_type: pr.Reddit, bot_config: dict, external_urls: d
     msg_obj_type = 'None'
     return msg_obj_type
 
-     
-
 def monitor_new_posts(reddit_instance: pr.Reddit, 
                       bot_config: dict, 
                       external_urls: dict, 
