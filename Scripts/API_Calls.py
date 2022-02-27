@@ -255,7 +255,6 @@ def cond_except_parser(text_to_reply_to: str, bot_config: dict) -> int:
            
 def reply_to(msg_obj: str, 
              bot_config: dict, 
-             external_urls: dict, 
              reply_to_self: bool = False
              ) -> None:
     '''
@@ -267,22 +266,21 @@ def reply_to(msg_obj: str,
     '''
                     
     # Load necessary bot config data
-    # version = bot_config['version']
     username = bot_config['username']
-    # bot_creator = bot_config['bot_creator']
     responseDF_path = bot_config['responseDF_path']
     min_between_replies = bot_config['min_between_replies']
     reply_ending = bot_config['reply_ending']
     
-    # # Load External URLs
-    # github_README_url = external_urls['github_README_url']
-    # reply_suggestions_form = external_urls['reply_suggestions_form']
-    
+    # Identify author of message
+    author = msg_obj.author.name
+        
     # Create most recent reply file if missing:
     last_comment_time_path = bot_config['last_comment_time_path']
     if not(path.exists(last_comment_time_path)):
         with open(last_comment_time_path, 'w') as f:
             f.write('')   
+                 
+                 
                       
     # Check the time of the most recent HootyBot reply
     with open(last_comment_time_path, 'r') as f:
@@ -453,7 +451,7 @@ def check_admin_codes(msg_obj: pr.Reddit, bot_config: dict) -> bool:
     
     return replies_enabled
 
-def log_msg(msg_obj: pr.Reddit, msg_obj_type: str, bot_config: dict, external_urls: dict) -> str:
+def log_msg(msg_obj: pr.Reddit, msg_obj_type: str, bot_config: dict) -> str:
     '''
     msg_obj, dict, dict -> str 
     
@@ -541,14 +539,13 @@ def log_msg(msg_obj: pr.Reddit, msg_obj_type: str, bot_config: dict, external_ur
         
         # reply to the message if keywords are detected
         if replies_enabled:
-            reply_to(msg_obj, bot_config, external_urls)
+            reply_to(msg_obj, bot_config)
             
     msg_obj_type = 'None'
     return msg_obj_type
     
 def monitor_new_posts(reddit_instance: pr.Reddit, 
                       bot_config: dict, 
-                      external_urls: dict, 
                       ) -> None:
     '''
     Reddit, str, dict, dict, bool, int, bool -> None
@@ -630,7 +627,7 @@ def monitor_new_posts(reddit_instance: pr.Reddit,
             msg_obj = post
             
             # Log the message, and reply if keywords are detected
-            msg_obj_type = log_msg(msg_obj, msg_obj_type, bot_config, external_urls)
+            msg_obj_type = log_msg(msg_obj, msg_obj_type, bot_config)
                      
                   
         # This loop checks for new comments
@@ -651,7 +648,7 @@ def monitor_new_posts(reddit_instance: pr.Reddit,
             bot_config['replies_enabled'] = replies_enabled
             
             # Log the message, and reply if keywords are detected
-            msg_obj_type = log_msg(msg_obj, msg_obj_type, bot_config, external_urls)
+            msg_obj_type = log_msg(msg_obj, msg_obj_type, bot_config)
             
                 
         # If no new post/comment has been detected recently, 
@@ -662,8 +659,7 @@ def monitor_new_posts(reddit_instance: pr.Reddit,
         if failed_delay < 16:
             failed_delay *= 1.2
              
-def activate_bot(bot_config: dict, 
-                 external_urls: dict
+def activate_bot(bot_config: dict,
                  ) -> None:
     '''
     str, str, dict, dict, bool, int, bool -> None
@@ -691,7 +687,6 @@ def activate_bot(bot_config: dict,
             replies_enabled = monitor_new_posts(
                                 reddit_instance = reddit,
                                 bot_config = bot_config, 
-                                external_urls = external_urls,
                                 )  
             bot_config['replies_enabled'] = replies_enabled
             

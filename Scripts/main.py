@@ -30,6 +30,7 @@ for needed in dirs_needed:
 
 files_required = ['data/version.txt',
                   'data/admin_codes.csv',
+                  'data/opt_out_list.csv',
                   'ReplyDFs\BlacklistWords.csv',
                   'ReplyDFs\HootyBotResponseDF.csv',
                   'Scripts\API_Calls.py',
@@ -80,10 +81,6 @@ root_logger.addHandler(handler)
 # Setting external urls
 github_README_url = 'https://github.com/{}/Hooty-Bot-Public/blob/main/README.md'.format(bot_creator)
 reply_suggestions_form = 'https://forms.gle/jJzJTGC36ykLhWxB6'
-external_urls = {
-    'github_README_url': github_README_url,
-    'reply_suggestions_form': reply_suggestions_form
-}
 
 # Template reply ending for a bot
 reply_ending = '\n\n^(I am a bot written by [{i}](https://www.reddit.com/user/{i}) | Check out my [Github]({github_README_url}) ) \n\n'.format(i = bot_creator, github_README_url = github_README_url) 
@@ -120,4 +117,5 @@ bot_config = {
 }
 
 ### Call API
-api.activate_bot(bot_config = bot_config, external_urls = external_urls)
+api.activate_bot(bot_config = bot_config,
+                 )
