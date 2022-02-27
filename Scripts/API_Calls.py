@@ -441,7 +441,7 @@ def check_admin_codes(msg_obj: pr.Reddit, bot_config: dict) -> bool:
                 return replies_enabled
             elif codes[1] == code: # stop code
                 edit_status(bot_config, False)
-                exit_msg = '`' + code + '` admin code detected. The HootyBot program is now exiting.'
+                exit_msg = 'u/' + str(author) + ' used the admin code `' + code + '`. The HootyBot program is now exiting.'
                 sys.exit(exit_msg)
             elif codes[2] == code: # unpause code
                 replies_enabled = True
