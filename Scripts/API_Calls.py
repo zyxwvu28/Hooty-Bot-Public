@@ -389,12 +389,19 @@ def check_admin_codes(msg_obj, bot_config):
             print('')
             
             if codes[0] == code: # pause code
-                return False
+                replies_enabled = False
+                bot_config['replies_enabled'] = replies_enabled
+                edit_status(bot_config, True)
+                return replies_enabled
             elif codes[1] == code: # stop code
+                edit_status(bot_config, False)
                 exit_msg = '`' + code + '` admin code detected. The HootyBot program is now exiting.'
                 sys.exit(exit_msg)
             elif codes[2] == code: # unpause code
-                return True
+                replies_enabled = True
+                bot_config['replies_enabled'] = replies_enabled
+                edit_status(bot_config, True)
+                return replies_enabled
             
             return replies_enabled
     
@@ -493,6 +500,50 @@ def log_msg(msg_obj, msg_obj_type: pr.Reddit, bot_config: dict, external_urls: d
     msg_obj_type = 'None'
     return msg_obj_type
 
+def edit_status(bot_config: dict, is_online: bool) -> None:
+    '''
+    dict, bool -> None
+    
+    Edits the bot's status message. Outputs None.
+    '''
+    
+    # Load bot config variables
+    username = bot_config['username']
+    sr = bot_config['sr']
+    bot_status_post_id = bot_config['bot_status_post_id']
+    replies_enabled = bot_config['replies_enabled']
+    
+    # Set the API to be ready to edit the post
+    reddit = pr.Reddit(username)
+    bot_status_post = reddit.submission(id = bot_status_post_id)
+    
+    # Detect which status message to output
+    if is_online: # Online, replies enabled
+        if replies_enabled:
+            status_post_msg = ('# ✅ {username} is currently online! ✅ \n\n'.format(username=username) +
+                           '## {username} is currently monitoring r/{sr} and is allowed to make replies.\n\n'.format(username=username, sr=sr) 
+                            )
+            terminal_status_msg = 'Status post edited to indicate that {username} is now ✅ online and replying ✅'.format(username=username)
+        else: # Online, replies disabled
+            status_post_msg = ('# ✳️ {username} is currently online, but won\'t reply! ✳️ \n\n'.format(username=username) +
+                           '## {username} is currently monitoring r/{sr} and is NOT allowed to make replies.\n\n'.format(username=username, sr=sr)
+                            )
+            terminal_status_msg = 'Status post edited to indicate that {username} is now ✳️ online and NOT replying ✳️'.format(username=username)
+    else: # Offline
+        status_post_msg = '# ❌ {username} is currently offline D,: ❌ \n\n' .format(username=username)
+        terminal_status_msg = 'Status post edited to indicate that {username} is now ❌ offline ❌'.format(username=username)
+   
+    # Append the end of the status message   
+    status_post_msg += ('This automatic status message only detects errors in the source code. ' + 
+                    'I run HootyBot on my personal laptop, so if my laptop fails or turns off for any reason, ' +
+                    'this post will not update to reflect that HootyBot has gone offline. \n\n' +  
+                    'Note: HootyBot will only monitor and respond to posts and comments on r/TheOwlHouse. '+
+                    'If you pm it, it won\'t respond automatically.')
+    
+    bot_status_post.edit(status_post_msg)
+    log_and_print(terminal_status_msg)
+    print('')
+    
 def monitor_new_posts(reddit_instance: pr.Reddit, 
                       bot_config: dict, 
                       external_urls: dict, 
@@ -515,7 +566,7 @@ def monitor_new_posts(reddit_instance: pr.Reddit,
        
     # Template for loading bot config
     # username = bot_config['username']
-    # subreddit = bot_config['sr']
+    # sr = bot_config['sr']
     # responseDF_path = bot_config['responseDF_path']
     # blacklist_words_path = bot_config['blacklist_words_path']
     # last_comment_time_path = bot_config['last_comment_time_path']
@@ -608,24 +659,7 @@ def monitor_new_posts(reddit_instance: pr.Reddit,
         t.sleep(failed_delay)
         if failed_delay < 16:
             failed_delay *= 1.2
-    
-def bot_offline(username: str, bot_status_post_id: str) -> None:
-    '''
-    str, str -> None
-    
-    Updates the status post to the OFFLINE state.
-    '''
-    reddit = pr.Reddit(username)
-    bot_status_post = reddit.submission(id = bot_status_post_id)
-    bot_status_post.edit('# ❌ HootyBot is currently offline D: ❌ \n\n' +
-                         'This automatic status message only detects errors in the source code. ' + 
-                         'I run HootyBot on my personal laptop, so if my laptop fails or turns off for any reason, ' +
-                         'this post will not update to reflect that HootyBot has gone offline. \n\n' +  
-                         'Note: HootyBot will only monitor and respond to posts and comments on r/TheOwlHouse. '+
-                         'If you pm it, it won\'t respond automatically.')
-    log_and_print('Status post edited to indicate that HootyBot is now offline')
-    print('')
-           
+             
 def activate_bot(bot_config: dict, 
                  external_urls: dict
                  ) -> None:
@@ -649,15 +683,8 @@ def activate_bot(bot_config: dict,
         try:
             # Update bot status to 'online'
             if sr == 'TheOwlHouse':
-                bot_status_post = reddit.submission(id = bot_status_post_id)
-                bot_status_post.edit('# ✅ HootyBot is currently online! ✅ \n\n' +
-                                    'This automatic status message only detects errors in the source code. ' + 
-                                    'I run HootyBot on my personal laptop, so if my laptop fails or turns off for any reason, ' +
-                                    'this post will not update to reflect that HootyBot has gone offline. \n\n' +  
-                                    'Note: HootyBot will only monitor and respond to posts and comments on r/TheOwlHouse. ' +
-                                    'If you pm it, it won\'t respond automatically.')
-                log_and_print('Status post edited to indicate that HootyBot is now online')
-                    
+                edit_status(bot_config, True)
+                
             # Monitor for new posts/comments
             replies_enabled = monitor_new_posts(
                                 reddit_instance = reddit,
@@ -679,7 +706,7 @@ def activate_bot(bot_config: dict,
                 print(e)
             
             if sr == 'TheOwlHouse':
-                bot_offline(username, bot_status_post_id)
+                edit_status(bot_config, False)
         
             err_message = 'An error occurred in the code: \n\n' + str(e) 
             print(err_message)
