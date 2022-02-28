@@ -562,6 +562,12 @@ def check_inbox(reddit_instance, bot_config):
     subscribe_url = bot_config['subscribe_url']
     opt_out_list_path = bot_config['opt_out_list_path']
     
+    # Create opt-out list csv if it doesn't exist
+    if not(path.exists(opt_out_list_path)):
+        with open(opt_out_list_path, 'w', newline = '') as f:
+            csvf = csv.writer(f)
+            csvf.writerow(['users_opted_out']) 
+    
     # Load unread messages
     reddit = reddit_instance
     msgs = reddit.inbox.unread()
