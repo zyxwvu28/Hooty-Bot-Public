@@ -128,7 +128,7 @@ bot_config = {
     'skip_existing': reply_mode,                        # bool: if true, tells the bot to skip the 100 most recent msgs 
     'replies_enabled': reply_mode,                      # bool: if true, allows the bot to reply to msgs
     'pause_after': 2,                                   # int: How many failed API calls to make before pausing
-    'min_between_replies': 30,                          # int: Min minutes between replies
+    'min_between_replies': 15,                          # int: Min minutes between replies
     'reply_ending': reply_ending                        # str: Template ending that HootyBot appends to the end of all replies
 }
 
