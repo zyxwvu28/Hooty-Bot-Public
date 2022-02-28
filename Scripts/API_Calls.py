@@ -266,22 +266,18 @@ def reply_to(msg_obj: str,
     '''
                     
     # Load necessary bot config data
-    username = bot_config['username']
+    bot_username = bot_config['bot_username']
     responseDF_path = bot_config['responseDF_path']
     min_between_replies = bot_config['min_between_replies']
     reply_ending = bot_config['reply_ending']
-    
-    # Identify author of message
-    author = msg_obj.author.name
-        
+    opt_out_list_path = bot_config['opt_out_list_path']
+            
     # Create most recent reply file if missing:
     last_comment_time_path = bot_config['last_comment_time_path']
     if not(path.exists(last_comment_time_path)):
         with open(last_comment_time_path, 'w') as f:
             f.write('')   
-                 
-                 
-                      
+                            
     # Check the time of the most recent HootyBot reply
     with open(last_comment_time_path, 'r') as f:
         last_comment_time = f.readline()
@@ -294,9 +290,24 @@ def reply_to(msg_obj: str,
     # Load the ResponseDF
     responseDF = pd.read_csv(responseDF_path)
     responseDF = responseDF.fillna('')
+    
+    # Identify author of message
+    author = msg_obj.author.name
+    
+    # Create opt-out csv if missing
+    if not(path.exists(opt_out_list_path)):
+        with open(opt_out_list_path) as f:
+            csvf = csv.writer(f)
+            csvf.writerow('users_opted_out')
+            
+    # Check if author has opted-out of bot's replies
+    opt_out_list = pd.read_csv(opt_out_list_path)
+    users_opted_out = opt_out_list['users_opted_out']
+    if author in users_opted_out.values:
+        return    
         
     # Anti-recursion mechanism. We don't want HootyBot replying to himself forever and ever and ever and ever...
-    if (msg_obj.author.name == username) and not(reply_to_self):
+    if (author == bot_username) and not(reply_to_self):
         return
     
     # # Template reply ending for a bot
@@ -351,30 +362,30 @@ def edit_status(bot_config: dict, is_online: bool) -> None:
     '''
     
     # Load bot config variables
-    username = bot_config['username']
+    bot_username = bot_config['bot_username']
     sr = bot_config['sr']
     bot_status_post_id = bot_config['bot_status_post_id']
     replies_enabled = bot_config['replies_enabled']
     
     # Set the API to be ready to edit the post
-    reddit = pr.Reddit(username)
+    reddit = pr.Reddit(bot_username)
     bot_status_post = reddit.submission(id = bot_status_post_id)
     
     # Detect which status message to output
     if is_online: # Online, replies enabled
         if replies_enabled:
-            status_post_msg = ('# ✅ {username} is currently online! ✅ \n\n'.format(username=username) +
-                           '## {username} is currently monitoring r/{sr} and is allowed to make replies.\n\n'.format(username=username, sr=sr) 
+            status_post_msg = ('# ✅ {bot_username} is currently online! ✅ \n\n'.format(bot_username=bot_username) +
+                           '## {bot_username} is currently monitoring r/{sr} and is allowed to make replies.\n\n'.format(bot_username=bot_username, sr=sr) 
                             )
-            terminal_status_msg = 'Status post edited to indicate that {username} is now ✅ online and replying ✅'.format(username=username)
+            terminal_status_msg = 'Status post edited to indicate that {bot_username} is now ✅ online and replying ✅'.format(bot_username=bot_username)
         else: # Online, replies disabled
-            status_post_msg = ('# ✳️ {username} is currently online, but won\'t reply! ✳️ \n\n'.format(username=username) +
-                           '## {username} is currently monitoring r/{sr} and is NOT allowed to make replies.\n\n'.format(username=username, sr=sr)
+            status_post_msg = ('# ✳️ {bot_username} is currently online, but won\'t reply! ✳️ \n\n'.format(bot_username=bot_username) +
+                           '## {bot_username} is currently monitoring r/{sr} and is NOT allowed to make replies.\n\n'.format(bot_username=bot_username, sr=sr)
                             )
-            terminal_status_msg = 'Status post edited to indicate that {username} is now ✳️ online and NOT replying ✳️'.format(username=username)
+            terminal_status_msg = 'Status post edited to indicate that {bot_username} is now ✳️ online and NOT replying ✳️'.format(bot_username=bot_username)
     else: # Offline
-        status_post_msg = '# ❌ {username} is currently offline D,: ❌ \n\n' .format(username=username)
-        terminal_status_msg = 'Status post edited to indicate that {username} is now ❌ offline ❌'.format(username=username)
+        status_post_msg = '# ❌ {bot_username} is currently offline D,: ❌ \n\n' .format(bot_username=bot_username)
+        terminal_status_msg = 'Status post edited to indicate that {bot_username} is now ❌ offline ❌'.format(bot_username=bot_username)
    
     # Append the end of the status message   
     status_post_msg += ('This automatic status message only detects errors in the source code. ' + 
@@ -543,6 +554,67 @@ def log_msg(msg_obj: pr.Reddit, msg_obj_type: str, bot_config: dict) -> str:
             
     msg_obj_type = 'None'
     return msg_obj_type
+
+def check_inbox(reddit_instance, bot_config):
+    
+    # Load bot config variables
+    unsub_url = bot_config['unsub_url']
+    subscribe_url = bot_config['subscribe_url']
+    opt_out_list_path = bot_config['opt_out_list_path']
+    
+    # Load unread messages
+    reddit = reddit_instance
+    msgs = reddit.inbox.unread()
+    for msg in msgs:
+        log_and_print('New inbox notification, of type ' + str(type(msg)))
+        if (type(msg) == pr.models.Message):
+            log_and_print('Subject line: ' + msg.subject)
+            
+            # If message is unsubscribe, then execute unsubscribe script
+            if (msg.subject == 'hb!unsubscribe'):
+                author = msg.author
+                
+                # Read the opt out list csv
+                with open(opt_out_list_path, 'a', newline = '') as f:
+                    csvf = csv.writer(f)
+                    csvf.writerow([author.name]) 
+                    
+                # Generate and send a reply message
+                reply_msg = 'You have sucessfully opted-out of HootyBot\'s replies.\n\n'
+                reply_msg += 'HootyBot will no longer reply to posts and comments that you make. \n\n'
+                reply_msg += 'Note that you\'ll still see HootyBot responding to other people\'s posts and comments. \n\n'
+                reply_msg += 'If you wish to not see HootyBot entirely, use Reddit\'s block feature. \n\n'
+                reply_msg += 'If you wish to resubscribe at a later date, use this [subscribe]({subscribe_url}) link.'
+                reply_msg = reply_msg.format(subscribe_url = subscribe_url)
+                msg.reply(reply_msg)
+                log_and_print('Message Body: ' + msg.body)
+                log_and_print('Successfully unsubscribed u/' + author.name + ' from HootyBot\'s replies.')
+                
+                # Mark the message as read
+                msg.mark_read()
+                
+            # If message is subscribe, then execute subscribe script
+            elif (msg.subject == 'hb!subscribe'):
+                author = msg.author
+                
+                # Write to the opt out list csv
+                df = pd.read_csv(opt_out_list_path)
+                df = df[df.users_opted_out != str(author)]
+                df.to_csv(opt_out_list_path, index = False)
+                
+                # Generate and send a reply message
+                reply_msg = 'You have sucessfully opted back in for HootyBot\'s replies.\n\n'
+                reply_msg += 'HootyBot will now reply to new posts and comments that you make. '
+                reply_msg += 'If you wish to unsubscribe again, use this [unsubscribe]({unsub_url}) link.'
+                reply_msg = reply_msg.format(unsub_url = unsub_url)
+                msg.reply(reply_msg)
+                log_and_print('Message Body: ' + msg.body)
+                log_and_print('Successfully resubscribed u/' + author.name + ' to HootyBot\'s replies.')
+                
+                # Mark the message as read
+                msg.mark_read()
+        
+            print('')
     
 def monitor_new_posts(reddit_instance: pr.Reddit, 
                       bot_config: dict, 
@@ -564,7 +636,7 @@ def monitor_new_posts(reddit_instance: pr.Reddit,
     '''
        
     # Template for loading bot config
-    # username = bot_config['username']
+    # bot_username = bot_config['bot_username']
     # sr = bot_config['sr']
     # responseDF_path = bot_config['responseDF_path']
     # blacklist_words_path = bot_config['blacklist_words_path']
@@ -578,6 +650,9 @@ def monitor_new_posts(reddit_instance: pr.Reddit,
     # replies_enabled = bot_config['replies_enabled']
     # pause_after = bot_config['pause_after']
     # min_between_replies = bot_config['min_between_replies']
+    # unsub_url = bot_config['unsub_url']
+    # subscribe_url = bot_config['subscribe_url']
+    # opt_out_list_path = bot_config['opt_out_list_path']
     
     # Load bot config settings
     skip_existing = bot_config['skip_existing']
@@ -594,9 +669,9 @@ def monitor_new_posts(reddit_instance: pr.Reddit,
             writer.writerow(header)
                 
     # Record which bot is being used and which subreddit it's monitoring
-    username = reddit_instance.user.me().name
+    bot_username = reddit_instance.user.me().name
     subreddit = reddit_instance.subreddit(sr)
-    log_and_print('u/' + username + " is now monitoring r/" + subreddit.display_name + ' for new posts and comments!')
+    log_and_print('u/' + bot_username + " is now monitoring r/" + subreddit.display_name + ' for new posts and comments!')
     if replies_enabled:
         re = ''
     else: 
@@ -615,7 +690,10 @@ def monitor_new_posts(reddit_instance: pr.Reddit,
           
         # This loop checks for new posts
         log_and_print("Checking for new posts...")
-        for post in posts:            
+        for post in posts:        
+            # Check inbox
+            check_inbox(reddit_instance, bot_config)
+                
             # If no new post has been detected, break
             if post is None:
                 msg_obj_type = 'None'
@@ -633,6 +711,9 @@ def monitor_new_posts(reddit_instance: pr.Reddit,
         # This loop checks for new comments
         log_and_print("Checking for new comments...")
         for comment in comments: 
+            # Check inbox
+            check_inbox(reddit_instance, bot_config)
+            
             # If no new comment has been detected, break
             if comment is None:
                 msg_obj_type = 'None'
@@ -668,14 +749,13 @@ def activate_bot(bot_config: dict,
     '''
     
     # Load necessary bot config data
-    username = bot_config['username']
+    bot_username = bot_config['bot_username']
     sr = bot_config['sr']
     
     # Load credentials from praw.ini to generate a Reddit instance
-    reddit = pr.Reddit(username)
+    reddit = pr.Reddit(bot_username)
     
     bot_creator = bot_config['bot_creator']
-    bot_status_post_id = bot_config['bot_status_post_id']  
     
     while True:
         try:

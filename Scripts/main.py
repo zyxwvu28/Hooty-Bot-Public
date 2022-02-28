@@ -27,12 +27,20 @@ lst_dir = os.listdir()
 for needed in dirs_needed:
     if not(needed in lst_dir):
         os.mkdir(needed)  
+        
+# File paths
+version_path = 'data/version.txt'
+responseDF_path = 'ReplyDFs\HootyBotResponseDF.csv'
+blacklist_words_path = 'ReplyDFs\BlacklistWords.csv'
+last_comment_time_path = 'data/last_comment_time.txt'
+admin_codes_path = 'data/admin_codes.csv'
+opt_out_list_path = 'data/opt_out_list.csv'
 
-files_required = ['data/version.txt',
-                  'data/admin_codes.csv',
-                  'data/opt_out_list.csv',
-                  'ReplyDFs\BlacklistWords.csv',
-                  'ReplyDFs\HootyBotResponseDF.csv',
+files_required = [version_path,
+                  admin_codes_path,
+                  opt_out_list_path,
+                  blacklist_words_path,
+                  responseDF_path,
                   'Scripts\API_Calls.py',
                   'praw.ini',
                   ]
@@ -43,7 +51,7 @@ for i in files_required:
         print('WARNING! file ' + i + ' not found.')
 
 # Read in the bot's version number
-with open('data/version.txt') as f:
+with open(version_path) as f:
     version = f.readlines()[0] 
     
 # Define creator of bot
@@ -62,11 +70,6 @@ log_prefix = 'Logs/HootyBot_' + version + '_' + today
 log_file_name = log_prefix + ".log"
 csv_log_name = log_prefix + ".csv"
 bot_status_post_id = 'svj2yd'
-responseDF_path = 'ReplyDFs\HootyBotResponseDF.csv'
-blacklist_words_path = 'ReplyDFs\BlacklistWords.csv'
-last_comment_time_path = 'data/last_comment_time.txt'
-admin_codes_path = 'data/admin_codes.csv'
-admin_code_users_path = 'data/admin_code_users.txt'
 
 # # Configure logging
 root_logger= log.getLogger()
@@ -81,13 +84,23 @@ root_logger.addHandler(handler)
 # Setting external urls
 github_README_url = 'https://github.com/{}/Hooty-Bot-Public/blob/main/README.md'.format(bot_creator)
 reply_suggestions_form = 'https://forms.gle/jJzJTGC36ykLhWxB6'
+unsub_url = 'https://www.reddit.com/message/compose/?to=HootyBot&subject=hb!unsubscribe&message=Hit%20send%20to%20finish%20unsubscribing.%20You%20may%20replace%20this%20message%20with%20your%20feedback%20if%20you%20wish.%20Do%20NOT%20edit%20the%20subject%20line%2C%20otherwise%20HootyBot%20may%20not%20recognize%20the%20message%20as%20an%20unsubscribe%20request.'
+subscribe_url = 'https://www.reddit.com/message/compose/?to=HootyBot&subject=hb!subscribe&message=Hit%20send%20to%20finish%20resubscribing.%20You%20may%20replace%20this%20message%20with%20your%20feedback%20if%20you%20wish.%20Do%20NOT%20edit%20the%20subject%20line%2C%20otherwise%20HootyBot%20may%20not%20recognize%20the%20message%20as%20a%20subscribe%20request.'
+
 
 # Template reply ending for a bot
-reply_ending = '\n\n^(I am a bot written by [{i}](https://www.reddit.com/user/{i}) | Check out my [Github]({github_README_url}) ) \n\n'.format(i = bot_creator, github_README_url = github_README_url) 
-reply_ending += '^(Help improve Hooty\'s [vocabulary]({reply_suggestions_form}) | Current version: {v} )'.format(v = version, reply_suggestions_form = reply_suggestions_form)
+reply_ending = '\n\n^(I am a bot written by [{bot_creator}](https://www.reddit.com/user/{bot_creator}) | Check out my [Github]({github_README_url}) ) \n\n'
+reply_ending += '^(If you no longer wish to receive replies from HootyBot, [unsubscribe here]({unsub_url}) | Alternatively, you could block me) \n\n'
+reply_ending += '^(Help improve Hooty\'s [vocabulary]({reply_suggestions_form}) | Current version: {v} )'
+reply_ending = reply_ending.format(bot_creator = bot_creator, 
+                                   github_README_url = github_README_url, 
+                                   v = version, 
+                                   reply_suggestions_form = reply_suggestions_form,
+                                   unsub_url = unsub_url,
+                                   )
 
 # Set bot's username
-username = 'HootyBot'
+bot_username = 'HootyBot'
 
 # Set subreddit and reply mode
 sr = "TheOwlHouse"
@@ -98,12 +111,15 @@ reply_mode = True
 
 # Variables and data importamt for configuring HootyBot
 bot_config = {
-    'username': username,                               # str: the bots username
+    'bot_username': bot_username,                       # str: the bots username
     'sr': sr,                                           # str: the subreddit being monitored
     'responseDF_path': responseDF_path,                 # str: the directory path of responseDF
     'blacklist_words_path': blacklist_words_path,       # str: the directory path of blacklist_words
     'last_comment_time_path': last_comment_time_path,   # str: the directory path of last_comment_time
     'admin_codes_path': admin_codes_path,               # str: the directory path of admin codes
+    'opt_out_list_path': opt_out_list_path,             # str: directory path of the opt out list
+    'unsub_url': unsub_url,                             # str: url for unsubscribing
+    'subscribe_url': subscribe_url,                     # str: url for resubscribing
     'version': version,                                 # str: the version of the bot
     'bot_creator': bot_creator,                         # str: the username of the bot creator
     'log_file_name': log_file_name,                     # str: name of log file
