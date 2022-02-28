@@ -611,10 +611,9 @@ def check_inbox(reddit_instance, bot_config):
                 log_and_print('Message Body: ' + msg.body)
                 log_and_print('Successfully resubscribed u/' + author.name + ' to HootyBot\'s replies.')
                 
-                # Mark the message as read
-                msg.mark_read()
-        
-            print('')
+        # Mark the message as read
+        msg.mark_read()
+        print('')
     
 def monitor_new_posts(reddit_instance: pr.Reddit, 
                       bot_config: dict, 
