@@ -25,6 +25,7 @@ If your suggestion isn't on this list, it means I haven't seen it yet. I need to
 | Hootie | Yaaaay a new nickname | :white_check_mark: See index [60](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv)  |
 | a secret | I'm the secret! | :white_check_mark: See index [61](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
 | haunted | I will be haunted by my actions forever. Hoot! | :white_check_mark: See index [20](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
+| Luz AND Amity | They deserve all the happiness  | :white_check_mark: See index [19](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
 
 
 
