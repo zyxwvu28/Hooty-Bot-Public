@@ -4,7 +4,7 @@ Index,Condition,Exception,Reply
 2,# & q: 'conscript' OR 'army' OR 'battle',,It's your old faithful pal Hooty reporting for duty!
 3,& q: 'stuck inside people\'s head' OR ('stuck in' AND 'head') OR ('hooty' AND ('forget' OR 'remember' OR 'remind')),,I'm pretty good at getting stuck inside people's heads
 4,& prob: 0.001,,HOOOOOOOT!
-5,& q: 'trauma' OR ('marcy' AND 'stab') OR 'agony' OR 'agoniz' OR 'emotional rollercoaster' OR 'pain',,"Special delivery, PAIN!"
+5,& q: 'trauma' OR ('marcy' AND 'stab') OR 'agony' OR 'agoniz' OR 'emotional rollercoaster',,"Special delivery, PAIN!"
 6,& q: 'hooty' AND ('fault' OR 'bad'),,"I made it worse, I MADE IT WORSE!!!"
 7,& q: 'secret message' OR 'secret entrance',,Hoot hoot. Password please
 8,& q: 'hooty' AND 'annoying',,"I'm just wishing you a good morning. Geez, hoot, ow!"
