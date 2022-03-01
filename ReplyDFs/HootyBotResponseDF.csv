@@ -2,7 +2,7 @@ Index,Condition,Exception,Reply
 0,& q: 'stan pines' OR ('eda' AND ('aim' OR 'husband')),Raine,Eda still misses her ex-husband. But her aim is getting better!
 1,& prob: 0.01,,Hoot hooty hoot!
 2,# & q: 'conscript' OR 'army' OR 'battle',,It's your old faithful pal Hooty reporting for duty!
-3,& q: 'stuck inside people\'s head' OR ('stuck in' AND 'head') OR ('hooty' AND ('forget' OR 'remember' OR 'remind')),,I'm pretty good at getting stuck inside people's heads
+3,# & q: 'stuck inside people\'s head' OR ('stuck in' AND 'head') OR ('hooty' AND ('forget' OR 'remember' OR 'remind')),,I'm pretty good at getting stuck inside people's heads
 4,& prob: 0.001,,HOOOOOOOT!
 5,& q: 'trauma' OR ('marcy' AND 'stab') OR 'agony' OR 'agoniz' OR 'emotional rollercoaster',,"Special delivery, PAIN!"
 6,& q: 'hooty' AND ('fault' OR 'bad'),,"I made it worse, I MADE IT WORSE!!!"
@@ -13,7 +13,7 @@ Index,Condition,Exception,Reply
 11,"& probq: 0.01, Lumity",,"They're adorable, and deserve all the happiness!"
 12,& q: 'hooty' AND ('watch' OR 'big brother' OR 'spy' OR 'everywhere'),,"Big Brother Hooty is everywhere, waiting for the perfect opportunity to make a witty comment"
 13,"& probq:  0.01, ?",,"Hoot hoot! If you want the answer that you seek, solve my riddle within a week."
-14,& q: 'i don\'t know' OR 'idk',,"Time to fill up that darling little head of yours with  
+14,# & q: 'i don\'t know' OR 'idk',,"Time to fill up that darling little head of yours with  
  
 *vomits books* 
 
