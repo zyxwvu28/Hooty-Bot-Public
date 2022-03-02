@@ -1,5 +1,5 @@
 # Hooty-Bot README Table of Contents
-1. [About HootyBot (v1.1.3)](#About-HootyBot)
+1. [About HootyBot (v1.1.4)](#About-HootyBot)
     1. [Purpose](#Purpose)
     2. [How does HootyBot work? (TLDR Version)](#1b)
     3. [Does HootyBot use machine learning or neural networks?](#1c)
@@ -12,7 +12,7 @@
 5. [Version Logs](#5) 
 
 
-## 1. About HootyBot (v1.1.3) <a name = "About-HootyBot"></a>
+## 1. About HootyBot (v1.1.4) <a name = "About-HootyBot"></a>
 
 ### Purpose <a name = "Purpose"></a>
 
@@ -97,6 +97,8 @@ If you have any concerns, comments, compliments, insults, etc. fill out this for
         - And stopping the bot entirely
 - v1.1.3:
     - Added ability for users to opt-out of receiving replies from HootyBot
+- v1.1.4:
+    - Fixed urls not showing up properly on old reddit. Shoutout to u/lurker_archon for identifying, and helping me fix this issue!
 
 HOOT HOOT!
 
