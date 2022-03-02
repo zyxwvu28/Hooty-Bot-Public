@@ -14,6 +14,9 @@ import praw as pr
 from datetime import date as da
 import logging as log
 
+# Set bot's username
+bot_username = 'HootyBot'
+
 # Create missing directories
 with open('Directories_needed.txt', 'r') as f:
     dirs_needed = []
@@ -89,18 +92,16 @@ subscribe_url = 'https://www.reddit.com/message/compose/?to=HootyBot&subject=hb!
 
 
 # Template reply ending for a bot
-reply_ending = '\n\n^(I am a bot written by [{bot_creator}](https://www.reddit.com/user/{bot_creator}) | Check out my [Github]({github_README_url}) ) \n\n'
-reply_ending += '^(If you no longer wish to receive replies from HootyBot, [unsubscribe here]({unsub_url}) | Alternatively, you could block me) \n\n'
-reply_ending += '^(Help improve Hooty\'s [vocabulary]({reply_suggestions_form}) | Current version: {v} )'
+reply_ending = '\n\n^(I) ^(am) ^(a) ^(bot) ^(written) ^(by) [^({bot_creator})](https://www.reddit.com/user/{bot_creator}) ^(|) ^(Check) ^(out) ^(my) [^(Github)]({github_README_url}) \n\n'
+reply_ending += '^(If) ^(you) ^(no) ^(longer) ^(wish) ^(to) ^(receive) ^(replies) ^(from) ^({bot_username},) [^(unsubscribe here)]({unsub_url}) ^(|) ^(Alternatively,) ^(you) ^(could) ^(block) ^(me) \n\n'
+reply_ending += '^(Help) ^(improve) ^(Hooty\'s) [^(vocabulary)]({reply_suggestions_form}) ^(|) ^(Current) ^(version:) ^({v})'
 reply_ending = reply_ending.format(bot_creator = bot_creator, 
                                    github_README_url = github_README_url, 
                                    v = version, 
                                    reply_suggestions_form = reply_suggestions_form,
                                    unsub_url = unsub_url,
+                                   bot_username = bot_username
                                    )
-
-# Set bot's username
-bot_username = 'HootyBot'
 
 # Set subreddit and reply mode
 sr = "TheOwlHouse"
