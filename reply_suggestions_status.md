@@ -17,13 +17,13 @@ If your suggestion isn't on this list, it means I haven't seen it yet. I need to
 | Hoot        | hoot hoot                                     | :pencil: Originally added, but ended up being too spammy, will consider a modification |
 | eda         | i stole her potions once... it didn't go well | :heavy_check_mark: See index [15](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv). I don't think this is a quote from the show, but I added it anyways... |
 | lumity | what hooty said at the end of knock knock knockin of hootys door | :heavy_check_mark: See index [19](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv)|
-| Lilith | LULU! | :heavy_check_mark: See index [57](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
+| Lilith | LULU! | :heavy_check_mark: See index [56](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
 | Fly | Oh! A fly! Oopsie, hope that was junkmail | :heavy_check_mark: See index [17](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
-| Star Wars | Execute Order 66! Hoot hoot! | :white_check_mark: See index [59](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv)  |
+| Star Wars | Execute Order 66! Hoot hoot! | :white_check_mark: See index [58](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv)  |
 | No (only on replies to his "wanna hear MY worst nightmare" posts) | :( | :x: At the moment, Hooty is incapable of carrying out conversations. When I implement that feature, I'll consider adding this. |
 | nightmare | Am I your worst nightmare? | :heavy_check_mark: See index [22](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv)|
-| Hootie | Yaaaay a new nickname | :white_check_mark: See index [60](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv)  |
-| a secret | I'm the secret! | :white_check_mark: See index [61](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
+| Hootie | Yaaaay a new nickname | :white_check_mark: See index [59](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv)  |
+| a secret | I'm the secret! | :white_check_mark: See index [60](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
 | haunted | I will be haunted by my actions forever. Hoot! | :white_check_mark: See index [20](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
 | Luz AND Amity | They deserve all the happiness  | :white_check_mark: See index [19](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
 | Amphibia | Hootroll | :x: I don't understand this joke... I have indeed watched Amphibia, so if you wish to explain this joke to me, [pm me](https://www.reddit.com/user/zyxwvu28). |
