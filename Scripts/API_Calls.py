@@ -1,5 +1,5 @@
 '''
-Functions for common API calls that HootyBot makes
+Functions for common API calls that the bot makes
 Detects new posts and comments on a specific subreddit
 '''
 
@@ -278,7 +278,7 @@ def reply_to(msg_obj: str,
         with open(last_comment_time_path, 'w') as f:
             f.write('')   
                             
-    # Check the time of the most recent HootyBot reply
+    # Check the time of the most recent bot reply
     with open(last_comment_time_path, 'r') as f:
         last_comment_time = f.readline()
     
@@ -306,7 +306,7 @@ def reply_to(msg_obj: str,
     if author in users_opted_out.values:
         return    
         
-    # Anti-recursion mechanism. We don't want HootyBot replying to himself forever and ever and ever and ever...
+    # Anti-recursion mechanism. We don't want the bot replying to itself forever and ever and ever and ever...
     if (author == bot_username) and not(reply_to_self):
         return
     
@@ -389,10 +389,11 @@ def edit_status(bot_config: dict, is_online: bool) -> None:
    
     # Append the end of the status message   
     status_post_msg += ('This automatic status message only detects errors in the source code. ' + 
-                    'I run HootyBot on my personal laptop, so if my laptop fails or turns off for any reason, ' +
-                    'this post will not update to reflect that HootyBot has gone offline. \n\n' +  
-                    'Note: HootyBot will only monitor and respond to posts and comments on r/TheOwlHouse. '+
+                    'I run {bot_username} on my personal laptop, so if my laptop fails or turns off for any reason, ' +
+                    'this post will not update to reflect that {bot_username} has gone offline. \n\n' +  
+                    'Note: {bot_username} will only monitor and respond to posts and comments on r/TheOwlHouse. '+
                     'If you pm it, it won\'t respond automatically.')
+    status_post_msg = status_post_msg.format(bot_username = bot_username)
     
     bot_status_post.edit(status_post_msg)
     log_and_print(terminal_status_msg)
@@ -417,6 +418,7 @@ def check_admin_codes(msg_obj: pr.Reddit, bot_config: dict) -> bool:
     replies_enabled = bot_config['replies_enabled']
     reply_ending = bot_config['reply_ending']
     bot_creator = bot_config['bot_creator']
+    bot_username = bot_config['bot_username']
     
     # Load the admin codes
     admin_codes = pd.read_csv(admin_codes_path)
@@ -450,7 +452,12 @@ def check_admin_codes(msg_obj: pr.Reddit, bot_config: dict) -> bool:
                 return replies_enabled
             elif codes[1] == code: # stop code
                 edit_status(bot_config, False)
-                exit_msg = 'u/' + str(author) + ' used the admin code `' + code + '`. The HootyBot program is now exiting.'
+                exit_msg = 'u/' 
+                exit_msg += str(author) 
+                exit_msg += ' used the admin code `'
+                exit_msg += code
+                exit_msg += '`. The {bot_username} program is now exiting.'
+                exit_msg = exit_msg.format(bot_username = bot_username)
                 sys.exit(exit_msg)
             elif codes[2] == code: # unpause code
                 replies_enabled = True
@@ -561,6 +568,7 @@ def check_inbox(reddit_instance, bot_config):
     unsub_url = bot_config['unsub_url']
     subscribe_url = bot_config['subscribe_url']
     opt_out_list_path = bot_config['opt_out_list_path']
+    bot_username = bot_config['bot_username']
     
     # Create opt-out list csv if it doesn't exist
     if not(path.exists(opt_out_list_path)):
@@ -586,15 +594,15 @@ def check_inbox(reddit_instance, bot_config):
                     csvf.writerow([author.name]) 
                     
                 # Generate and send a reply message
-                reply_msg = 'You have sucessfully opted-out of HootyBot\'s replies.\n\n'
-                reply_msg += 'HootyBot will no longer reply to posts and comments that you make. \n\n'
-                reply_msg += 'Note that you\'ll still see HootyBot responding to other people\'s posts and comments. \n\n'
-                reply_msg += 'If you wish to not see HootyBot entirely, use Reddit\'s block feature. \n\n'
+                reply_msg = 'You have sucessfully opted-out of {bot_username}\'s replies.\n\n'
+                reply_msg += '{bot_username} will no longer reply to posts and comments that you make. \n\n'
+                reply_msg += 'Note that you\'ll still see {bot_username} responding to other people\'s posts and comments. \n\n'
+                reply_msg += 'If you wish to not see {bot_username} entirely, use Reddit\'s block feature. \n\n'
                 reply_msg += 'If you wish to resubscribe at a later date, use this [subscribe]({subscribe_url}) link.'
-                reply_msg = reply_msg.format(subscribe_url = subscribe_url)
+                reply_msg = reply_msg.format(subscribe_url = subscribe_url, bot_username = bot_username)
                 msg.reply(reply_msg)
                 log_and_print('Message Body: ' + msg.body)
-                log_and_print('Successfully unsubscribed u/' + author.name + ' from HootyBot\'s replies.')
+                log_and_print('Successfully unsubscribed u/' + author.name + ' from {bot_username}\'s replies.'.format(bot_username = bot_username))
                 
                 # Mark the message as read
                 msg.mark_read()
@@ -609,13 +617,13 @@ def check_inbox(reddit_instance, bot_config):
                 df.to_csv(opt_out_list_path, index = False)
                 
                 # Generate and send a reply message
-                reply_msg = 'You have sucessfully opted back in for HootyBot\'s replies.\n\n'
-                reply_msg += 'HootyBot will now reply to new posts and comments that you make. '
+                reply_msg = 'You have sucessfully opted back in for {bot_username}\'s replies.\n\n'
+                reply_msg += '{bot_username} will now reply to new posts and comments that you make. '
                 reply_msg += 'If you wish to unsubscribe again, use this [unsubscribe]({unsub_url}) link.'
-                reply_msg = reply_msg.format(unsub_url = unsub_url)
+                reply_msg = reply_msg.format(unsub_url = unsub_url, bot_username = bot_username)
                 msg.reply(reply_msg)
                 log_and_print('Message Body: ' + msg.body)
-                log_and_print('Successfully resubscribed u/' + author.name + ' to HootyBot\'s replies.')
+                log_and_print('Successfully resubscribed u/' + author.name + ' to {bot_username}\'s replies.'.format(bot_username = bot_username))
                 
         # Mark the message as read
         msg.mark_read()
@@ -792,5 +800,5 @@ def activate_bot(bot_config: dict,
         
             err_message = 'An error occurred in the code: \n\n' + str(e) 
             print(err_message)
-            reddit.redditor(bot_creator).message('HootyBot is now offline', err_message )
+            reddit.redditor(bot_creator).message('{bot_username} is now offline'.format(bot_username = bot_username), err_message )
             break
