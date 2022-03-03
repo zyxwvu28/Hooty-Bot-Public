@@ -27,6 +27,7 @@ If your suggestion isn't on this list, it means I haven't seen it yet. I need to
 | haunted | I will be haunted by my actions forever. Hoot! | :white_check_mark: See index [20](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
 | Luz AND Amity | They deserve all the happiness  | :white_check_mark: See index [19](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
 | Amphibia | Hootroll | :x: I don't understand this joke... I have indeed watched Amphibia, so if you wish to explain this joke to me, [pm me](https://www.reddit.com/user/zyxwvu28). |
+| hootsifer | lulu, youre back? OHMYGOSH | :heavy_check_mark: See index [61](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
 
 
 
