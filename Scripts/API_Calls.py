@@ -181,9 +181,9 @@ def except_parser(excepts_DF: pd.DataFrame, response_index: int, text_to_reply_t
         
     return except_cond
 
-def cond_except_parser(text_to_reply_to: str, bot_config: dict) -> int: 
+def cond_except_parser(msg_obj: str, text_to_reply_to: str, bot_config: dict) -> int: 
     '''
-    str, dict -> int
+    str, str, dict -> int
     
     Reads in messages, detects keywords in them, then returns an integer representing
     and index that can be used to output a response.
@@ -196,9 +196,18 @@ def cond_except_parser(text_to_reply_to: str, bot_config: dict) -> int:
     # Load the ResponseDF
     responseDF = pd.read_csv(responseDF_path)
     responseDF = responseDF.fillna('')
-    
+        
+    # Set post title if msg_obj is a comment
+    if type(msg_obj) is pr.models.reddit.comment.Comment:
+        post_text = msg_obj.link_title + msg_obj.submission.selftext
+        post_text = post_text.casefold()
+    else:
+        post_text = ''
+        
     # lowercase all strings for comparison to remove case-sensitivity
     text_to_reply_to_casefold = text_to_reply_to.casefold()
+    check_blacklist = text_to_reply_to_casefold
+    check_blacklist += post_text
     
     # returns a reply index, returns -1 if not found    
     DONT_REPLY = -1
@@ -207,7 +216,7 @@ def cond_except_parser(text_to_reply_to: str, bot_config: dict) -> int:
     blacklist_words = pd.read_csv(blacklist_words_path)['Blacklist']
     # If a blacklisted keyword is found, don't reply
     for bword in blacklist_words:
-        if bword.casefold() in text_to_reply_to_casefold:
+        if bword.casefold() in check_blacklist:
             return DONT_REPLY  
               
      
@@ -338,7 +347,7 @@ def reply_to(msg_obj: str,
     else:
         raise TypeError("Error, msg_obj_type must be a \'pr.models.Submission\' or \'pr.models.Comment object\'")
         
-    reply_index = cond_except_parser(text_to_reply_to, bot_config) 
+    reply_index = cond_except_parser(msg_obj, text_to_reply_to, bot_config) 
     if -1 != reply_index:
         message_body = responseDF['Reply'][reply_index]
         message = message_body + '\n\n' + reply_ending
