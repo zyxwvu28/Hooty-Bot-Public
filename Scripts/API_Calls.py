@@ -280,49 +280,24 @@ def reply_to(msg_obj: str,
     min_between_replies = bot_config['min_between_replies']
     reply_ending = bot_config['reply_ending']
     opt_out_list_path = bot_config['opt_out_list_path']
+    
+    # Load the ResponseDF
+    responseDF = pd.read_csv(responseDF_path)
+    responseDF = responseDF.fillna('')
             
     # Create most recent reply file if missing:
     last_comment_time_path = bot_config['last_comment_time_path']
     if not(path.exists(last_comment_time_path)):
         with open(last_comment_time_path, 'w') as f:
             f.write('')   
-                            
-    # Check the time of the most recent bot reply
-    with open(last_comment_time_path, 'r') as f:
-        last_comment_time = f.readline()
-    
-    if (last_comment_time != ''):    
-        last_comment_time_obj = dt.strptime(last_comment_time, "%Y-%m-%d %H:%M:%S.%f")
-        if (dt.now() - last_comment_time_obj < timedelta(minutes = min_between_replies)):
-            return
-    
-    # Load the ResponseDF
-    responseDF = pd.read_csv(responseDF_path)
-    responseDF = responseDF.fillna('')
-    
+            
     # Identify author of message
     author = msg_obj.author.name
-    
-    # Create opt-out csv if missing
-    if not(path.exists(opt_out_list_path)):
-        with open(opt_out_list_path) as f:
-            csvf = csv.writer(f)
-            csvf.writerow('users_opted_out')
             
-    # Check if author has opted-out of bot's replies
-    opt_out_list = pd.read_csv(opt_out_list_path)
-    users_opted_out = opt_out_list['users_opted_out']
-    if author in users_opted_out.values:
-        return    
-        
     # Anti-recursion mechanism. We don't want the bot replying to itself forever and ever and ever and ever...
     if (author == bot_username) and not(reply_to_self):
         return
-    
-    # # Template reply ending for a bot
-    # reply_ending = '^(I am a bot written by [{i}](https://www.reddit.com/user/{i}) | Check out my [Github]({github_README_url}) ) \n\n'.format(i = bot_creator, github_README_url = github_README_url) 
-    # reply_ending += '^(Help improve Hooty\'s [vocabulary]({reply_suggestions_form}) | Current version: {v} )'.format(v = version, reply_suggestions_form = reply_suggestions_form)
-    
+
     # Check if there's poll text, if so, add that to the detection
     try:
         poll_text = ''
@@ -346,6 +321,43 @@ def reply_to(msg_obj: str,
         text_to_reply_to = body     
     else:
         raise TypeError("Error, msg_obj_type must be a \'pr.models.Submission\' or \'pr.models.Comment object\'")
+                            
+    # Check the time of the most recent bot reply, except if bot_username is mentioned
+    with open(last_comment_time_path, 'r') as f:
+        last_comment_time = f.readline()
+        
+    if bot_username in text_to_reply_to:
+        reply_index = cond_except_parser(msg_obj, text_to_reply_to, bot_config) 
+        if -1 != reply_index:
+            message_body = responseDF['Reply'][reply_index]
+            message = message_body + '\n\n' + reply_ending
+            msg_obj.reply(message)
+            with open(last_comment_time_path, 'w') as f:
+                f.write(str(dt.now()))
+            print('')
+            log_and_print("Replied to " + url + ' with the following message:')
+            log_and_print('v----------------------v')
+            log_and_print(message)
+            log_and_print('^----------------------^')
+            print('')
+        return
+    
+    if (last_comment_time != ''):    
+        last_comment_time_obj = dt.strptime(last_comment_time, "%Y-%m-%d %H:%M:%S.%f")
+        if (dt.now() - last_comment_time_obj < timedelta(minutes = min_between_replies)):
+            return
+        
+    # Create opt-out csv if missing
+    if not(path.exists(opt_out_list_path)):
+        with open(opt_out_list_path) as f:
+            csvf = csv.writer(f)
+            csvf.writerow('users_opted_out')
+            
+    # Check if author has opted-out of bot's replies
+    opt_out_list = pd.read_csv(opt_out_list_path)
+    users_opted_out = opt_out_list['users_opted_out']
+    if author in users_opted_out.values:
+        return      
         
     reply_index = cond_except_parser(msg_obj, text_to_reply_to, bot_config) 
     if -1 != reply_index:
