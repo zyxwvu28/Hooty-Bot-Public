@@ -24,7 +24,7 @@ def log_and_print(message: str, level: str = 'info' ) -> None:
     print(message)
     
     # Encode emojis differently    
-    log_message = message.encode('unicode_escape')
+    log_message = message#.encode('unicode_escape') # No longer required
     if level == 'debug':
         log.debug(log_message)
     elif level == 'info':
