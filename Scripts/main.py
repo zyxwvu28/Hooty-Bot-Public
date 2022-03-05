@@ -15,7 +15,12 @@ from datetime import date as da
 import logging as log
 
 # Set bot's username
-bot_username = 'HootyBot'
+bot_username = os.environ.get('REDDIT_BOT_USERNAME')
+if bot_username is None:
+    bot_username = '' # Change this string to be your main Reddit account username (without the u/)
+    while bot_username == '':
+        bot_username = input('Enter your bot\'s username without the \'u/\':\n')
+print('Setting up control for u/' + bot_username)
 
 # Create missing directories
 with open('Directories_needed.txt', 'r') as f:
@@ -62,8 +67,8 @@ bot_creator = os.environ.get('REDDIT_BOT_CREATOR')
 if bot_creator is None:
     bot_creator = '' # Change this string to be your main Reddit account username (without the u/)
     while bot_creator == '':
-        bot_creator = input('Enter your Reddit username with the \'u/\':\n')
-        print('Welcome u/' + bot_creator)
+        bot_creator = input('Enter your Reddit username without the \'u/\':\n')
+print('Welcome u/' + bot_creator)
         
 # Define global 'constants'
 APP_ID = os.environ.get('REDDIT_HOOTY_APP_ID')

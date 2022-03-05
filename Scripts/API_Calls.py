@@ -787,7 +787,11 @@ def activate_bot(bot_config: dict,
     sr = bot_config['sr']
     
     # Load credentials from praw.ini to generate a Reddit instance
-    reddit = pr.Reddit(bot_username)
+    try:
+        reddit = pr.Reddit(bot_username)
+    except:
+        print("WARNING! praw.ini file not set up properly!")
+        sys.exit("WARNING! praw.ini file not set up properly!")
     
     bot_creator = bot_config['bot_creator']
     
