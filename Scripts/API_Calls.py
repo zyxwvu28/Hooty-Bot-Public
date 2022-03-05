@@ -12,6 +12,7 @@ from datetime import timedelta
 import logging as log
 import csv
 from os import path
+import traceback
 import random as rng
 
 def log_and_print(message: str, level: str = 'info' ) -> None:
@@ -264,9 +265,24 @@ def cond_except_parser(msg_obj: str, text_to_reply_to: str, bot_config: dict) ->
            
 def check_reply_delay(bot_config: dict,
                       ) -> dict:
+    '''
+    dict -> dict
+    
+    Checks when the bot's last reply was.
+    Changes bot_config accordingly.
+    Calls edit_status() 
+    '''
+    
+    # Load bot_config variables
     last_comment_time_path = bot_config['last_comment_time_path']
     min_between_replies = bot_config['min_between_replies']
     bot_username = bot_config['bot_username']
+    
+    # Create most recent reply file if missing:
+    last_comment_time_path = bot_config['last_comment_time_path']
+    if not(path.exists(last_comment_time_path)):
+        with open(last_comment_time_path, 'w') as f:
+            f.write('')   
     
     # Check the time of the most recent bot reply, except if bot_username is mentioned
     with open(last_comment_time_path, 'r') as f:
@@ -277,12 +293,12 @@ def check_reply_delay(bot_config: dict,
         last_comment_time_obj = dt.strptime(last_comment_time, "%Y-%m-%d %H:%M:%S.%f")
         delta_since_last_comment = dt.now() - last_comment_time_obj
         min_between_replies_delta = timedelta(minutes = min_between_replies)
-        reply_delay_remaining = min_between_replies_delta - delta_since_last_comment
-        reply_delay_remaining = bot_config['reply_delay_remaining']
+        reply_delay_remaining = min_between_replies_delta.seconds - delta_since_last_comment.seconds
+        bot_config['reply_delay_remaining'] = reply_delay_remaining
         if (reply_delay_remaining > 0):
-            mins_left = reply_delay_remaining.seconds//60
-            secs_left = reply_delay_remaining.seconds%60
-            time_till_reply_avail_msg = f"## {bot_username}'s replies are currently paused. \n\n## {bot_username} will continue to reply to messages in about {mins_left} mins and {secs_left} sec"
+            mins_left = reply_delay_remaining//60
+            secs_left = reply_delay_remaining%60
+            time_till_reply_avail_msg = f"## ⏸ {bot_username}'s replies are currently paused. ⏸ \n\n## {bot_username} will continue to reply to messages in about {mins_left} mins and {secs_left} sec"
             custom_status = {
                 'delay_active': True,
                 'delay_message': time_till_reply_avail_msg
@@ -291,7 +307,10 @@ def check_reply_delay(bot_config: dict,
             return bot_config
         else:
             bot_config = edit_status(bot_config, True) 
-            return bot_config         
+            return bot_config  
+    else:
+        bot_config = edit_status(bot_config, True) 
+        return bot_config         
 
 def reply_to(msg_obj: str, 
              bot_config: dict, 
@@ -371,7 +390,7 @@ def reply_to(msg_obj: str,
     
     bot_config = check_reply_delay(bot_config)
     reply_delay_remaining = bot_config['reply_delay_remaining']
-    if reply_delay_remaining < 0:
+    if reply_delay_remaining > 0:
         return
         
     # Create opt-out csv if missing
@@ -433,7 +452,7 @@ def edit_status(bot_config: dict, is_online: bool, custom_status: dict = {}) -> 
         if replies_enabled:
             status_post_msg = '# ✅ {bot_username} is currently online! ✅ \n\n'.format(bot_username=bot_username)
             terminal_status_msg = 'Status post edited to indicate that {bot_username} is now ✅ online and replying ✅'.format(bot_username=bot_username)
-            if delay_active and (status != 'reply_delayed'):
+            if delay_active:
                 status_post_msg += delay_message + '\n\n'
                 terminal_status_msg += '\n' + delay_message
                 status = 'reply_delayed'
@@ -448,6 +467,8 @@ def edit_status(bot_config: dict, is_online: bool, custom_status: dict = {}) -> 
                             )
             terminal_status_msg = 'Status post edited to indicate that {bot_username} is now ✳️ online and NOT replying ✳️'.format(bot_username=bot_username)
             status = 'paused'
+        else:
+            return bot_config
     elif not(is_online) and (status != 'offline'): # Offline
         status_post_msg = '# ❌ {bot_username} is currently offline D,: ❌ \n\n' .format(bot_username=bot_username)
         terminal_status_msg = 'Status post edited to indicate that {bot_username} is now ❌ offline ❌'.format(bot_username=bot_username)
@@ -770,7 +791,7 @@ def monitor_new_posts(reddit_instance: pr.Reddit,
     
     # Loop that continuously monitors and replies to posts and comments
     while True:
-          
+        print('')  
         # This loop checks for new posts
         log_and_print("Checking for new posts...")
         for post in posts:        
@@ -874,7 +895,8 @@ def activate_bot(bot_config: dict,
             if sr == 'TheOwlHouse':
                 bot_config = edit_status(bot_config, False)
         
-            err_message = 'An error occurred in the code: \n\n' + str(e) 
+            err_message = 'An error occurred in the code: \n\n'
+            err_message += traceback.format_exc()
             print(err_message)
             reddit.redditor(bot_creator).message('{bot_username} is now offline'.format(bot_username = bot_username), err_message )
             break
