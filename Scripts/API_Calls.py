@@ -12,6 +12,7 @@ from datetime import timedelta
 import logging as log
 import csv
 from os import path
+import traceback
 import random as rng
 
 def log_and_print(message: str, level: str = 'info' ) -> None:
@@ -262,6 +263,55 @@ def cond_except_parser(msg_obj: str, text_to_reply_to: str, bot_config: dict) ->
     # If no matches are found, don't reply
     return DONT_REPLY   
            
+def check_reply_delay(bot_config: dict,
+                      ) -> dict:
+    '''
+    dict -> dict
+    
+    Checks when the bot's last reply was.
+    Changes bot_config accordingly.
+    Calls edit_status() 
+    '''
+    
+    # Load bot_config variables
+    last_comment_time_path = bot_config['last_comment_time_path']
+    min_between_replies = bot_config['min_between_replies']
+    bot_username = bot_config['bot_username']
+    
+    # Create most recent reply file if missing:
+    last_comment_time_path = bot_config['last_comment_time_path']
+    if not(path.exists(last_comment_time_path)):
+        with open(last_comment_time_path, 'w') as f:
+            f.write('')   
+    
+    # Check the time of the most recent bot reply, except if bot_username is mentioned
+    with open(last_comment_time_path, 'r') as f:
+        last_comment_time = f.readline()
+    
+    # Check if bot's replies are on a timer delay
+    if (last_comment_time != ''):    
+        last_comment_time_obj = dt.strptime(last_comment_time, "%Y-%m-%d %H:%M:%S.%f")
+        delta_since_last_comment = dt.now() - last_comment_time_obj
+        min_between_replies_delta = timedelta(minutes = min_between_replies)
+        reply_delay_remaining = min_between_replies_delta.seconds - delta_since_last_comment.seconds
+        bot_config['reply_delay_remaining'] = reply_delay_remaining
+        if (reply_delay_remaining > 0):
+            mins_left = reply_delay_remaining//60
+            secs_left = reply_delay_remaining%60
+            time_till_reply_avail_msg = f"## ⏸ {bot_username}'s replies are currently paused. ⏸ \n\n## {bot_username} will continue to reply to messages in about {mins_left} mins and {secs_left} sec"
+            custom_status = {
+                'delay_active': True,
+                'delay_message': time_till_reply_avail_msg
+            }
+            bot_config = edit_status(bot_config, True, custom_status)
+            return bot_config
+        else:
+            bot_config = edit_status(bot_config, True) 
+            return bot_config  
+    else:
+        bot_config = edit_status(bot_config, True) 
+        return bot_config         
+
 def reply_to(msg_obj: str, 
              bot_config: dict, 
              reply_to_self: bool = False
@@ -321,11 +371,7 @@ def reply_to(msg_obj: str,
         text_to_reply_to = body     
     else:
         raise TypeError("Error, msg_obj_type must be a \'pr.models.Submission\' or \'pr.models.Comment object\'")
-                            
-    # Check the time of the most recent bot reply, except if bot_username is mentioned
-    with open(last_comment_time_path, 'r') as f:
-        last_comment_time = f.readline()
-        
+                                    
     if bot_username in text_to_reply_to:
         reply_index = cond_except_parser(msg_obj, text_to_reply_to, bot_config) 
         if -1 != reply_index:
@@ -342,10 +388,10 @@ def reply_to(msg_obj: str,
             print('')
         return
     
-    if (last_comment_time != ''):    
-        last_comment_time_obj = dt.strptime(last_comment_time, "%Y-%m-%d %H:%M:%S.%f")
-        if (dt.now() - last_comment_time_obj < timedelta(minutes = min_between_replies)):
-            return
+    bot_config = check_reply_delay(bot_config)
+    reply_delay_remaining = bot_config['reply_delay_remaining']
+    if reply_delay_remaining > 0:
+        return
         
     # Create opt-out csv if missing
     if not(path.exists(opt_out_list_path)):
@@ -372,12 +418,13 @@ def reply_to(msg_obj: str,
         log_and_print(message)
         log_and_print('^----------------------^')
         print('')
+    check_reply_delay(bot_config)
             
     return
 
-def edit_status(bot_config: dict, is_online: bool) -> None:
+def edit_status(bot_config: dict, is_online: bool, custom_status: dict = {}) -> dict:
     '''
-    dict, bool -> None
+    dict, bool, dict -> None
     
     Edits the bot's status message. Outputs None.
     '''
@@ -387,26 +434,47 @@ def edit_status(bot_config: dict, is_online: bool) -> None:
     sr = bot_config['sr']
     bot_status_post_id = bot_config['bot_status_post_id']
     replies_enabled = bot_config['replies_enabled']
+    status = bot_config['status']
     
     # Set the API to be ready to edit the post
     reddit = pr.Reddit(bot_username)
     bot_status_post = reddit.submission(id = bot_status_post_id)
     
+    # Load custom status messages
+    if 'delay_active' in custom_status:
+        delay_active = custom_status['delay_active']
+        delay_message = custom_status['delay_message']
+    else: 
+        delay_active = False
+    
     # Detect which status message to output
     if is_online: # Online, replies enabled
         if replies_enabled:
-            status_post_msg = ('# ✅ {bot_username} is currently online! ✅ \n\n'.format(bot_username=bot_username) +
-                           '## {bot_username} is currently monitoring r/{sr} and is allowed to make replies.\n\n'.format(bot_username=bot_username, sr=sr) 
-                            )
+            status_post_msg = '# ✅ {bot_username} is currently online! ✅ \n\n'.format(bot_username=bot_username)
             terminal_status_msg = 'Status post edited to indicate that {bot_username} is now ✅ online and replying ✅'.format(bot_username=bot_username)
-        else: # Online, replies disabled
+            if delay_active:
+                status_post_msg += delay_message + '\n\n'
+                terminal_status_msg += '\n' + delay_message
+                status = 'reply_delayed'
+            elif not(delay_active) and (status != 'online'):
+                status_post_msg += '## {bot_username} is currently monitoring r/{sr} and is allowed to make replies.\n\n'.format(bot_username=bot_username, sr=sr) 
+                status = 'online'
+            else:
+                return bot_config
+        elif not(replies_enabled) and (status != 'paused'): # Online, replies disabled
             status_post_msg = ('# ✳️ {bot_username} is currently online, but won\'t reply! ✳️ \n\n'.format(bot_username=bot_username) +
                            '## {bot_username} is currently monitoring r/{sr} and is NOT allowed to make replies.\n\n'.format(bot_username=bot_username, sr=sr)
                             )
             terminal_status_msg = 'Status post edited to indicate that {bot_username} is now ✳️ online and NOT replying ✳️'.format(bot_username=bot_username)
-    else: # Offline
+            status = 'paused'
+        else:
+            return bot_config
+    elif not(is_online) and (status != 'offline'): # Offline
         status_post_msg = '# ❌ {bot_username} is currently offline D,: ❌ \n\n' .format(bot_username=bot_username)
         terminal_status_msg = 'Status post edited to indicate that {bot_username} is now ❌ offline ❌'.format(bot_username=bot_username)
+        status = 'offline'
+    else:
+        return bot_config
    
     # Append the end of the status message   
     status_post_msg += ('This automatic status message only detects errors in the source code. ' + 
@@ -419,6 +487,8 @@ def edit_status(bot_config: dict, is_online: bool) -> None:
     bot_status_post.edit(status_post_msg)
     log_and_print(terminal_status_msg)
     print('')
+    bot_config['status'] = status
+    return bot_config
 
 def check_admin_codes(msg_obj: pr.Reddit, bot_config: dict) -> bool:
     '''
@@ -469,10 +539,10 @@ def check_admin_codes(msg_obj: pr.Reddit, bot_config: dict) -> bool:
             if codes[0] == code: # pause code
                 replies_enabled = False
                 bot_config['replies_enabled'] = replies_enabled
-                edit_status(bot_config, True)
+                bot_config = edit_status(bot_config, True)
                 return replies_enabled
             elif codes[1] == code: # stop code
-                edit_status(bot_config, False)
+                bot_config = edit_status(bot_config, False)
                 exit_msg = 'u/' 
                 exit_msg += str(author) 
                 exit_msg += ' used the admin code `'
@@ -483,7 +553,7 @@ def check_admin_codes(msg_obj: pr.Reddit, bot_config: dict) -> bool:
             elif codes[2] == code: # unpause code
                 replies_enabled = True
                 bot_config['replies_enabled'] = replies_enabled
-                edit_status(bot_config, True)
+                bot_config = edit_status(bot_config, True)
                 return replies_enabled
             
             return replies_enabled
@@ -502,7 +572,7 @@ def log_msg(msg_obj: pr.Reddit, msg_obj_type: str, bot_config: dict) -> str:
     # Load necessary bot config data
     csv_log_name = bot_config['csv_log_name']
     replies_enabled = bot_config['replies_enabled']
-    
+        
     if msg_obj_type != 'None':
                     
         # If the post is a poll, add the options to body
@@ -721,12 +791,13 @@ def monitor_new_posts(reddit_instance: pr.Reddit,
     
     # Loop that continuously monitors and replies to posts and comments
     while True:
-          
+        print('')  
         # This loop checks for new posts
         log_and_print("Checking for new posts...")
         for post in posts:        
-            # Check inbox
+            # Check inbox and reply delay
             check_inbox(reddit_instance, bot_config)
+            bot_config = check_reply_delay(bot_config)
                 
             # If no new post has been detected, break
             if post is None:
@@ -745,8 +816,9 @@ def monitor_new_posts(reddit_instance: pr.Reddit,
         # This loop checks for new comments
         log_and_print("Checking for new comments...")
         for comment in comments: 
-            # Check inbox
+            # Check inbox and reply delay
             check_inbox(reddit_instance, bot_config)
+            bot_config = check_reply_delay(bot_config)
             
             # If no new comment has been detected, break
             if comment is None:
@@ -799,7 +871,7 @@ def activate_bot(bot_config: dict,
         try:
             # Update bot status to 'online'
             if sr == 'TheOwlHouse':
-                edit_status(bot_config, True)
+                bot_config = edit_status(bot_config, True)
                 
             # Monitor for new posts/comments
             replies_enabled = monitor_new_posts(
@@ -821,9 +893,10 @@ def activate_bot(bot_config: dict,
                 print(e)
             
             if sr == 'TheOwlHouse':
-                edit_status(bot_config, False)
+                bot_config = edit_status(bot_config, False)
         
-            err_message = 'An error occurred in the code: \n\n' + str(e) 
+            err_message = 'An error occurred in the code: \n\n'
+            err_message += traceback.format_exc()
             print(err_message)
             reddit.redditor(bot_creator).message('{bot_username} is now offline'.format(bot_username = bot_username), err_message )
             break
