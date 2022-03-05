@@ -135,7 +135,9 @@ bot_config = {
     'replies_enabled': reply_mode,                      # bool: if true, allows the bot to reply to msgs
     'pause_after': 2,                                   # int: How many failed API calls to make before pausing
     'min_between_replies': 15,                          # int: Min minutes between replies
-    'reply_ending': reply_ending                        # str: Template ending that HootyBot appends to the end of all replies
+    'reply_ending': reply_ending,                       # str: Template ending that HootyBot appends to the end of all replies
+    'status': 'online',                                 # str: one of [online, reply_delayed, paused, offline]
+    'reply_delay_remaining': -1                         # float: The delay time remaining until the bot can reply again 
 }
 
 ### Call API
