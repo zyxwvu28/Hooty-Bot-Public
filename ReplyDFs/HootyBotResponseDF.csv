@@ -1,6 +1,6 @@
 Index,Condition,Exception,Reply
 0,& q: 'stan pines' OR ('eda' AND ('aim' OR 'husband')),Raine,Eda still misses her ex-husband. But her aim is getting better!
-1,& prob: 0.01,,Hoot hooty hoot!
+1,& prob: 0.002,,Hoot hooty hoot!
 2,"& probq: 0.1, 'conscript' OR 'army' OR 'battle'",,It's your old faithful pal Hooty reporting for duty!
 3,"& probq: 0.05, 'stuck inside people\'s head' OR ('stuck in' AND 'head') OR ('hooty' AND ('forget' OR 'remember' OR 'remind'))",,I'm pretty good at getting stuck inside people's heads
 4,& prob: 0.001,,HOOOOOOOT!
@@ -90,4 +90,4 @@ THIS IS MY TERRITORY!
 60,a secret,,I'm the secret!
 61,hootsifer,,OHMYGOSH!!!! LULU IS BACK?!?!?!?!?
 62,HootyBot,,"Oh, wow. I've been waiting for someone to call all day, and now it's finally happened! We can talk for hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hello, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours..."
-63,& prob: 0.0001,,Congratulations! This reply had a 1 in 10 000 chance of happening. And you're the lucky person that gets to talk to me for the next 2 hours!
+63,& prob: 0.000001,,Congratulations! This reply had a 1 in 1 000 000 chance of happening. And you're the lucky person that gets to talk to me for the next 2 hours!
