@@ -1,5 +1,5 @@
 # Hooty-Bot README Table of Contents
-1. [About HootyBot (v1.1.5)](#About-HootyBot)
+1. [About HootyBot (v1.1.6)](#About-HootyBot)
     1. [Purpose](#Purpose)
     2. [How does HootyBot work? (TLDR Version)](#1b)
     3. [Does HootyBot use machine learning or neural networks?](#1c)
@@ -12,7 +12,7 @@
 5. [Version Logs](#5) 
 
 
-## 1. About HootyBot (v1.1.5) <a name = "About-HootyBot"></a>
+## 1. About HootyBot (v1.1.6) <a name = "About-HootyBot"></a>
 
 ### Purpose <a name = "Purpose"></a>
 
@@ -101,6 +101,8 @@ If you have any concerns, comments, compliments, insults, etc. fill out this for
     - Fixed urls not showing up properly on old reddit. Shoutout to u/lurker_archon for identifying, and helping me fix this issue!
 - v1.1.5:
     - Status message post now indicates the bot's reply delay
+- v1.1.6:
+    - Added probabilistic replies  
 
 HOOT HOOT!
 
