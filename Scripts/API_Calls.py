@@ -13,7 +13,7 @@ import logging as log
 import csv
 from os import path
 import traceback
-import random as rng
+from random import random
 
 def log_and_print(message: str, level: str = 'info' ) -> None:
     '''
@@ -90,11 +90,79 @@ def advanced_query(parsed_query: str) -> bool:
             return advanced_query(new_lst)
         curr_idx += 1    
 
-def advanced_keyword_parser(text_to_reply_to: str, cond: str) -> bool: 
+def q_parser(text_to_reply_to: str, cond: str) -> list:
+    '''
+    str, str -> list
+    
+    parses & q commands into lists that the advanced_query() function can handle
+    Returns a list
+    '''
+    colon_idx = cond.find(':')
+    parsed_query = []
+    cond_len = len(cond)
+    i = colon_idx + 2
+    
+    # Loop through all chars in the cond str
+    while i < cond_len:
+        ch1 = cond[i]
+        
+        # if a ' is detected, parse the enclosed word as one str
+        if '\'' == ch1:
+            temp_word = ''
+            for j in range(i+1, cond_len):
+                ch2 = cond[j]                        
+                if '\'' == ch2:
+                    if '\\' == cond[j-1]:
+                        temp_word += ch2
+                        continue
+                    i = j
+                    break
+                if '\\' == ch2:
+                    continue
+                temp_word += ch2
+            parsed_query.append(temp_word)
+            
+        # if any bracket is detected, parse it as-is
+        elif ch1 in ['(', ')']:
+            parsed_query.append(ch1)
+            
+        # if either boolean operator is detected, parse the entire operator
+        elif cond[i:i+2] == "OR":
+            parsed_query.append('OR')
+        elif cond[i:i+3] == 'AND':
+            parsed_query.append('AND')
+            
+        # ignore whitespaces and other foreign characters, then iterate
+        i += 1
+        
+    # convert all keywords in the cond into a boolean value 
+    # based on whether the keyword is found in the msg_obj                   
+    text_to_reply_to_casefold = text_to_reply_to.casefold()
+    pq_len = len(parsed_query)
+    for i in range(pq_len):
+        x = parsed_query[i]
+        if not(x in ['(', ')', 'AND', 'OR']):
+            parsed_query[i] = x.casefold() in text_to_reply_to_casefold   
+            
+    return parsed_query
+
+def advanced_cond_wrapper(text_to_reply_to: str, cond: str) -> bool: 
     '''
     str, str -> bool
     
-    Parses the advanced keyword search, checks if text_to_reply_to satisfies the condition
+    Wrapper for dealing with advanced conditions, 
+    checks if text_to_reply_to satisfies the condition
+    
+    Syntax:
+    - & q: is a str or a str struct such that each side of a boolean operator is either a str, or round brackets enclosing a q
+        eg: <str> BOOL <str> BOOL (<str> BOOL <str>)
+        eg: 'trauma' OR ('marcy' AND 'stab') OR 'agony' OR 'agoniz' OR 'emotional rollercoaster'
+    - & prob: a float
+        eg: <float>
+        eg: 0.01
+    - & probq: contains a float and a q seperated by a comma
+        eg: <float>, <q>
+        eg: 0.01, 'Lumity'
     '''
     
     # Determine the command
@@ -103,55 +171,31 @@ def advanced_keyword_parser(text_to_reply_to: str, cond: str) -> bool:
     
     # probq represents a query with a probability
     if str_cmd == 'probq':
-        return False
+        
+        # Parse the probability threshold
+        prob_idx = colon_idx+2
+        comma_idx = cond.find(',')
+        prob = float(cond[prob_idx:comma_idx])
+        
+        # Parse the query
+        q_idx = comma_idx + 2
+        q = cond[q_idx:]
+        q = '& q: ' + q
+        parsed_query = q_parser(text_to_reply_to, cond)
+        query_result = advanced_query(parsed_query)
+        
+        # Generate a random number in [0.0, 1.0)
+        # To simulate the probability necessary for replying
+        x = random()
+        if query_result and x < prob:
+            return True
+        else:
+            return False
 
     # q represents an advanced query
     elif str_cmd == 'q':
-        parsed_query = []
-        cond_len = len(cond)
-        i = colon_idx + 2
         
-        # Loop through all chars in the cond str
-        while i < cond_len:
-            ch1 = cond[i]
-            
-            # if a ' is detected, parse the enclosed word as one str
-            if '\'' == ch1:
-                temp_word = ''
-                for j in range(i+1, cond_len):
-                    ch2 = cond[j]                        
-                    if '\'' == ch2:
-                        if '\\' == cond[j-1]:
-                            temp_word += ch2
-                            continue
-                        i = j
-                        break
-                    if '\\' == ch2:
-                        continue
-                    temp_word += ch2
-                parsed_query.append(temp_word)
-                
-            # if any bracket is detected, parse it as-is
-            elif ch1 in ['(', ')']:
-                parsed_query.append(ch1)
-                
-            # if either boolean operator is detected, parse the entire operator
-            elif cond[i:i+2] == "OR":
-                parsed_query.append('OR')
-            elif cond[i:i+3] == 'AND':
-                parsed_query.append('AND')
-                
-            # ignore whitespaces and other foreign characters, then iterate
-            i += 1
-        
-        # convert all keywords in the cond into a boolean value 
-        # based on whether the keyword is found in the msg_obj                   
-        text_to_reply_to_casefold = text_to_reply_to.casefold()
-        pq_len = len(parsed_query)
-        for i in range(pq_len):
-            x = parsed_query[i]
-            if not(x in ['(', ')', 'AND', 'OR']):
-                parsed_query[i] = x.casefold() in text_to_reply_to_casefold            
+        parsed_query = q_parser(text_to_reply_to, cond)
         
         # Return the query's result
         query_result = advanced_query(parsed_query)
@@ -159,7 +203,18 @@ def advanced_keyword_parser(text_to_reply_to: str, cond: str) -> bool:
         
     # prob represents a probability
     elif str_cmd == 'prob':
-        return False
+        
+        # Parse the probability threshold
+        prob_idx = colon_idx+2
+        prob = float(cond[prob_idx:])
+        
+        # Generate a random number in [0.0, 1.0)
+        # To simulate the probability necessary for replying
+        x = random()
+        if x < prob:
+            return True
+        else:
+            return False
     
     return False
 
@@ -176,7 +231,7 @@ def except_parser(excepts_DF: pd.DataFrame, response_index: int, text_to_reply_t
     if except_words == '':
         return False
     elif except_words[0] == '&':
-        except_cond = advanced_keyword_parser(text_to_reply_to, except_words)
+        except_cond = advanced_cond_wrapper(text_to_reply_to, except_words)
     else:
         except_cond = except_words.casefold() in text_to_reply_to_casefold
         
@@ -219,10 +274,7 @@ def cond_except_parser(msg_obj: str, text_to_reply_to: str, bot_config: dict) ->
     for bword in blacklist_words:
         if bword.casefold() in check_blacklist:
             return DONT_REPLY  
-              
-     
-    ### For simple queries
-    
+                  
     # Read in the conditions and exceptions
     conditions = responseDF['Condition']
     excepts = responseDF['Exception']
@@ -237,7 +289,7 @@ def cond_except_parser(msg_obj: str, text_to_reply_to: str, bot_config: dict) ->
         # If an advanced condition is met,
         # then return the index for the proper response
         if i[0] == '&':                 
-            parsed_cond = advanced_keyword_parser(text_to_reply_to, i)
+            parsed_cond = advanced_cond_wrapper(text_to_reply_to, i)
             response_index = responseDF[responseDF['Condition'] == i].index[0]
             
             if parsed_cond:
@@ -844,7 +896,6 @@ def monitor_new_posts(reddit_instance: pr.Reddit,
                 
                 # Check if any admin codes have been used
                 bot_config = check_admin_codes(msg_obj, bot_config)
-                # bot_config['replies_enabled'] = replies_enabled
                 
                 # Log the message, and reply if keywords are detected
                 msg_obj_type = log_msg(msg_obj, msg_obj_type, bot_config)
@@ -893,7 +944,6 @@ def activate_bot(bot_config: dict,
                                 reddit_instance = reddit,
                                 bot_config = bot_config, 
                                 )  
-            # bot_config['replies_enabled'] = replies_enabled
             
         # If an error is detected, notify creator and update status post 
         except BaseException as e:

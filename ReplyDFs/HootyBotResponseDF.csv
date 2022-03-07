@@ -1,19 +1,19 @@
 Index,Condition,Exception,Reply
 0,& q: 'stan pines' OR ('eda' AND ('aim' OR 'husband')),Raine,Eda still misses her ex-husband. But her aim is getting better!
 1,& prob: 0.01,,Hoot hooty hoot!
-2,# & q: 'conscript' OR 'army' OR 'battle',,It's your old faithful pal Hooty reporting for duty!
-3,# & q: 'stuck inside people\'s head' OR ('stuck in' AND 'head') OR ('hooty' AND ('forget' OR 'remember' OR 'remind')),,I'm pretty good at getting stuck inside people's heads
+2,"& probq: 0.1, 'conscript' OR 'army' OR 'battle'",,It's your old faithful pal Hooty reporting for duty!
+3,"& probq: 0.05, 'stuck inside people\'s head' OR ('stuck in' AND 'head') OR ('hooty' AND ('forget' OR 'remember' OR 'remind'))",,I'm pretty good at getting stuck inside people's heads
 4,& prob: 0.001,,HOOOOOOOT!
 5,& q: 'trauma' OR ('marcy' AND 'stab') OR 'agony' OR 'agoniz' OR 'emotional rollercoaster',,"Special delivery, PAIN!"
 6,& q: 'hooty' AND ('fault' OR 'bad'),,"I made it worse, I MADE IT WORSE!!!"
 7,& q: 'secret message' OR 'secret entrance',,Hoot hoot. Password please
 8,& q: 'hooty' AND 'annoying',,"I'm just wishing you a good morning. Geez, hoot, ow!"
-9,# & q: 'mission' OR 'quest',& q: 'permission' OR 'questi',"Porta-Hooty, reporting for Hooty!"
+9,"& probq: 0.01, 'mission' OR 'quest'",& q: 'permission' OR 'questi',"Porta-Hooty, reporting for Hooty!"
 10,& q: 'hooty' AND 'fail',,"NOOOO I did it again, I can't help anyone!"
-11,"& probq: 0.01, Lumity",,"They're adorable, and deserve all the happiness!"
+11,"& probq: 0.01, 'Lumity'",,"They're adorable, and deserve all the happiness!"
 12,& q: 'hooty' AND ('watch' OR 'big brother' OR 'spy' OR 'everywhere'),,"Big Brother Hooty is everywhere, waiting for the perfect opportunity to make a witty comment"
-13,"& probq:  0.01, ?",,"Hoot hoot! If you want the answer that you seek, solve my riddle within a week."
-14,# & q: 'i don\'t know' OR 'idk',,"Time to fill up that darling little head of yours with  
+13,"& probq: 0.01, '?'",,"Hoot hoot! If you want the answer that you seek, solve my riddle within a week."
+14,"& probq: 0.1, 'i don\'t know'",,"Time to fill up that darling little head of yours with  
  
 *vomits books* 
 
@@ -46,8 +46,8 @@ Straight path, I don't cut corners.
 I make, a point to be on time.
 
 Hooty hooty hoot hoot!"
-31,# hid,& 'chid' OR 'phid',PEEKAHOOT!
-32,# friendship,,"Now I know what friendship tastes like. Mmm, Tastes like a bug"
+31,"& probq: 0.3, 'hid'",& 'chid' OR 'phid',PEEKAHOOT!
+32,"& probq: 0.3, friendship",,"Now I know what friendship tastes like. Mmm, Tastes like a bug"
 33,we're having a moment,,"YOU'LL NEVER UNDERSTAND WHAT WE'VE BEEN THROUGH TOGETHER! NEVER, NEVER!"
 34,victory dance,,Sweet moves little dude
 35,did we do it,,"Is the room spinning or is it just me? Ah, just a little house humor"
@@ -84,9 +84,10 @@ THIS IS MY TERRITORY!
 *HISSS*"
 55,i feel like i'm forgetting something,,"Hey, hey! Is anyone there? Hello? Hoot? I'm on the floor. It's cold!"
 56,lilith needs help,,"I'm here for you, Lulu. No witch is an island. Now face my wrath!"
-57,# hoot,,Hoot hoot!
+57,"& probq: 0.01, hoot",,Hoot hoot!
 58,star wars,,Execute Order 66! Hoot hoot!
 59,hootie,,Yaaaaay! A new nickname!
 60,a secret,,I'm the secret!
 61,hootsifer,,OHMYGOSH!!!! LULU IS BACK?!?!?!?!?
 62,HootyBot,,"Oh, wow. I've been waiting for someone to call all day, and now it's finally happened! We can talk for hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hello, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours, and hours..."
+63,& prob: 0.0001,,Congratulations! This reply had a 1 in 10 000 chance of happening. And you're the lucky person that gets to talk to me for the next 2 hours!
