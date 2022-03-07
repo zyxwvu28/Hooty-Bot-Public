@@ -41,7 +41,7 @@ def advanced_query(parsed_query: str) -> bool:
     '''
     str -> bool
     
-    Processes the boolean operations inside of a parsed query
+    Processes the boolean operations inside of a parsed query using recursion
     '''
     
     pq_len = len(parsed_query)
@@ -97,7 +97,7 @@ def advanced_keyword_parser(text_to_reply_to: str, cond: str) -> bool:
     Parses the advanced keyword search, checks if text_to_reply_to satisfies the condition
     '''
     
-    # What's the command?
+    # Determine the command
     colon_idx = cond.find(':')
     str_cmd = cond[2:colon_idx]
     
@@ -234,8 +234,8 @@ def cond_except_parser(msg_obj: str, text_to_reply_to: str, bot_config: dict) ->
         # print('Insert special convos code here')
         
         
-        # Insert special parsing code here
-        # print('Insert special parsing code here')
+        # If an advanced condition is met,
+        # then return the index for the proper response
         if i[0] == '&':                 
             parsed_cond = advanced_keyword_parser(text_to_reply_to, i)
             response_index = responseDF[responseDF['Condition'] == i].index[0]
@@ -388,6 +388,7 @@ def reply_to(msg_obj: str,
             print('')
         return
     
+    # Check if there is currently a reply delay
     bot_config = check_reply_delay(bot_config)
     reply_delay_remaining = bot_config['reply_delay_remaining']
     if reply_delay_remaining > 0:
@@ -405,6 +406,7 @@ def reply_to(msg_obj: str,
     if author in users_opted_out.values:
         return      
         
+    # Reply to the message based on the ResponseDF conditions
     reply_index = cond_except_parser(msg_obj, text_to_reply_to, bot_config) 
     if -1 != reply_index:
         message_body = responseDF['Reply'][reply_index]
@@ -424,9 +426,10 @@ def reply_to(msg_obj: str,
 
 def edit_status(bot_config: dict, is_online: bool, custom_status: dict = {}) -> dict:
     '''
-    dict, bool, dict -> None
+    dict, bool, dict -> dict
     
-    Edits the bot's status message. Outputs None.
+    Edits the bot's status message. 
+    Changes bot_config
     '''
     
     # Load bot config variables
@@ -484,19 +487,20 @@ def edit_status(bot_config: dict, is_online: bool, custom_status: dict = {}) -> 
                     'If you pm it, it won\'t respond automatically.')
     status_post_msg = status_post_msg.format(bot_username = bot_username)
     
+    # Edit the status post, then log it
     bot_status_post.edit(status_post_msg)
     log_and_print(terminal_status_msg)
     print('')
     bot_config['status'] = status
     return bot_config
 
-def check_admin_codes(msg_obj: pr.Reddit, bot_config: dict) -> bool:
+def check_admin_codes(msg_obj: pr.Reddit, bot_config: dict) -> dict:
     '''
-    msg_obj, dict -> bool
+    msg_obj, dict -> dict
     
     Checks comments to see if an admin code has been detected
     
-    Returns a boolean that represents whether or not replies should be enabled
+    Changes bot_config
     ''' 
     
     # Load data from msg_obj
@@ -554,11 +558,11 @@ def check_admin_codes(msg_obj: pr.Reddit, bot_config: dict) -> bool:
                 replies_enabled = True
                 bot_config['replies_enabled'] = replies_enabled
                 bot_config = edit_status(bot_config, True)
-                return replies_enabled
+                return bot_config
             
-            return replies_enabled
+            return bot_config
     
-    return replies_enabled
+    return bot_config
 
 def log_msg(msg_obj: pr.Reddit, msg_obj_type: str, bot_config: dict) -> str:
     '''
@@ -653,7 +657,14 @@ def log_msg(msg_obj: pr.Reddit, msg_obj_type: str, bot_config: dict) -> str:
     msg_obj_type = 'None'
     return msg_obj_type
 
-def check_inbox(reddit_instance, bot_config):
+def check_inbox(reddit_instance: pr.Reddit, bot_config: dict) -> None:
+    '''
+    Reddit, dict -> None
+    
+    Checks the inbox for unread messages. 
+    Modifies opt-out list if commands are found.
+    Returns nothing
+    '''
     
     # Load bot config variables
     unsub_url = bot_config['unsub_url']
@@ -722,9 +733,9 @@ def check_inbox(reddit_instance, bot_config):
     
 def monitor_new_posts(reddit_instance: pr.Reddit, 
                       bot_config: dict, 
-                      ) -> None:
+                      ) -> dict:
     '''
-    Reddit, str, dict, dict, bool, int, bool -> None
+    Reddit, str, dict, dict, bool, int, bool -> dict
     
     Monitors new posts.
     This function has no return statement, it is written to run forever 
@@ -736,7 +747,7 @@ def monitor_new_posts(reddit_instance: pr.Reddit,
     pause_after: int, after 'pause_after' failed API calls, pause the current API call and move on to the next one
     replies_enabled: bool, decides whether to allow the bot to reply to comments and posts
     
-    Returns whether or not replies should be enabled
+    Changes bot_config. Will return it if an error is raised.
     '''
        
     # Template for loading bot config
@@ -758,93 +769,97 @@ def monitor_new_posts(reddit_instance: pr.Reddit,
     # subscribe_url = bot_config['subscribe_url']
     # opt_out_list_path = bot_config['opt_out_list_path']
     
-    # Load bot config settings
-    skip_existing = bot_config['skip_existing']
-    replies_enabled = bot_config['replies_enabled']
-    pause_after = bot_config['pause_after']
-    sr = bot_config['sr']
+    try:
+        # Load bot config settings
+        skip_existing = bot_config['skip_existing']
+        replies_enabled = bot_config['replies_enabled']
+        pause_after = bot_config['pause_after']
+        sr = bot_config['sr']
+            
+        # Create csv file if missing
+        csv_log_name = bot_config['csv_log_name']
+        header = ['Timestamp', 'Type', 'Author', 'Post_Title', 'Body', 'URL', 'ID']
+        if not(path.exists(csv_log_name)):
+            with open(csv_log_name, 'w', encoding='UTF8', newline='') as f:
+                writer = csv.writer(f)
+                writer.writerow(header)
+                    
+        # Record which bot is being used and which subreddit it's monitoring
+        bot_username = reddit_instance.user.me().name
+        subreddit = reddit_instance.subreddit(sr)
+        log_and_print('u/' + bot_username + " is now monitoring r/" + subreddit.display_name + ' for new posts and comments!')
+        if replies_enabled:
+            re = ''
+        else: 
+            re = 'NOT '
+        log_and_print('Replies are ' + re + 'enabled')
         
-    # Create csv file if missing
-    csv_log_name = bot_config['csv_log_name']
-    header = ['Timestamp', 'Type', 'Author', 'Post_Title', 'Body', 'URL', 'ID']
-    if not(path.exists(csv_log_name)):
-        with open(csv_log_name, 'w', encoding='UTF8', newline='') as f:
-            writer = csv.writer(f)
-            writer.writerow(header)
+        # Save the praw objects that monitor posts and comments
+        posts = subreddit.stream.submissions(skip_existing = skip_existing, pause_after=pause_after)       
+        comments = subreddit.stream.comments(skip_existing = skip_existing, pause_after=pause_after)
+        
+        # If the bot fails to detect new posts and comments, delay the time between API calls in an exponential fashion
+        failed_delay = 0.1
+        
+        # Loop that continuously monitors and replies to posts and comments
+        while True:
+            print('')  
+            # This loop checks for new posts
+            log_and_print("Checking for new posts...")
+            for post in posts:        
+                # Check inbox and reply delay
+                check_inbox(reddit_instance, bot_config)
+                bot_config = check_reply_delay(bot_config)
+                    
+                # If no new post has been detected, break
+                if post is None:
+                    msg_obj_type = 'None'
+                    break
                 
-    # Record which bot is being used and which subreddit it's monitoring
-    bot_username = reddit_instance.user.me().name
-    subreddit = reddit_instance.subreddit(sr)
-    log_and_print('u/' + bot_username + " is now monitoring r/" + subreddit.display_name + ' for new posts and comments!')
-    if replies_enabled:
-        re = ''
-    else: 
-        re = 'NOT '
-    log_and_print('Replies are ' + re + 'enabled')
-     
-    # Save the praw objects that monitor posts and comments
-    posts = subreddit.stream.submissions(skip_existing = skip_existing, pause_after=pause_after)       
-    comments = subreddit.stream.comments(skip_existing = skip_existing, pause_after=pause_after)
+                # Reset delay, save message data
+                failed_delay = 0.1
+                msg_obj_type = 'post'
+                msg_obj = post
+                
+                # Log the message, and reply if keywords are detected
+                msg_obj_type = log_msg(msg_obj, msg_obj_type, bot_config)
+                        
+                    
+            # This loop checks for new comments
+            log_and_print("Checking for new comments...")
+            for comment in comments: 
+                # Check inbox and reply delay
+                check_inbox(reddit_instance, bot_config)
+                bot_config = check_reply_delay(bot_config)
+                
+                # If no new comment has been detected, break
+                if comment is None:
+                    msg_obj_type = 'None'
+                    break
+                
+                # Reset delay, save message data
+                failed_delay = 0.1
+                msg_obj_type = 'comment'
+                msg_obj = comment
+                
+                # Check if any admin codes have been used
+                bot_config = check_admin_codes(msg_obj, bot_config)
+                # bot_config['replies_enabled'] = replies_enabled
+                
+                # Log the message, and reply if keywords are detected
+                msg_obj_type = log_msg(msg_obj, msg_obj_type, bot_config)
+                
+                    
+            # If no new post/comment has been detected recently, 
+            # introduce an exponeentially increasing delay before checking again  
+            log_and_print('API calls have found no new posts/comments.')
+            log_and_print('Sleeping for ' + str(failed_delay) + ' s' )  
+            t.sleep(failed_delay)
+            if failed_delay < 16:
+                failed_delay *= 1.2
     
-    # If the bot fails to detect new posts and comments, delay the time between API calls in an exponential fashion
-    failed_delay = 0.1
-    
-    # Loop that continuously monitors and replies to posts and comments
-    while True:
-        print('')  
-        # This loop checks for new posts
-        log_and_print("Checking for new posts...")
-        for post in posts:        
-            # Check inbox and reply delay
-            check_inbox(reddit_instance, bot_config)
-            bot_config = check_reply_delay(bot_config)
-                
-            # If no new post has been detected, break
-            if post is None:
-                msg_obj_type = 'None'
-                break
-            
-            # Reset delay, save message data
-            failed_delay = 0.1
-            msg_obj_type = 'post'
-            msg_obj = post
-            
-            # Log the message, and reply if keywords are detected
-            msg_obj_type = log_msg(msg_obj, msg_obj_type, bot_config)
-                     
-                  
-        # This loop checks for new comments
-        log_and_print("Checking for new comments...")
-        for comment in comments: 
-            # Check inbox and reply delay
-            check_inbox(reddit_instance, bot_config)
-            bot_config = check_reply_delay(bot_config)
-            
-            # If no new comment has been detected, break
-            if comment is None:
-                msg_obj_type = 'None'
-                break
-            
-            # Reset delay, save message data
-            failed_delay = 0.1
-            msg_obj_type = 'comment'
-            msg_obj = comment
-            
-            # Check if any admin codes have been used
-            replies_enabled = check_admin_codes(msg_obj, bot_config)
-            bot_config['replies_enabled'] = replies_enabled
-            
-            # Log the message, and reply if keywords are detected
-            msg_obj_type = log_msg(msg_obj, msg_obj_type, bot_config)
-            
-                
-        # If no new post/comment has been detected recently, 
-        # introduce an exponeentially increasing delay before checking again  
-        log_and_print('API calls have found no new posts/comments.')
-        log_and_print('Sleeping for ' + str(failed_delay) + ' s' )  
-        t.sleep(failed_delay)
-        if failed_delay < 16:
-            failed_delay *= 1.2
+    except:
+        return bot_config
              
 def activate_bot(bot_config: dict,
                  ) -> None:
@@ -874,11 +889,11 @@ def activate_bot(bot_config: dict,
                 bot_config = edit_status(bot_config, True)
                 
             # Monitor for new posts/comments
-            replies_enabled = monitor_new_posts(
+            bot_config = monitor_new_posts(
                                 reddit_instance = reddit,
                                 bot_config = bot_config, 
                                 )  
-            bot_config['replies_enabled'] = replies_enabled
+            # bot_config['replies_enabled'] = replies_enabled
             
         # If an error is detected, notify creator and update status post 
         except BaseException as e:
