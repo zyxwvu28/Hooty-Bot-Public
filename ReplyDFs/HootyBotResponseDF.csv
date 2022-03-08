@@ -12,7 +12,7 @@ Index,Condition,Exception,Reply
 10,& q: 'hooty' AND 'fail',,"NOOOO I did it again, I can't help anyone!"
 11,"& probq: 0.01, 'Lumity'",,"They're adorable, and deserve all the happiness!"
 12,& q: 'hooty' AND ('watch' OR 'big brother' OR 'spy' OR 'everywhere'),,"Big Brother Hooty is everywhere, waiting for the perfect opportunity to make a witty comment"
-13,"& probq: 0.01, '?'",,"Hoot hoot! If you want the answer that you seek, solve my riddle within a week."
+13,"# & probq: 0.01, '?'",,"Hoot hoot! If you want the answer that you seek, solve my riddle within a week."
 14,"& probq: 0.1, 'i don\'t know'",,"Time to fill up that darling little head of yours with  
  
 *vomits books* 
