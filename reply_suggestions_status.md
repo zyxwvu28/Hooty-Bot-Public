@@ -28,7 +28,8 @@ If your suggestion isn't on this list, it means I haven't seen it yet. I need to
 | Luz AND Amity | They deserve all the happiness  | :white_check_mark: See index [19](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
 | Amphibia | Hootroll | :x: I don't understand this joke... I have indeed watched Amphibia, so if you wish to explain this joke to me, [pm me](https://www.reddit.com/user/zyxwvu28). |
 | hootsifer | lulu, youre back? OHMYGOSH | :heavy_check_mark: See index [61](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
-
+| Hooty | Did someone call me? Man have I got a story to tell you! So like this one time I ate a bug and then this other bug blah blah blah blah blah-And thats how I ate two bugs in one second! | :x: I like this quote, but the keyword is used way too commonly on the subreddit that the bot would spam this quote all the time. If I can think of a better keyword, I'll add it. But if you think of one before I do, feel free to resubmit this quote through the [replies suggestion form](https://forms.gle/XaArBT9fcXX4RgxJ6) again. |
+| house | Is the room spinning or is it just me? Ah. Just a little house humor. | :white_check_mark: See index [64](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
 
 
 # Common reasons for rejection:
@@ -37,3 +38,4 @@ If your suggestion isn't on this list, it means I haven't seen it yet. I need to
 | Keyword too common | I don't want HootyBot to spam the subreddit too often, so if your keyword is a word that's commonly used on the subreddit, I'm unlikely to add it. Exceptions are granted to jokes that I think are extremely good |
 | :heavy_check_mark: Already added something similar | SPOILER ALERT ❗ To see a full list of all keyword-reply pairs, go to [HootyBotResponseDF.csv](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv). I have added the index number of something similiar I alread added. If you think that your suggestion is sufficiently distinct from the one I added, you can [discuss that here](https://github.com/zyxwvu28/Hooty-Bot-Public/discussions/categories/hootybot-reply-suggestions)|
 | Hooty can't do conversations yet | At the moment, Hooty can only make one-sided conversations. It cannot properly respond to someone that has responded to HootyBot (although sometimes it does that by coincidence). I plan on adding that feature though, and when I do, I'll consider adding these past suggestions. |
+
