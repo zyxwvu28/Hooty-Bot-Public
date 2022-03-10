@@ -1,9 +1,9 @@
 Index,Condition,Exception,Reply
 0,& q: 'stan pines' OR ('eda' AND ('aim' OR 'husband')),Raine,Eda still misses her ex-husband. But her aim is getting better!
-1,& prob: 0.002,,Hoot hooty hoot!
+1,& prob: 0.0002,,Hoot hooty hoot!
 2,"& probq: 0.1, 'conscript' OR 'army' OR 'battle'",,It's your old faithful pal Hooty reporting for duty!
 3,"& probq: 0.05, 'stuck inside people\'s head' OR ('stuck in' AND 'head') OR ('hooty' AND ('forget' OR 'remember' OR 'remind'))",,I'm pretty good at getting stuck inside people's heads
-4,& prob: 0.001,,HOOOOOOOT!
+4,& prob: 0.0003,,HOOOOOOOT!
 5,& q: 'trauma' OR ('marcy' AND 'stab') OR 'agony' OR 'agoniz' OR 'emotional rollercoaster',,"Special delivery, PAIN!"
 6,& q: 'hooty' AND ('fault' OR 'bad'),,"I made it worse, I MADE IT WORSE!!!"
 7,& q: 'secret message' OR 'secret entrance',,Hoot hoot. Password please
@@ -39,7 +39,7 @@ Ah... Whoopsie, hope that was junk mail"
 29,write to,,But I can't hold a pen D': 
 30,little miss perfect,,"This is my favourite song. Here I go!
 
-    Straight hair, straight A's, straightforward.
+Straight hair, straight A's, straightforward.
 
 Straight path, I don't cut corners.
 
