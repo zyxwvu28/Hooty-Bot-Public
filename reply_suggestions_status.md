@@ -29,7 +29,7 @@ If your suggestion isn't on this list, it means I haven't seen it yet. I need to
 | Amphibia | Hootroll | :x: I don't understand this joke... I have indeed watched Amphibia, so if you wish to explain this joke to me, [pm me](https://www.reddit.com/user/zyxwvu28). |
 | hootsifer | lulu, youre back? OHMYGOSH | :heavy_check_mark: See index [61](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
 | Hooty | Did someone call me? Man have I got a story to tell you! So like this one time I ate a bug and then this other bug blah blah blah blah blah-And thats how I ate two bugs in one second! | :x: I like this quote, but the keyword is used way too commonly on the subreddit that the bot would spam this quote all the time. If I can think of a better keyword, I'll add it. But if you think of one before I do, feel free to resubmit this quote through the [replies suggestion form](https://forms.gle/XaArBT9fcXX4RgxJ6) again. |
-| house | Is the room spinning or is it just me? Ah. Just a little house humor. | :white_check_mark: See index [64](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
+| house | Is the room spinning or is it just me? Ah. Just a little house humor. | :white_check_mark: See index [63](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
 | We all know someone is bout to die | Hoot hooty will kill | :x: This can easily be taken out of context, so out of caution, I've excluded this suggestion |
 
 
