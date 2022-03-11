@@ -27,6 +27,8 @@ I want this project to have community input in order to improve it. You can cont
 
 The code for this bot has been made open source in [this repository](https://github.com/zyxwvu28/Hooty-Bot-Public). You are free to use this code anyway you like, but it is provided 'as-is' (i.e. there is no warranty for this source code). 
 
+DISCLAIMER: This project is in no way associated with any other profiles with the username "HootyBot" outside of Reddit (i.e. This project is not associated with the Twitter profile @HootyBot).
+
 ### How does HootyBot work? (TLDR Version)<a name = "1b"></a>
 HootyBot constantly monitors the r/TheOwlHouse subreddit for new posts and comments (herein refered to as a 'message'). When it detects a message, it will iterate through a dataframe (saved as a .csv file) that contains the following hardcoded information: 
 1. Keywords or conditions that HootyBot looks for, 
