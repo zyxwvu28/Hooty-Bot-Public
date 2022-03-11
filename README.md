@@ -1,4 +1,4 @@
-# Hooty-Bot README Table of Contents
+# HootyBot README Table of Contents
 1. [About HootyBot (v1.1.6)](#About-HootyBot)
     1. [Purpose](#Purpose)
     2. [How does HootyBot work? (TLDR Version)](#1b)
