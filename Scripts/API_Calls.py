@@ -828,9 +828,9 @@ def monitor_new_posts(reddit_instance: pr.Reddit,
         pause_after = bot_config['pause_after']
         sr = bot_config['sr']
             
-        # Create csv file if missing
+        # Create logging csv file if missing
         csv_log_name = bot_config['csv_log_name']
-        header = ['Timestamp', 'Type', 'Author', 'Post_Title', 'Body', 'URL', 'ID']
+        header = ['Timestamp', 'Type', 'Subreddit', 'Author', 'Post_Title', 'Body', 'URL', 'ID', 'replied_to_id', 'post_id']
         if not(path.exists(csv_log_name)):
             with open(csv_log_name, 'w', encoding='UTF8', newline='') as f:
                 writer = csv.writer(f)
