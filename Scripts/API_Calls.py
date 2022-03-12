@@ -350,7 +350,7 @@ def check_reply_delay(bot_config: dict,
         if (reply_delay_remaining > 0):
             mins_left = reply_delay_remaining//60
             secs_left = reply_delay_remaining%60
-            time_till_reply_avail_msg = f"## ⏸ {bot_username}'s replies are currently paused. ⏸ \n\n## {bot_username} will continue to reply to messages in about {mins_left} mins and {secs_left} sec"
+            time_till_reply_avail_msg = f"# ⏸ {bot_username}'s replies are currently paused. ⏸ \n\n## {bot_username} will continue to reply to messages in about {mins_left} mins and {secs_left} sec"
             custom_status = {
                 'delay_active': True,
                 'delay_message': time_till_reply_avail_msg
@@ -505,13 +505,13 @@ def edit_status(bot_config: dict, is_online: bool, custom_status: dict = {}) -> 
     # Detect which status message to output
     if is_online: # Online, replies enabled
         if replies_enabled:
-            status_post_msg = '# ✅ {bot_username} is currently online! ✅ \n\n'.format(bot_username=bot_username)
-            terminal_status_msg = 'Status post edited to indicate that {bot_username} is now ✅ online and replying ✅'.format(bot_username=bot_username)
             if delay_active:
-                status_post_msg += delay_message + '\n\n'
-                terminal_status_msg += '\n' + delay_message
+                status_post_msg = delay_message + '\n\n'
+                terminal_status_msg = delay_message
                 status = 'reply_delayed'
             elif not(delay_active) and (status != 'online'):
+                status_post_msg = '# ✅ {bot_username} is currently online! ✅ \n\n'.format(bot_username=bot_username)
+                terminal_status_msg = 'Status post edited to indicate that {bot_username} is now ✅ online and replying ✅'.format(bot_username=bot_username)
                 status_post_msg += '## {bot_username} is currently monitoring r/{sr} and is allowed to make replies.\n\n'.format(bot_username=bot_username, sr=sr) 
                 status = 'online'
             else:
