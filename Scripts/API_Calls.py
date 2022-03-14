@@ -246,8 +246,8 @@ def cond_except_parser(msg_obj: str, text_to_reply_to: str, bot_config: dict) ->
     '''
     
     # Load necessary bot config data
-    responseDF_path = bot_config['responseDF_path']
-    blacklist_words_path = bot_config['blacklist_words_path']
+    responseDF_path = bot_config['file_path_names']['responseDF_path']
+    blacklist_words_path = bot_config['file_path_names']['blacklist_words_path']
     
     # Load the ResponseDF
     responseDF = pd.read_csv(responseDF_path)
@@ -326,12 +326,12 @@ def check_reply_delay(bot_config: dict,
     '''
     
     # Load bot_config variables
-    last_comment_time_path = bot_config['last_comment_time_path']
-    min_between_replies = bot_config['min_between_replies']
-    bot_username = bot_config['bot_username']
-    
+    last_comment_time_path = bot_config['file_path_names']['last_comment_time_path']
+    min_between_replies = bot_config['static_settings']['min_between_replies']
+    bot_username = bot_config['metadata']['bot_username']
+
     # Create most recent reply file if missing:
-    last_comment_time_path = bot_config['last_comment_time_path']
+    last_comment_time_path = bot_config['file_path_names']['last_comment_time_path']
     if not(path.exists(last_comment_time_path)):
         with open(last_comment_time_path, 'w') as f:
             f.write('')   
@@ -346,7 +346,7 @@ def check_reply_delay(bot_config: dict,
         delta_since_last_comment = dt.now() - last_comment_time_obj
         min_between_replies_delta = timedelta(minutes = min_between_replies)
         reply_delay_remaining = min_between_replies_delta.seconds - delta_since_last_comment.seconds
-        bot_config['reply_delay_remaining'] = reply_delay_remaining
+        bot_config['dynamic_settings']['reply_delay_remaining'] = reply_delay_remaining
         if (reply_delay_remaining > 0):
             mins_left = reply_delay_remaining//60
             secs_left = reply_delay_remaining%60
@@ -377,18 +377,18 @@ def reply_to(msg_obj: str,
     '''
                     
     # Load necessary bot config data
-    bot_username = bot_config['bot_username']
-    responseDF_path = bot_config['responseDF_path']
-    min_between_replies = bot_config['min_between_replies']
-    reply_ending = bot_config['reply_ending']
-    opt_out_list_path = bot_config['opt_out_list_path']
+    bot_username = bot_config['metadata']['bot_username']
+    responseDF_path = bot_config['file_path_names']['responseDF_path']
+    min_between_replies = bot_config['dynamic_settings']['min_between_replies']
+    reply_ending = bot_config['template_responses']['reply_ending']
+    opt_out_list_path = bot_config['file_path_names']['opt_out_list_path']
     
     # Load the ResponseDF
     responseDF = pd.read_csv(responseDF_path)
     responseDF = responseDF.fillna('')
             
     # Create most recent reply file if missing:
-    last_comment_time_path = bot_config['last_comment_time_path']
+    last_comment_time_path = bot_config['file_path_names']['last_comment_time_path']
     if not(path.exists(last_comment_time_path)):
         with open(last_comment_time_path, 'w') as f:
             f.write('')   
@@ -442,7 +442,7 @@ def reply_to(msg_obj: str,
     
     # Check if there is currently a reply delay
     bot_config = check_reply_delay(bot_config)
-    reply_delay_remaining = bot_config['reply_delay_remaining']
+    reply_delay_remaining = bot_config['dynamic_settings']['reply_delay_remaining']
     if reply_delay_remaining > 0:
         return
         
@@ -485,11 +485,11 @@ def edit_status(bot_config: dict, is_online: bool, custom_status: dict = {}) -> 
     '''
     
     # Load bot config variables
-    bot_username = bot_config['bot_username']
-    sr = bot_config['sr']
-    bot_status_post_id = bot_config['bot_status_post_id']
-    replies_enabled = bot_config['replies_enabled']
-    status = bot_config['status']
+    bot_username = bot_config['metadata']['bot_username']
+    sr = bot_config['metadata']['sr']
+    bot_status_post_id = bot_config['metadata']['bot_status_post_id']
+    replies_enabled = bot_config['dynamic_settings']['replies_enabled']
+    status = bot_config['dynamic_settings']['status']
     
     # Set the API to be ready to edit the post
     reddit = pr.Reddit(bot_username)
@@ -543,7 +543,7 @@ def edit_status(bot_config: dict, is_online: bool, custom_status: dict = {}) -> 
     bot_status_post.edit(status_post_msg)
     log_and_print(terminal_status_msg)
     print('')
-    bot_config['status'] = status
+    bot_config['dynamic_settings']['status'] = status
     return bot_config
 
 def check_admin_codes(msg_obj: pr.Reddit, bot_config: dict) -> dict:
@@ -561,11 +561,11 @@ def check_admin_codes(msg_obj: pr.Reddit, bot_config: dict) -> dict:
     url = 'https://www.reddit.com' + msg_obj.permalink
     
     # Load necessary data from bot_config
-    admin_codes_path = bot_config['admin_codes_path']
-    replies_enabled = bot_config['replies_enabled']
-    reply_ending = bot_config['reply_ending']
-    bot_creator = bot_config['bot_creator']
-    bot_username = bot_config['bot_username']
+    admin_codes_path = bot_config['file_path_names']['admin_codes_path']
+    replies_enabled = bot_config['dynamic_settings']['replies_enabled']
+    reply_ending = bot_config['template_responses']['reply_ending']
+    bot_creator = bot_config['metadata']['bot_creator']
+    bot_username = bot_config['metadata']['bot_username']
     
     # Load the admin codes
     admin_codes = pd.read_csv(admin_codes_path)
@@ -594,7 +594,7 @@ def check_admin_codes(msg_obj: pr.Reddit, bot_config: dict) -> dict:
             
             if codes[0] == code: # pause code
                 replies_enabled = False
-                bot_config['replies_enabled'] = replies_enabled
+                bot_config['dynamic_settings']['replies_enabled'] = replies_enabled
                 bot_config = edit_status(bot_config, True)
                 return replies_enabled
             elif codes[1] == code: # stop code
@@ -608,7 +608,7 @@ def check_admin_codes(msg_obj: pr.Reddit, bot_config: dict) -> dict:
                 sys.exit(exit_msg)
             elif codes[2] == code: # unpause code
                 replies_enabled = True
-                bot_config['replies_enabled'] = replies_enabled
+                bot_config['dynamic_settings']['replies_enabled'] = replies_enabled
                 bot_config = edit_status(bot_config, True)
                 return bot_config
             
@@ -626,8 +626,8 @@ def log_msg(msg_obj: pr.Reddit, msg_obj_type: str, bot_config: dict) -> str:
     '''
     
     # Load necessary bot config data
-    csv_log_name = bot_config['csv_log_name']
-    replies_enabled = bot_config['replies_enabled']
+    csv_log_path = bot_config['file_path_names']['csv_log_path']
+    replies_enabled = bot_config['dynamic_settings']['replies_enabled']
         
     if msg_obj_type != 'None':
                     
@@ -677,7 +677,7 @@ def log_msg(msg_obj: pr.Reddit, msg_obj_type: str, bot_config: dict) -> str:
         body_to_csv = body.encode('unicode_escape')
         
         # Log post data to csv
-        with open(csv_log_name, 'a', newline='') as csvfile:
+        with open(csv_log_path, 'a', newline='') as csvfile:
             writer = csv.writer(csvfile)
             post_entry = [timestamp, msg_obj_type, author, post_title_to_csv, body_to_csv, url, s_id]
             writer.writerow(post_entry)
@@ -719,10 +719,10 @@ def check_inbox(reddit_instance: pr.Reddit, bot_config: dict) -> None:
     '''
     
     # Load bot config variables
-    unsub_url = bot_config['unsub_url']
-    subscribe_url = bot_config['subscribe_url']
-    opt_out_list_path = bot_config['opt_out_list_path']
-    bot_username = bot_config['bot_username']
+    unsub_url = bot_config['urls']['unsub_url']
+    subscribe_url = bot_config['urls']['subscribe_url']
+    opt_out_list_path = bot_config['file_path_names']['opt_out_list_path']
+    bot_username = bot_config['metadata']['bot_username']
     
     # Create opt-out list csv if it doesn't exist
     if not(path.exists(opt_out_list_path)):
@@ -801,38 +801,19 @@ def monitor_new_posts(reddit_instance: pr.Reddit,
     
     Changes bot_config. Will return it if an error is raised.
     '''
-       
-    # Template for loading bot config
-    # bot_username = bot_config['bot_username']
-    # sr = bot_config['sr']
-    # responseDF_path = bot_config['responseDF_path']
-    # blacklist_words_path = bot_config['blacklist_words_path']
-    # last_comment_time_path = bot_config['last_comment_time_path']
-    # version = bot_config['version']
-    # bot_creator = bot_config['bot_creator']
-    # log_file_name = bot_config['log_file_name']
-    # csv_log_name = bot_config['csv_log_name']
-    # bot_status_post_id = bot_config['bot_status_post_id']
-    # skip_existing = bot_config['skip_existing']
-    # replies_enabled = bot_config['replies_enabled']
-    # pause_after = bot_config['pause_after']
-    # min_between_replies = bot_config['min_between_replies']
-    # unsub_url = bot_config['unsub_url']
-    # subscribe_url = bot_config['subscribe_url']
-    # opt_out_list_path = bot_config['opt_out_list_path']
-    
+           
     try:
         # Load bot config settings
-        skip_existing = bot_config['skip_existing']
-        replies_enabled = bot_config['replies_enabled']
-        pause_after = bot_config['pause_after']
-        sr = bot_config['sr']
+        skip_existing = bot_config['static_settings']['skip_existing']
+        replies_enabled = bot_config['dynamic_settings']['replies_enabled']
+        pause_after = bot_config['static_settings']['pause_after']
+        sr = bot_config['metadata']['sr']
             
         # Create logging csv file if missing
-        csv_log_name = bot_config['csv_log_name']
+        csv_log_path = bot_config['file_path_names']['csv_log_path']
         header = ['Timestamp', 'Type', 'Subreddit', 'Author', 'Post_Title', 'Body', 'URL', 'ID', 'replied_to_id', 'post_id']
-        if not(path.exists(csv_log_name)):
-            with open(csv_log_name, 'w', encoding='UTF8', newline='') as f:
+        if not(path.exists(csv_log_path)):
+            with open(csv_log_path, 'w', encoding='UTF8', newline='') as f:
                 writer = csv.writer(f)
                 writer.writerow(header)
                     
@@ -921,8 +902,8 @@ def activate_bot(bot_config: dict,
     '''
     
     # Load necessary bot config data
-    bot_username = bot_config['bot_username']
-    sr = bot_config['sr']
+    bot_username = bot_config['metadata']['bot_username']
+    sr = bot_config['metadata']['sr']
     
     # Load credentials from praw.ini to generate a Reddit instance
     try:
@@ -931,7 +912,7 @@ def activate_bot(bot_config: dict,
         print("WARNING! praw.ini file not set up properly!")
         sys.exit("WARNING! praw.ini file not set up properly!")
     
-    bot_creator = bot_config['bot_creator']
+    bot_creator = bot_config['metadata']['bot_creator']
     
     while True:
         try:
