@@ -379,7 +379,6 @@ def reply_to(msg_obj: str,
     # Load necessary bot config data
     bot_username = bot_config['metadata']['bot_username']
     responseDF_path = bot_config['file_path_names']['responseDF_path']
-    min_between_replies = bot_config['dynamic_settings']['min_between_replies']
     reply_ending = bot_config['template_responses']['reply_ending']
     opt_out_list_path = bot_config['file_path_names']['opt_out_list_path']
     
@@ -890,7 +889,10 @@ def monitor_new_posts(reddit_instance: pr.Reddit,
             if failed_delay < 16:
                 failed_delay *= 1.2
     
-    except:
+    except BaseException as e:
+        err_message = 'An error occurred in the code: \n\n'
+        err_message += traceback.format_exc()
+        print(err_message)
         return bot_config
              
 def activate_bot(bot_config: dict,
