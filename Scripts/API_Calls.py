@@ -670,17 +670,7 @@ def log_msg(msg_obj: pr.Reddit, msg_obj_type: str, bot_config: dict) -> str:
             print('Error!')
             print(e)
             return msg_obj_type
-        
-        # Encode emojis differently
-        post_title_to_csv = post_title.encode('unicode_escape')
-        body_to_csv = body.encode('unicode_escape')
-        
-        # Log post data to csv
-        with open(csv_log_path, 'a', newline='') as csvfile:
-            writer = csv.writer(csvfile)
-            post_entry = [timestamp, msg_obj_type, author, post_title_to_csv, body_to_csv, url, s_id]
-            writer.writerow(post_entry)
-        
+                
         # Log and print post data
         if msg_obj_type == 'comment':
             on_a_post_ = ' on a post'
@@ -700,6 +690,16 @@ def log_msg(msg_obj: pr.Reddit, msg_obj_type: str, bot_config: dict) -> str:
         log_and_print("url: " + url)
         log_and_print("id: " + s_id)
         print('')
+        
+        # Encode emojis differently for csvs
+        post_title_to_csv = post_title.encode('unicode_escape')
+        body_to_csv = body.encode('unicode_escape')
+        
+        # Log post data to csv
+        with open(csv_log_path, 'a', newline='') as csvfile:
+            writer = csv.writer(csvfile)
+            post_entry = [timestamp, msg_obj_type, author, post_title_to_csv, body_to_csv, url, s_id]
+            writer.writerow(post_entry)
         
         # reply to the message if keywords are detected
         if replies_enabled:
