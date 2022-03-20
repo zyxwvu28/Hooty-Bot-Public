@@ -14,7 +14,7 @@ If your suggestion isn't on this list, it means I haven't seen it yet. I need to
 
 | Condition   | Reply                                         | Status             |
 | ----------- | --------------------------------------------- | ------------------ |
-| Hoot        | hoot hoot                                     | :pencil: Originally added, but ended up being too spammy, will consider a modification |
+| Hoot        | hoot hoot                                     | :white_check_mark: See index [57](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
 | eda         | i stole her potions once... it didn't go well | :heavy_check_mark: See index [15](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv). I don't think this is a quote from the show, but I added it anyways... |
 | lumity | what hooty said at the end of knock knock knockin of hootys door | :heavy_check_mark: See index [19](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv)|
 | Lilith | LULU! | :heavy_check_mark: See index [56](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
