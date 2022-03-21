@@ -14,7 +14,7 @@ If your suggestion isn't on this list, it means I haven't seen it yet. I need to
 
 | Condition   | Reply                                         | Status             |
 | ----------- | --------------------------------------------- | ------------------ |
-| Hoot        | hoot hoot                                     | :pencil: Originally added, but ended up being too spammy, will consider a modification |
+| Hoot        | hoot hoot                                     | :white_check_mark: See index [57](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
 | eda         | i stole her potions once... it didn't go well | :heavy_check_mark: See index [15](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv). I don't think this is a quote from the show, but I added it anyways... |
 | lumity | what hooty said at the end of knock knock knockin of hootys door | :heavy_check_mark: See index [19](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv)|
 | Lilith | LULU! | :heavy_check_mark: See index [56](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
@@ -32,6 +32,7 @@ If your suggestion isn't on this list, it means I haven't seen it yet. I need to
 | house | Is the room spinning or is it just me? Ah. Just a little house humor. | :white_check_mark: See index [63](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
 | We all know someone is bout to die | Hoot hooty will kill | :x: This can easily be taken out of context, so out of caution, I've excluded this suggestion |
 | Have you heard of the hit game among us? | That's a bit suspicious, Hoot. | :white_check_mark: See index [64](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
+| 'hooty' AND ('eat' OR 'hope') | I am inevitable, hoot! | :white_check_mark: See index [65](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv). Ok, I know this is a Thanos reference, but I don't understand why the given keywords should trigger the given response. HOWEVER, since you're the first person to correctly provide me the requested boolean syntax for my advanced queries, I've decided to allow this. (Though, you forgot the '& q:' and didn't parse the exception words properly either so I interpreted that as OR) |
 
 
 # Common reasons for rejection:
