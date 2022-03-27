@@ -35,6 +35,8 @@ If your suggestion isn't on this list, it means I haven't seen it yet. I need to
 | 'hooty' AND ('eat' OR 'hope') | I am inevitable, hoot! | :white_check_mark: See index [65](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv). Ok, I know this is a Thanos reference, but I don't understand why the given keywords should trigger the given response. HOWEVER, since you're the first person to correctly provide me the requested boolean syntax for my advanced queries, I've decided to allow this. (Though, you forgot the '& q:' and didn't parse the exception words properly either so I interpreted that as OR) |
 | Hooting | Hoot hoot! | :white_check_mark: See index [66](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
 | cheese | cheese | :x: This just feels very dull and low effort. |
+| ordinary | lyrics from Joriah Kwame's "Ordinary" | :white_check_mark: See index [68](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
+| king | He said something about my Mother >:( HOOT | :x: Keyword is way too common, and I already added something similar. See index [18](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
 
 
 # Common reasons for rejection:
