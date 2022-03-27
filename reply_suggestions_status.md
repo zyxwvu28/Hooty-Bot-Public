@@ -37,6 +37,7 @@ If your suggestion isn't on this list, it means I haven't seen it yet. I need to
 | cheese | cheese | :x: This just feels very dull and low effort. |
 | ordinary | lyrics from Joriah Kwame's "Ordinary" | :white_check_mark: See index [68](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
 | king | He said something about my Mother >:( HOOT | :x: Keyword is way too common, and I already added something similar. See index [18](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
+| \*\*\*\* | DON'T SAY NONO WORDS! HOOT HOOT! | :x: I get that this is supposed to be a swear word, but the way this is written and knowing how my bot works, I don't think it's funny enough. |
 
 
 # Common reasons for rejection:
