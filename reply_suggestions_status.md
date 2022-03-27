@@ -14,7 +14,7 @@ If your suggestion isn't on this list, it means I haven't seen it yet. I need to
 
 | Condition   | Reply                                         | Status             |
 | ----------- | --------------------------------------------- | ------------------ |
-| Hoot        | hoot hoot                                     | :pencil: Originally added, but ended up being too spammy, will consider a modification |
+| Hoot        | hoot hoot                                     | :white_check_mark: See index [57](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
 | eda         | i stole her potions once... it didn't go well | :heavy_check_mark: See index [15](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv). I don't think this is a quote from the show, but I added it anyways... |
 | lumity | what hooty said at the end of knock knock knockin of hootys door | :heavy_check_mark: See index [19](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv)|
 | Lilith | LULU! | :heavy_check_mark: See index [56](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
@@ -31,6 +31,13 @@ If your suggestion isn't on this list, it means I haven't seen it yet. I need to
 | Hooty | Did someone call me? Man have I got a story to tell you! So like this one time I ate a bug and then this other bug blah blah blah blah blah-And thats how I ate two bugs in one second! | :x: I like this quote, but the keyword is used way too commonly on the subreddit that the bot would spam this quote all the time. If I can think of a better keyword, I'll add it. But if you think of one before I do, feel free to resubmit this quote through the [replies suggestion form](https://forms.gle/XaArBT9fcXX4RgxJ6) again. |
 | house | Is the room spinning or is it just me? Ah. Just a little house humor. | :white_check_mark: See index [63](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
 | We all know someone is bout to die | Hoot hooty will kill | :x: This can easily be taken out of context, so out of caution, I've excluded this suggestion |
+| Have you heard of the hit game among us? | That's a bit suspicious, Hoot. | :white_check_mark: See index [64](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
+| 'hooty' AND ('eat' OR 'hope') | I am inevitable, hoot! | :white_check_mark: See index [65](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv). Ok, I know this is a Thanos reference, but I don't understand why the given keywords should trigger the given response. HOWEVER, since you're the first person to correctly provide me the requested boolean syntax for my advanced queries, I've decided to allow this. (Though, you forgot the '& q:' and didn't parse the exception words properly either so I interpreted that as OR) |
+| Hooting | Hoot hoot! | :white_check_mark: See index [66](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
+| cheese | cheese | :x: This just feels very dull and low effort. |
+| ordinary | lyrics from Joriah Kwame's "Ordinary" | :white_check_mark: See index [68](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
+| king | He said something about my Mother >:( HOOT | :x: Keyword is way too common, and I already added something similar. See index [18](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
+| \*\*\*\* | DON'T SAY NONO WORDS! HOOT HOOT! | :x: I get that this is supposed to be a swear word, but the way this is written and knowing how my bot works, I don't think it's funny enough. |
 
 
 # Common reasons for rejection:

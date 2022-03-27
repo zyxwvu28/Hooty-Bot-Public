@@ -72,14 +72,14 @@ APP_ID = os.environ.get('REDDIT_HOOTY_APP_ID')
 user_agent = 'reddit:' + APP_ID + ':' + version + ' (by /u/{})'.format(bot_creator)
 today = str(da.today())
 log_prefix = 'Logs/HootyBot_' + version + '_' + today
-log_file_name = log_prefix + ".log"
-csv_log_name = log_prefix + ".csv"
+log_file_path = log_prefix + ".log"
+csv_log_path = log_prefix + ".csv"
 bot_status_post_id = 'svj2yd'
 
 # # Configure logging
 root_logger= log.getLogger()
 root_logger.setLevel(log.DEBUG) 
-handler = log.FileHandler(log_file_name, 
+handler = log.FileHandler(log_file_path, 
                           'w', 
                           'utf-8'
                           ) 
@@ -114,27 +114,44 @@ reply_mode = True
 
 # Variables and data importamt for configuring HootyBot
 bot_config = {
-    'bot_username': bot_username,                       # str: the bots username
-    'sr': sr,                                           # str: the subreddit being monitored
-    'responseDF_path': responseDF_path,                 # str: the directory path of responseDF
-    'blacklist_words_path': blacklist_words_path,       # str: the directory path of blacklist_words
-    'last_comment_time_path': last_comment_time_path,   # str: the directory path of last_comment_time
-    'admin_codes_path': admin_codes_path,               # str: the directory path of admin codes
-    'opt_out_list_path': opt_out_list_path,             # str: directory path of the opt out list
-    'unsub_url': unsub_url,                             # str: url for unsubscribing
-    'subscribe_url': subscribe_url,                     # str: url for resubscribing
-    'version': version,                                 # str: the version of the bot
-    'bot_creator': bot_creator,                         # str: the username of the bot creator
-    'log_file_name': log_file_name,                     # str: name of log file
-    'csv_log_name': csv_log_name,                       # str: name of csv log file
-    'bot_status_post_id': bot_status_post_id,           # str: Reddit id of the bot status post
-    'skip_existing': reply_mode,                        # bool: if true, tells the bot to skip the 100 most recent msgs 
-    'replies_enabled': reply_mode,                      # bool: if true, allows the bot to reply to msgs
-    'pause_after': 2,                                   # int: How many failed API calls to make before pausing
-    'min_between_replies': 15,                          # int: Min minutes between replies
-    'reply_ending': reply_ending,                       # str: Template ending that HootyBot appends to the end of all replies
-    'status': '',                                       # str: one of ['', online, reply_delayed, paused, offline]
-    'reply_delay_remaining': -1                         # float: The delay time remaining until the bot can reply again 
+    'metadata': {
+        'bot_username': bot_username,                       # str: the bots username
+        'sr': sr,                                           # str: the subreddit being monitored
+        'version': version,                                 # str: the version of the bot
+        'bot_creator': bot_creator,                         # str: the username of the bot creator
+        'bot_status_post_id': bot_status_post_id,           # str: Reddit id of the bot status post
+    },
+    
+    'file_path_names': {
+        'responseDF_path': responseDF_path,                 # str: the directory path of responseDF
+        'blacklist_words_path': blacklist_words_path,       # str: the directory path of blacklist_words
+        'last_comment_time_path': last_comment_time_path,   # str: the directory path of last_comment_time
+        'admin_codes_path': admin_codes_path,               # str: the directory path of admin codes
+        'opt_out_list_path': opt_out_list_path,             # str: directory path of the opt out list
+        'log_file_path': log_file_path,                     # str: name of log file
+        'csv_log_path': csv_log_path,                       # str: name of csv log file
+    },
+    
+    'urls': {
+        'unsub_url': unsub_url,                             # str: url for unsubscribing
+        'subscribe_url': subscribe_url,                     # str: url for resubscribing
+    },
+    
+    'static_settings': {
+        'skip_existing': reply_mode,                        # bool: if true, tells the bot to skip the 100 most recent msgs 
+        'pause_after': 2,                                   # int: How many failed API calls to make before pausing
+        'min_between_replies': 15,                          # int: Min minutes between replies
+    },
+    
+    'dynamic_settings':{
+        'replies_enabled': reply_mode,                      # bool: if true, allows the bot to reply to msgs
+        'status': '',                                       # str: one of ['', online, reply_delayed, paused, offline]
+        'reply_delay_remaining': -1                         # float: The delay time remaining until the bot can reply again 
+    },
+    
+    'template_responses':{
+        'reply_ending': reply_ending,                       # str: Template ending that HootyBot appends to the end of all replies
+    },
 }
 
 ### Call API
