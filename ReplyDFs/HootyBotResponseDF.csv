@@ -92,7 +92,7 @@ THIS IS MY TERRITORY!
 62,& prob: 0.000001,,Congratulations! This reply had a 1 in 1 000 000 chance of happening. And you're the lucky person that gets to talk to me for the next 2 hours!
 63,"& probq: 0.002, 'house'",& q: 'owl house' OR 'owlhouse',"Is the room spinning or is it just me? Ah, just a little house humor."
 64,Have you heard of the hit game among us?,,"That's a bit suspicious, Hoot."
-65,& q: 'hooty' AND ('eat' OR 'hope'),& q: 'Raeda' OR 'Lumity' ,"I am inevitable, hoot!"
+65,"& probq: 0.1, 'hooty' AND ('eat' OR 'hope')",& q: 'Raeda' OR 'Lumity' ,"I am inevitable, hoot!"
 66,Hooting,,Hoot hoot!
 67,& q: 'romeo' OR 'juliet' OR 'gromeo',,"Hoot hoot! I've come for thou, Romeo. For Hence I am no bird, nor worm. For hence I am Hooty, Master of the owls and keeper of witches and demons alike."
 68,ordinary,,"I notice how she looks at me
