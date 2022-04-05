@@ -40,6 +40,7 @@ If your suggestion isn't on this list, it means I haven't seen it yet. I need to
 | \*\*\*\* | DON'T SAY NONO WORDS! HOOT HOOT! | :x: I get that this is supposed to be a swear word, but the way this is written and knowing how my bot works, I don't think it's funny enough. |
 | cult | I HAVE A CULT HOOOT HOOT! r/CultOfHooty | :white_check_mark: See index [71](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
 | Yeet yeet | Yeet lumity out the window | :x: I don't find this funny |
+| riddle | Hoot, hoot. If you want the answer that you seek, solve my riddle within a week‐‐ Ow! Okay, okay. She went into the forest towards Bonesborough. Sheesh! | :white_check_mark: See index [72](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
 
 
 # Common reasons for rejection:
