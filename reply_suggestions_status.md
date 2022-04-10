@@ -1,6 +1,6 @@
 # HootyBot Reply Suggestions Update
 
-The purpose of this document is to provide an update on all suggestions provided by the [HootyBot Reply Suggestions form](https://forms.gle/67fM5hwX78DHaf6s6). 
+The purpose of this document is to provide an update on all suggestions provided by the [HootyBot Reply Suggestions form](https://forms.gle/67fM5hwX78DHaf6s6).
 If your suggestion isn't on this list, it means I haven't seen it yet. I need to manually update this list, so check back later. If you have questions about my decision, pm me on Reddit @ [u/zyxwvu28](https://www.reddit.com/user/zyxwvu28/) (Note, you will no longer remain anonymous to me)
 
 # Suggestions Table
@@ -44,7 +44,6 @@ If your suggestion isn't on this list, it means I haven't seen it yet. I need to
 | lumity | Ka-hoot! Luz and her new gf! Hoot! So cute! | :x: Keyword too common |
 | door | I can turn into a door! Hoot! | :white_check_mark: See index [73](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
 | Tooth | My favorite snack! | :x: I don't understand this joke |
-
 
 # Common reasons for rejection:
 | Reason   | Explanation |
