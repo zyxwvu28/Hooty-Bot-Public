@@ -42,6 +42,8 @@ If your suggestion isn't on this list, it means I haven't seen it yet. I need to
 | Yeet yeet | Yeet lumity out the window | :x: I don't find this funny |
 | riddle | Hoot, hoot. If you want the answer that you seek, solve my riddle within a week‐‐ Ow! Okay, okay. She went into the forest towards Bonesborough. Sheesh! | :white_check_mark: See index [72](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
 | lumity | Ka-hoot! Luz and her new gf! Hoot! So cute! | :x: Keyword too common |
+| door | I can turn into a door! Hoot! | :white_check_mark: See index [73](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
+| Tooth | My favorite snack! | :x: I don't understand this joke |
 
 
 # Common reasons for rejection:
