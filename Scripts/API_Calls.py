@@ -905,7 +905,12 @@ def activate_bot(bot_config: dict,
     
     # Load necessary bot config data
     bot_username = bot_config['metadata']['bot_username']
+    bot_creator = bot_config['metadata']['bot_creator']
     sr = bot_config['metadata']['sr']
+    
+    # Informative start up messages
+    print('Setting up control for u/' + bot_username)
+    print('Welcome u/' + bot_creator)
     
     # Load credentials from praw.ini to generate a Reddit instance
     try:
@@ -948,3 +953,10 @@ def activate_bot(bot_config: dict,
             print(err_message)
             reddit.redditor(bot_creator).message('{bot_username} is now offline'.format(bot_username = bot_username), err_message )
             break
+
+def main():
+    print('This is a module, not to be run as a script')
+    return
+    
+if __name__ == '__main__':
+    main()
