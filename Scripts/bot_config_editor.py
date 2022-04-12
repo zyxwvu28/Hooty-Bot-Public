@@ -7,7 +7,7 @@ import json
 from datetime import date as da
 
 def set_everything():
-    0
+    raise NotImplementedError
     
 def change_subreddit(subreddit):
     '''
