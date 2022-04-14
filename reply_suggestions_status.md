@@ -44,6 +44,7 @@ If your suggestion isn't on this list, it means I haven't seen it yet. I need to
 | lumity | Ka-hoot! Luz and her new gf! Hoot! So cute! | :x: Keyword too common |
 | door | I can turn into a door! Hoot! | :white_check_mark: See index [73](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
 | Tooth | My favorite snack! | :x: I don't understand this joke |
+| So sad | HOOT HOOT I LOVE DUOLINGO | :x: I don't understand this joke |
 
 # Common reasons for rejection:
 | Reason   | Explanation |
