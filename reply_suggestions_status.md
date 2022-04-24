@@ -45,6 +45,9 @@ If your suggestion isn't on this list, it means I haven't seen it yet. I need to
 | door | I can turn into a door! Hoot! | :white_check_mark: See index [73](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
 | Tooth | My favorite snack! | :x: I don't understand this joke |
 | So sad | HOOT HOOT I LOVE DUOLINGO | :x: I don't understand this joke |
+| Thank you | a helpful post | :x: I don't understand this joke |
+| Hooty Eat | Don't eat me hoot hoot! | :white_check_mark: See index [74](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
+| Hoot, I'm a big boy house, I am your god | HOOT, GAHOOT | :white_check_mark: I added this, but you should know that this will probably never get triggered unless someone somehow types out that exact sentence, including the commas in the right place. PM me on Reddit if you want to increase the chances of this reply being triggered naturally. See index [75](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
 
 # Common reasons for rejection:
 | Reason   | Explanation |
