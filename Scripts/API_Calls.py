@@ -945,14 +945,21 @@ def activate_bot(bot_config: dict,
             except:
                 print(e)
             
-            if sr == 'TheOwlHouse':
-                bot_config = edit_status(bot_config, False)
-        
-            err_message = 'An error occurred in the code: \n\n'
-            err_message += traceback.format_exc()
-            print(err_message)
-            reddit.redditor(bot_creator).message('{bot_username} is now offline'.format(bot_username = bot_username), err_message )
-            break
+                if sr == 'TheOwlHouse':
+                    while True:
+                        try:
+                            bot_config = edit_status(bot_config, False)
+                            break
+                        except BaseException as e2:
+                            print("Error, unable to edit status post, trying again in 60 sec...")
+                            print(traceback.format_exc())
+                            t.sleep(60)
+            
+                err_message = 'An error occurred in the code: \n\n'
+                err_message += traceback.format_exc()
+                print(err_message)
+                reddit.redditor(bot_creator).message('{bot_username} is now offline'.format(bot_username = bot_username), err_message )
+                break
 
 def main():
     print('This is a module, not to be run as a script')
