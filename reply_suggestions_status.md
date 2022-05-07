@@ -3,12 +3,12 @@
 The purpose of this document is to provide an update on all suggestions provided by the [HootyBot Reply Suggestions form](https://forms.gle/67fM5hwX78DHaf6s6).
 If your suggestion isn't on this list, it means I haven't seen it yet. I need to manually update this list, so check back later. If you have questions about my decision, pm me on Reddit @ [u/zyxwvu28](https://www.reddit.com/user/zyxwvu28/) (Note, you will no longer remain anonymous to me)
 
-# Suggestions Table
+## Suggestions Table
 
 | Legend | Description |
 | ------ | ----------- |
 | :white_check_mark: | Added |
-| :heavy_check_mark: | Added something similar. See index <number> |
+| :heavy_check_mark: | Added something similar. See index \<number\> |
 | :pencil: | Pending, modifications considered |
 | :x: | Rejected: \<Reason\> |
 
@@ -49,11 +49,16 @@ If your suggestion isn't on this list, it means I haven't seen it yet. I need to
 | Hooty Eat | Don't eat me hoot hoot! | :white_check_mark: See index [74](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
 | Hoot, I'm a big boy house, I am your god | HOOT, GAHOOT | :white_check_mark: I added this, but you should know that this will probably never get triggered unless someone somehow types out that exact sentence, including the commas in the right place. PM me on Reddit if you want to increase the chances of this reply being triggered naturally. See index [75](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
 | Hoot | Here a hoot, there a hoot, somewhere else a hoot hoot, hooty-hoot hoot! | :white_check_mark: See index [76](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
+| Tibbles | DONT YOU TALK ABOUT MY MOTHER!!! | :x: I don't understand this joke |
+*| and Hooty | It's okay. I'm just glad I was included. | :white_check_mark: See index [77](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
+| monstrosity | Hehe, not the first time I've heard that. | :x: I don't think the bot will reply to most of these comments in a comedic way. |
+*| god | I am your god, hoot hoot! | :white_check_mark: See index [78](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
+*| lilith | OMG LULU I MISS YOU | :white_check_mark: See index [79](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
 
-# Common reasons for rejection:
+## Common reasons for rejection
+
 | Reason   | Explanation |
 | -------- | ----------- |
 | Keyword too common | I don't want HootyBot to spam the subreddit too often, so if your keyword is a word that's commonly used on the subreddit, I'm unlikely to add it. Exceptions are granted to jokes that I think are extremely good |
 | :heavy_check_mark: Already added something similar | SPOILER ALERT ❗ To see a full list of all keyword-reply pairs, go to [HootyBotResponseDF.csv](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv). I have added the index number of something similiar I alread added. If you think that your suggestion is sufficiently distinct from the one I added, you can [discuss that here](https://github.com/zyxwvu28/Hooty-Bot-Public/discussions/categories/hootybot-reply-suggestions)|
 | Hooty can't do conversations yet | At the moment, Hooty can only make one-sided conversations. It cannot properly respond to someone that has responded to HootyBot (although sometimes it does that by coincidence). I plan on adding that feature though, and when I do, I'll consider adding these past suggestions. |
-
