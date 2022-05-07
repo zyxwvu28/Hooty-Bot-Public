@@ -653,16 +653,21 @@ def log_msg(msg_obj: pr.Reddit, msg_obj_type: str, bot_config: dict) -> str:
             timestamp = dt.fromtimestamp(msg_obj.created_utc)
             timestamp = str(timestamp) + tz
             author = msg_obj.author.name
-            s_id = msg_obj.id      
+            s_id = msg_obj.id  
+            msg_subreddit = msg_obj.subreddit    
             
             if msg_obj_type == 'post':
                 post_title = msg_obj.title
                 body = msg_obj.selftext + poll_text
                 url = msg_obj.url
+                replied_to_id = ''
+                post_id = ''
             elif msg_obj_type == 'comment':
                 post_title = msg_obj.link_title
                 body = msg_obj.body
                 url = 'https://www.reddit.com' + msg_obj.permalink
+                replied_to_id = msg_obj.parent_id
+                post_id = msg_obj.link_id
             else: 
                 print('Error: msg_obj_type must be one of [post, comment, None]')
                 
@@ -698,7 +703,7 @@ def log_msg(msg_obj: pr.Reddit, msg_obj_type: str, bot_config: dict) -> str:
         # Log post data to csv
         with open(csv_log_path, 'a', newline='') as csvfile:
             writer = csv.writer(csvfile)
-            post_entry = [timestamp, msg_obj_type, author, post_title_to_csv, body_to_csv, url, s_id]
+            post_entry = [timestamp, msg_obj_type, msg_subreddit, author, post_title_to_csv, body_to_csv, url, s_id, replied_to_id,	post_id]
             writer.writerow(post_entry)
         
         # reply to the message if keywords are detected

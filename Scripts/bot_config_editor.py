@@ -121,7 +121,7 @@ def old_config():
         'static_settings': {
             'skip_existing': True,                        # bool: if true, tells the bot to skip the 100 most recent msgs 
             'pause_after': 2,                                   # int: How many failed API calls to make before pausing
-            'min_between_replies': 15,                          # int: Min minutes between replies
+            'min_between_replies': 30,                          # int: Min minutes between replies
         },
         
         'dynamic_settings':{
@@ -141,7 +141,7 @@ def old_config():
 
 
 def main():
-    # old_config()
+    old_config()
     return
     
 if  __name__ == '__main__':
