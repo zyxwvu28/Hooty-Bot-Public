@@ -50,10 +50,11 @@ If your suggestion isn't on this list, it means I haven't seen it yet. I need to
 | Hoot, I'm a big boy house, I am your god | HOOT, GAHOOT | :white_check_mark: I added this, but you should know that this will probably never get triggered unless someone somehow types out that exact sentence, including the commas in the right place. PM me on Reddit if you want to increase the chances of this reply being triggered naturally. See index [75](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
 | Hoot | Here a hoot, there a hoot, somewhere else a hoot hoot, hooty-hoot hoot! | :white_check_mark: See index [76](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
 | Tibbles | DONT YOU TALK ABOUT MY MOTHER!!! | :x: I don't understand this joke |
-*| and Hooty | It's okay. I'm just glad I was included. | :white_check_mark: See index [77](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
+| and Hooty | It's okay. I'm just glad I was included. | :white_check_mark: See index [77](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
 | monstrosity | Hehe, not the first time I've heard that. | :x: I don't think the bot will reply to most of these comments in a comedic way. |
-*| god | I am your god, hoot hoot! | :white_check_mark: See index [78](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
-*| lilith | OMG LULU I MISS YOU | :white_check_mark: See index [79](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
+| god | I am your god, hoot hoot! | :white_check_mark: See index [78](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
+| lilith | OMG LULU I MISS YOU | :white_check_mark: See index [79](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
+| tea party | I LOVE tea parties. HOOT! | :white_check_mark: See index [80](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
 
 ## Common reasons for rejection
 
