@@ -950,11 +950,14 @@ def activate_bot(bot_config: dict,
     bot_creator = bot_config['metadata']['bot_creator']
     
     while True:
+        err_delay = 60
         try:
             # Update bot status to 'online'
             if sr == 'TheOwlHouse':
                 bot_config = edit_status(bot_config, True)
-                
+                           
+            err_delay = 60
+                 
             # Monitor for new posts/comments
             bot_config = monitor_new_posts(
                                 reddit_instance = reddit,
@@ -963,7 +966,6 @@ def activate_bot(bot_config: dict,
             
         # If an error is detected, notify creator and update status post 
         except BaseException as e:
-            
             print(e)
             
             try:
@@ -973,7 +975,8 @@ def activate_bot(bot_config: dict,
                                 ]:
                     print('Error:', err_msg)
                     print('Sleeping for 60 sec')
-                    t.sleep(60)
+                    t.sleep(err_delay)
+                    err_delay *= 2
                     continue
             except:
                 print(e)
@@ -983,7 +986,8 @@ def activate_bot(bot_config: dict,
                 if err_msg == 'received 500 HTTP response':
                     print('Error:', err_msg)
                     print('Sleeping for 60 sec')
-                    t.sleep(60)
+                    t.sleep(err_delay)
+                    err_delay *= 2
                     continue
             except:
                 print(e)
@@ -996,7 +1000,8 @@ def activate_bot(bot_config: dict,
                     except BaseException as e2:
                         print("Error, unable to edit status post, trying again in 60 sec...")
                         print(traceback.format_exc())
-                        t.sleep(60)
+                        t.sleep(err_delay)
+                        err_delay *= 2
         
             err_message = 'An error occurred in the code: \n\n'
             err_message += traceback.format_exc()
