@@ -72,8 +72,8 @@ def main():
     root_logger.addHandler(handler)
 
     ## Set the subreddit
-    # sr = "TheOwlHouse"
-    sr = 'TOH_Bot_Testing'
+    sr = "TheOwlHouse"
+    # sr = 'TOH_Bot_Testing'
     bce.change_subreddit(sr)
 
     ## Load bot_config.json
