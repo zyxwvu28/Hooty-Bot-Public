@@ -415,13 +415,15 @@ def reply_to(msg_obj: str,
         body = msg_obj.selftext + poll_text
         post_title = msg_obj.title
         url = msg_obj.url
-        text_to_reply_to = post_title + body            
+        text_to_reply_to = post_title + body 
+        post_id = 't3_' + msg_obj.id           
     elif type(msg_obj) is pr.models.Comment:
         body = msg_obj.body
         url = 'https://www.reddit.com' + msg_obj.permalink
-        text_to_reply_to = body     
+        text_to_reply_to = body    
+        post_id = msg_obj.link_id 
     else:
-        raise TypeError("Error, msg_obj_type must be a \'pr.models.Submission\' or \'pr.models.Comment object\'")
+        raise TypeError("Error: type of msg_obj must be a \'pr.models.Submission\' or \'pr.models.Comment object\'")
                                     
     if bot_username in text_to_reply_to:
         reply_index = cond_except_parser(msg_obj, text_to_reply_to, bot_config) 
@@ -661,7 +663,7 @@ def log_msg(msg_obj: pr.Reddit, msg_obj_type: str, bot_config: dict) -> str:
                 body = msg_obj.selftext + poll_text
                 url = msg_obj.url
                 replied_to_id = ''
-                post_id = ''
+                post_id = 't3_' + s_id
             elif msg_obj_type == 'comment':
                 post_title = msg_obj.link_title
                 body = msg_obj.body
@@ -669,7 +671,7 @@ def log_msg(msg_obj: pr.Reddit, msg_obj_type: str, bot_config: dict) -> str:
                 replied_to_id = msg_obj.parent_id
                 post_id = msg_obj.link_id
             else: 
-                print('Error: msg_obj_type must be one of [post, comment, None]')
+                raise ValueError('Error: msg_obj_type must be one of [post, comment, None]')
                 
         except BaseException as e:
             print('Error!')

@@ -33,15 +33,16 @@ def main():
     version_path = 'data/version.txt'
     responseDF_path = 'ReplyDFs\HootyBotResponseDF.csv'
     blacklist_words_path = 'ReplyDFs\BlacklistWords.csv'
-    last_comment_time_path = 'data/last_comment_time.txt'
     admin_codes_path = 'data/admin_codes.csv'
     opt_out_list_path = 'data/opt_out_list.csv'
+    reply_stats_by_post_path = 'data/bot_reply_stats_by_post.csv'
 
     files_required = [version_path,
                     admin_codes_path,
                     opt_out_list_path,
                     blacklist_words_path,
                     responseDF_path,
+                    reply_stats_by_post_path,
                     'Scripts\API_Calls.py',
                     'praw.ini',
                     ]

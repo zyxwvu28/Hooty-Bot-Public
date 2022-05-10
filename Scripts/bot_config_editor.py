@@ -57,6 +57,7 @@ def old_config():
     last_comment_time_path = 'data/last_comment_time.txt'
     admin_codes_path = 'data/admin_codes.csv'
     opt_out_list_path = 'data/opt_out_list.csv'
+    reply_stats_by_post_path = 'data/bot_reply_stats_by_post.csv'
     
     # Read in the bot's version number
     with open(version_path) as f:
@@ -110,7 +111,7 @@ def old_config():
             'opt_out_list_path': opt_out_list_path,             # str: directory path of the opt out list
             'log_file_path': log_file_path,                     # str: name of log file
             'csv_log_path': csv_log_path,                       # str: name of csv log file
-        
+            'reply_stats_by_post_path': reply_stats_by_post_path # str: name of reply_stats_by_post
         },
         
         'urls': {
