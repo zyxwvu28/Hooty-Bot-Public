@@ -974,7 +974,7 @@ def activate_bot(bot_config: dict,
                                 'Comments are locked.'
                                 ]:
                     print('Error:', err_msg)
-                    print('Sleeping for 60 sec')
+                    print(f'Sleeping for {err_delay} sec')
                     t.sleep(err_delay)
                     err_delay *= 2
                     continue
@@ -985,7 +985,7 @@ def activate_bot(bot_config: dict,
                 err_msg = e.args[0]
                 if err_msg == 'received 500 HTTP response':
                     print('Error:', err_msg)
-                    print('Sleeping for 60 sec')
+                    print(f'Sleeping for {err_delay} sec')
                     t.sleep(err_delay)
                     err_delay *= 2
                     continue
@@ -998,7 +998,7 @@ def activate_bot(bot_config: dict,
                         bot_config = edit_status(bot_config, False)
                         break
                     except BaseException as e2:
-                        print("Error, unable to edit status post, trying again in 60 sec...")
+                        print(f"Error, unable to edit status post, trying again in {err_delay} sec...")
                         print(traceback.format_exc())
                         t.sleep(err_delay)
                         err_delay *= 2
