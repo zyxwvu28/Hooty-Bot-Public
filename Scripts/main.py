@@ -73,7 +73,7 @@ def main():
 
     ## Set the subreddit
     sr = "TheOwlHouse"
-    # sr = 'TOH_Bot_Testing'
+    sr = 'TOH_Bot_Testing'
     bce.change_subreddit(sr)
 
     ## Load bot_config.json
