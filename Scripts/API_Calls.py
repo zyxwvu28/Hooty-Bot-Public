@@ -367,9 +367,11 @@ def check_reply_delay(bot_config: dict,
 def reply_to(msg_obj: str, 
              bot_config: dict, 
              reply_to_self: bool = False
-             ) -> None:
+             ) -> bool:
     '''
-    str, dict, dict, bool -> None
+    str, dict, dict, bool -> bool
+    
+    Returns a boolean indicating whether a reply was successfully made
     
     msg_obj: A praw object representing a post or comment
     
@@ -397,7 +399,7 @@ def reply_to(msg_obj: str,
             
     # Anti-recursion mechanism. We don't want the bot replying to itself forever and ever and ever and ever...
     if (author == bot_username) and not(reply_to_self):
-        return
+        return False
 
     # Check if there's poll text, if so, add that to the detection
     try:
@@ -415,17 +417,16 @@ def reply_to(msg_obj: str,
         body = msg_obj.selftext + poll_text
         post_title = msg_obj.title
         url = msg_obj.url
-        text_to_reply_to = post_title + body 
-        post_id = 't3_' + msg_obj.id           
+        text_to_reply_to = post_title + body          
     elif type(msg_obj) is pr.models.Comment:
         body = msg_obj.body
         url = 'https://www.reddit.com' + msg_obj.permalink
         text_to_reply_to = body    
-        post_id = msg_obj.link_id 
     else:
         raise TypeError("Error: type of msg_obj must be a \'pr.models.Submission\' or \'pr.models.Comment object\'")
-                                    
-    if bot_username in text_to_reply_to:
+              
+    # If the bot's username was mentioned in the post/comment (hardcoded as the last condition in responseDF), then reply!                      
+    if advanced_cond_wrapper(text_to_reply_to,responseDF.Condition.iloc[-1]):
         reply_index = cond_except_parser(msg_obj, text_to_reply_to, bot_config) 
         if -1 != reply_index:
             message_body = responseDF['Reply'][reply_index]
@@ -439,13 +440,13 @@ def reply_to(msg_obj: str,
             log_and_print(message)
             log_and_print('^----------------------^')
             print('')
-        return
+        return True
     
     # Check if there is currently a reply delay
     bot_config = check_reply_delay(bot_config)
     reply_delay_remaining = bot_config['dynamic_settings']['reply_delay_remaining']
     if reply_delay_remaining > 0:
-        return
+        return False
         
     # Create opt-out csv if missing
     if not(path.exists(opt_out_list_path)):
@@ -453,11 +454,11 @@ def reply_to(msg_obj: str,
             csvf = csv.writer(f)
             csvf.writerow('users_opted_out')
             
-    # Check if author has opted-out of bot's replies
+    # Check if author has opted-out of bot's replies, don't reply!
     opt_out_list = pd.read_csv(opt_out_list_path)
     users_opted_out = opt_out_list['users_opted_out']
     if author in users_opted_out.values:
-        return      
+        return False
         
     # Reply to the message based on the ResponseDF conditions
     reply_index = cond_except_parser(msg_obj, text_to_reply_to, bot_config) 
@@ -473,9 +474,12 @@ def reply_to(msg_obj: str,
         log_and_print(message)
         log_and_print('^----------------------^')
         print('')
-    check_reply_delay(bot_config)
-            
-    return
+        return True
+    
+    # check_reply_delay(bot_config) # idk what the purpose of this line is...
+    
+    # If all other checks failed, then don't reply        
+    return False
 
 def edit_status(bot_config: dict, is_online: bool, custom_status: dict = {}) -> dict:
     '''
@@ -629,6 +633,7 @@ def log_msg(msg_obj: pr.Reddit, msg_obj_type: str, bot_config: dict) -> str:
     # Load necessary bot config data
     csv_log_path = bot_config['file_path_names']['csv_log_path']
     replies_enabled = bot_config['dynamic_settings']['replies_enabled']
+    reply_stats_by_post_path = bot_config['file_path_names']['reply_stats_by_post_path']
         
     if msg_obj_type != 'None':
                     
@@ -710,8 +715,24 @@ def log_msg(msg_obj: pr.Reddit, msg_obj_type: str, bot_config: dict) -> str:
         
         # reply to the message if keywords are detected
         if replies_enabled:
-            reply_to(msg_obj, bot_config)
+            replied = reply_to(msg_obj, bot_config)
             
+            # If the bot replied, then log the post id
+            if replied:
+                try:
+                    reply_stats_csv = pd.read_csv(reply_stats_by_post_path)
+                except:
+                    reply_stats_csv = pd.DataFrame(columns=['post_id', 'bot_replies_count', 'last_comment_time_on_post'])
+                
+                reply_stats_csv = reply_stats_csv.set_index('post_id')
+                if post_id in reply_stats_csv.index:
+                    reply_stats_csv.at[post_id, 'bot_replies_count'] += 1
+                    reply_stats_csv.at[post_id, 'last_comment_time_on_post'] = timestamp
+                else:
+                    reply_stats_csv.loc[post_id] = [1, timestamp]
+                reply_stats_csv = reply_stats_csv.reset_index()
+                reply_stats_csv.to_csv(reply_stats_by_post_path, index=False)
+  
     msg_obj_type = 'None'
     return msg_obj_type
 
