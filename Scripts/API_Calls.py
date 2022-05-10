@@ -965,29 +965,42 @@ def activate_bot(bot_config: dict,
         except BaseException as e:
             
             try:
-                if e.message in ['Something is broken, please try again later.',
+                err_msg = e.message
+                if err_msg in ['Something is broken, please try again later.',
                                 'Comments are locked.'
                                 ]:
+                    print('Error:', err_msg)
+                    print('Sleeping for 60 sec')
+                    t.sleep(60)
+                    continue
+            except:
+                print(e)
+                
+            try:
+                err_msg = e.args[0]
+                if err_msg == 'received 500 HTTP response':
+                    print('Error:', err_msg)
+                    print('Sleeping for 60 sec')
                     t.sleep(60)
                     continue
             except:
                 print(e)
             
-                if sr == 'TheOwlHouse':
-                    while True:
-                        try:
-                            bot_config = edit_status(bot_config, False)
-                            break
-                        except BaseException as e2:
-                            print("Error, unable to edit status post, trying again in 60 sec...")
-                            print(traceback.format_exc())
-                            t.sleep(60)
-            
-                err_message = 'An error occurred in the code: \n\n'
-                err_message += traceback.format_exc()
-                print(err_message)
-                reddit.redditor(bot_creator).message('{bot_username} is now offline'.format(bot_username = bot_username), err_message )
-                break
+            if sr == 'TheOwlHouse':
+                while True:
+                    try:
+                        bot_config = edit_status(bot_config, False)
+                        break
+                    except BaseException as e2:
+                        print("Error, unable to edit status post, trying again in 60 sec...")
+                        print(traceback.format_exc())
+                        t.sleep(60)
+        
+            err_message = 'An error occurred in the code: \n\n'
+            err_message += traceback.format_exc()
+            print(err_message)
+            reddit.redditor(bot_creator).message('{bot_username} is now offline'.format(bot_username = bot_username), err_message )
+            break
 
 def main():
     print('This is a module, not to be run as a script')
