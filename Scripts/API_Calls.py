@@ -9,6 +9,8 @@ import praw as pr
 import time as t
 from datetime import datetime as dt
 from datetime import timedelta
+from dateutil.parser import parse
+from dateutil.tz import gettz
 import logging as log
 import csv
 from os import path
@@ -383,6 +385,7 @@ def reply_to(msg_obj: str,
     responseDF_path = bot_config['file_path_names']['responseDF_path']
     reply_ending = bot_config['template_responses']['reply_ending']
     opt_out_list_path = bot_config['file_path_names']['opt_out_list_path']
+    reply_stats_by_post_path = bot_config['file_path_names']['reply_stats_by_post_path']
     
     # Load the ResponseDF
     responseDF = pd.read_csv(responseDF_path)
@@ -418,10 +421,12 @@ def reply_to(msg_obj: str,
         post_title = msg_obj.title
         url = msg_obj.url
         text_to_reply_to = post_title + body          
+        post_id = 't3_' + msg_obj.id  
     elif type(msg_obj) is pr.models.Comment:
         body = msg_obj.body
         url = 'https://www.reddit.com' + msg_obj.permalink
-        text_to_reply_to = body    
+        text_to_reply_to = body   
+        post_id = msg_obj.link_id 
     else:
         raise TypeError("Error: type of msg_obj must be a \'pr.models.Submission\' or \'pr.models.Comment object\'")
               
@@ -459,6 +464,21 @@ def reply_to(msg_obj: str,
     users_opted_out = opt_out_list['users_opted_out']
     if author in users_opted_out.values:
         return False
+    
+    # Check if the bot has commented on this post recently
+    post_reply_stats = pd.read_csv(reply_stats_by_post_path)
+    replied_to_post = post_id in post_reply_stats['post_id'].values # Has the bot replied to this post?
+    if replied_to_post:
+        tzinfos = {'EDT': gettz('America/Toronto'), 'EST': gettz('America/Toronto')}
+        post_reply_stats = post_reply_stats.set_index('post_id') 
+        bot_replies_count = int(post_reply_stats.loc[post_id, 'bot_replies_count'])
+        post_reply_threshold = bot_replies_count > 3 # Replied to post more than 3 times
+        last_reply_time = parse(post_reply_stats.loc[post_id, 'last_comment_time_on_post'], tzinfos = tzinfos)
+        last_reply_timedelta = dt.now(tz = tzinfos['EST']) - last_reply_time # Time between last reply to post and now   
+        post_delay_threshold = timedelta(seconds = 3600 * 2**(bot_replies_count - 4))
+        if post_reply_threshold and (last_reply_timedelta < post_delay_threshold):
+            return False
+        print('')
         
     # Reply to the message based on the ResponseDF conditions
     reply_index = cond_except_parser(msg_obj, text_to_reply_to, bot_config) 
@@ -719,6 +739,7 @@ def log_msg(msg_obj: pr.Reddit, msg_obj_type: str, bot_config: dict) -> str:
             
             # If the bot replied, then log the post id
             if replied:
+                # Load the csv, if the csv doesn't exist, create it
                 try:
                     reply_stats_csv = pd.read_csv(reply_stats_by_post_path)
                 except:
@@ -973,8 +994,8 @@ def activate_bot(bot_config: dict,
                 if err_msg in ['Something is broken, please try again later.',
                                 'Comments are locked.'
                                 ]:
-                    print('Error:', err_msg)
-                    print(f'Sleeping for {err_delay} sec')
+                    log_and_print('Error: ' + err_msg, 'error')
+                    log_and_print(f'Sleeping for {err_delay} sec', 'error')
                     t.sleep(err_delay)
                     err_delay *= 2
                     continue
@@ -984,8 +1005,8 @@ def activate_bot(bot_config: dict,
             try:
                 err_msg = e.args[0]
                 if err_msg == 'received 500 HTTP response':
-                    print('Error:', err_msg)
-                    print(f'Sleeping for {err_delay} sec')
+                    log_and_print('Error: ' + err_msg, 'error')
+                    log_and_print(f'Sleeping for {err_delay} sec', 'error')
                     t.sleep(err_delay)
                     err_delay *= 2
                     continue
@@ -998,8 +1019,8 @@ def activate_bot(bot_config: dict,
                         bot_config = edit_status(bot_config, False)
                         break
                     except BaseException as e2:
-                        print(f"Error, unable to edit status post, trying again in {err_delay} sec...")
-                        print(traceback.format_exc())
+                        log_and_print(f"Error, unable to edit status post, trying again in {err_delay} sec...", 'error')
+                        log_and_print(traceback.format_exc(), 'error')
                         t.sleep(err_delay)
                         err_delay *= 2
         

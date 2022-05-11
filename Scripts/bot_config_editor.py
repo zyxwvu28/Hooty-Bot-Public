@@ -6,6 +6,26 @@ import os
 import json
 from datetime import date as da
 
+def change_min_between_replies(time_in_min):
+    '''
+    Changes the time delay between bot delays
+
+    Args:
+        time_in_min (int): Sets the time delay (in min) between replies
+    '''
+    
+    bot_config_file = 'data/bot_config.json'
+    with open(bot_config_file, 'r') as f:
+        bot_config = json.load(f)
+        bot_config['static_settings']['min_between_replies'] = time_in_min
+        
+    with open(bot_config_file, 'w') as f:
+        json.dump(bot_config, f)
+        print(f'Time delay between replies set to {time_in_min} min')
+        print('bot_config.json saved.\n')
+        
+    return
+
 def set_everything():
     raise NotImplementedError
     
@@ -25,7 +45,7 @@ def change_subreddit(subreddit):
     with open(bot_config_file, 'w') as f:
         json.dump(bot_config, f)
         print(f'Target subreddit set to r/{subreddit}')
-        print('bot_config.json saved.')
+        print('bot_config.json saved.\n')
         
     return
 
