@@ -152,3 +152,4 @@ ReplyDFs/HootyBotResponseDF_DarkMode.xlsx
 *opt_out_list.csv
 *Update_csv_logs.py
 *bot_config.json
+*bot_reply_stats_by_post.csv

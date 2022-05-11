@@ -6,6 +6,26 @@ import os
 import json
 from datetime import date as da
 
+def change_min_between_replies(time_in_min):
+    '''
+    Changes the time delay between bot delays
+
+    Args:
+        time_in_min (int): Sets the time delay (in min) between replies
+    '''
+    
+    bot_config_file = 'data/bot_config.json'
+    with open(bot_config_file, 'r') as f:
+        bot_config = json.load(f)
+        bot_config['static_settings']['min_between_replies'] = time_in_min
+        
+    with open(bot_config_file, 'w') as f:
+        json.dump(bot_config, f)
+        print(f'Time delay between replies set to {time_in_min} min')
+        print('bot_config.json saved.\n')
+        
+    return
+
 def set_everything():
     raise NotImplementedError
     
@@ -25,7 +45,7 @@ def change_subreddit(subreddit):
     with open(bot_config_file, 'w') as f:
         json.dump(bot_config, f)
         print(f'Target subreddit set to r/{subreddit}')
-        print('bot_config.json saved.')
+        print('bot_config.json saved.\n')
         
     return
 
@@ -57,6 +77,7 @@ def old_config():
     last_comment_time_path = 'data/last_comment_time.txt'
     admin_codes_path = 'data/admin_codes.csv'
     opt_out_list_path = 'data/opt_out_list.csv'
+    reply_stats_by_post_path = 'data/bot_reply_stats_by_post.csv'
     
     # Read in the bot's version number
     with open(version_path) as f:
@@ -110,7 +131,7 @@ def old_config():
             'opt_out_list_path': opt_out_list_path,             # str: directory path of the opt out list
             'log_file_path': log_file_path,                     # str: name of log file
             'csv_log_path': csv_log_path,                       # str: name of csv log file
-        
+            'reply_stats_by_post_path': reply_stats_by_post_path # str: name of reply_stats_by_post
         },
         
         'urls': {

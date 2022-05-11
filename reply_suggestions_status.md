@@ -55,6 +55,7 @@ If your suggestion isn't on this list, it means I haven't seen it yet. I need to
 | god | I am your god, hoot hoot! | :white_check_mark: See index [78](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
 | lilith | OMG LULU I MISS YOU | :white_check_mark: See index [79](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
 | tea party | I LOVE tea parties. HOOT! | :white_check_mark: See index [80](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
+| Cake | IT WAS SUPPOSED TO BE A CRUMBLE! | :white_check_mark: See index [81](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
 
 ## Common reasons for rejection
 
