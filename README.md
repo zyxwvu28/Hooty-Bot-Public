@@ -1,5 +1,5 @@
 # HootyBot README Table of Contents
-1. [About HootyBot (v1.1.6)](#About-HootyBot)
+1. [About HootyBot (v1.1.7)](#About-HootyBot)
     1. [Purpose](#Purpose)
     2. [How does HootyBot work? (TLDR Version)](#1b)
     3. [Does HootyBot use machine learning or neural networks?](#1c)
@@ -12,7 +12,7 @@
 5. [Version Logs](#5) 
 
 
-## 1. About HootyBot (v1.1.6) <a name = "About-HootyBot"></a>
+## 1. About HootyBot (v1.1.7) <a name = "About-HootyBot"></a>
 
 ### Purpose <a name = "Purpose"></a>
 
@@ -104,7 +104,13 @@ If you have any concerns, comments, compliments, insults, etc. fill out this for
 - v1.1.5:
     - Status message post now indicates the bot's reply delay
 - v1.1.6:
-    - Added probabilistic replies  
+    - Added probabilistic replies 
+- v1.1.7:
+    - Implemented a limiter for the bot replying to the same post multiple times
+    - Bot is allowed to reply to a post 3 times before it gets rate limited
+    - On it's 4th reply, it won't be allowed to reply to that post for 1 hour
+    - Every subsequent reply doubles the delay
+    - The "delay between replies" limiter overrules this limiter
 
 HOOT HOOT!
 
