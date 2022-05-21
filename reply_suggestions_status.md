@@ -56,6 +56,10 @@ If your suggestion isn't on this list, it means I haven't seen it yet. I need to
 | lilith | OMG LULU I MISS YOU | :white_check_mark: See index [79](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
 | tea party | I LOVE tea parties. HOOT! | :white_check_mark: See index [80](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
 | Cake | IT WAS SUPPOSED TO BE A CRUMBLE! | :white_check_mark: See index [81](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
+| what eat | i eat young children | :x: I don't find this funny|
+| 'tired' OR 'sleep' OR 'sleepy' | Sleepwalking... Sleepwalking... SLEEPHOOTING!! | :white_check_mark: See index [82](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
+| Hunter | Special delivery, TRAUMA | :white_check_mark: See index [83](https://github.com/zyxwvu28/Hooty-Bot-Public/blob/main/ReplyDFs/HootyBotResponseDF.csv) |
+| Hunter | HOOOT | :x: I don't find this funny |
 
 ## Common reasons for rejection
 
