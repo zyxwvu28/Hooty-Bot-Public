@@ -589,14 +589,14 @@ def check_admin_codes(msg_obj: pr.Reddit, bot_config: dict) -> dict:
     admin_codes_path = bot_config['file_path_names']['admin_codes_path']
     replies_enabled = bot_config['dynamic_settings']['replies_enabled']
     reply_ending = bot_config['template_responses']['reply_ending']
-    bot_creator = bot_config['metadata']['bot_creator']
+    bot_admin = bot_config['metadata']['bot_admin']
     bot_username = bot_config['metadata']['bot_username']
     
     # Load the admin codes
     admin_codes = pd.read_csv(admin_codes_path)
     
     # Find the mods of the subreddit and the bot creator
-    admin_code_users = [bot_creator]
+    admin_code_users = [bot_admin]
     for i in msg_obj.subreddit.moderator():
         admin_code_users.append(i)
         
@@ -954,12 +954,12 @@ def activate_bot(bot_config: dict,
     
     # Load necessary bot config data
     bot_username = bot_config['metadata']['bot_username']
-    bot_creator = bot_config['metadata']['bot_creator']
+    bot_admin = bot_config['metadata']['bot_admin']
     sr = bot_config['metadata']['sr']
     
     # Informative start up messages
     print('Setting up control for u/' + bot_username)
-    print('Welcome u/' + bot_creator)
+    print('Welcome u/' + bot_admin)
     
     # Load credentials from praw.ini to generate a Reddit instance
     try:
@@ -968,7 +968,7 @@ def activate_bot(bot_config: dict,
         print("WARNING! praw.ini file not set up properly!")
         sys.exit("WARNING! praw.ini file not set up properly!")
     
-    bot_creator = bot_config['metadata']['bot_creator']
+    bot_admin = bot_config['metadata']['bot_admin']
     
     while True:
         err_delay = 60
@@ -1027,7 +1027,7 @@ def activate_bot(bot_config: dict,
             err_message = 'An error occurred in the code: \n\n'
             err_message += traceback.format_exc()
             print(err_message)
-            reddit.redditor(bot_creator).message('{bot_username} is now offline'.format(bot_username = bot_username), err_message )
+            reddit.redditor(bot_admin).message('{bot_username} is now offline'.format(bot_username = bot_username), err_message )
             break
 
 def main():
