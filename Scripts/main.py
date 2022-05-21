@@ -74,6 +74,7 @@ def main():
     ## Set the subreddit
     sr = "TheOwlHouse"
     # sr = 'TOH_Bot_Testing'
+    bce.update_version(version)
     bce.change_subreddit(sr)
     # bce.change_min_between_replies(30)
 

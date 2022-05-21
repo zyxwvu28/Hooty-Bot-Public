@@ -6,6 +6,26 @@ import os
 import json
 from datetime import date as da
 
+def update_version(version):
+    '''
+    Updates the version of the bot
+
+    Args:
+        version (str): String representing the version of the bot
+    '''
+    
+    bot_config_file = 'data/bot_config.json'
+    with open(bot_config_file, 'r') as f:
+        bot_config = json.load(f)
+        bot_config['metadata']['version'] = version
+        
+    with open(bot_config_file, 'w') as f:
+        json.dump(bot_config, f)
+        print(f'Bot version: {version}')
+        print('bot_config.json saved.\n')
+        
+    return
+
 def change_min_between_replies(time_in_min):
     '''
     Changes the time delay between bot delays
@@ -63,12 +83,12 @@ def old_config():
     # print('Setting up control for u/' + bot_username)
     
     # Define creator of bot
-    bot_creator = os.environ.get('REDDIT_BOT_CREATOR')
-    if bot_creator is None:
-        bot_creator = '' # Change this string to be your main Reddit account username (without the u/)
-        while bot_creator == '':
-            bot_creator = input('Enter your Reddit username without the \'u/\':\n')
-    # print('Welcome u/' + bot_creator)
+    bot_admin = os.environ.get('REDDIT_BOT_ADMIN')
+    if bot_admin is None:
+        bot_admin = '' # Change this string to be your main Reddit account username (without the u/)
+        while bot_admin == '':
+            bot_admin = input('Enter your Reddit username without the \'u/\':\n')
+    # print('Welcome u/' + bot_admin)
     
     # File paths
     version_path = 'data/version.txt'
@@ -85,7 +105,7 @@ def old_config():
         
     # Define global 'constants'
     APP_ID = os.environ.get('REDDIT_HOOTY_APP_ID')
-    user_agent = 'reddit:' + APP_ID + ':' + version + ' (by /u/{})'.format(bot_creator)
+    user_agent = 'reddit:' + APP_ID + ':' + version + ' (by /u/{})'.format(bot_admin)
     today = str(da.today())
     log_prefix = 'Logs/HootyBot_' + version + '_' + today
     log_file_path = log_prefix + ".log"
@@ -93,16 +113,16 @@ def old_config():
     bot_status_post_id = 'svj2yd'
     
     # Setting external urls
-    github_README_url = 'https://github.com/{}/Hooty-Bot-Public/blob/main/README.md'.format(bot_creator)
+    github_README_url = 'https://github.com/{}/Hooty-Bot-Public/blob/main/README.md'.format(bot_admin)
     reply_suggestions_form = 'https://forms.gle/jJzJTGC36ykLhWxB6'
     unsub_url = 'https://www.reddit.com/message/compose/?to=HootyBot&subject=hb!unsubscribe&message=Hit%20send%20to%20finish%20unsubscribing.%20You%20may%20replace%20this%20message%20with%20your%20feedback%20if%20you%20wish.%20Do%20NOT%20edit%20the%20subject%20line%2C%20otherwise%20HootyBot%20may%20not%20recognize%20the%20message%20as%20an%20unsubscribe%20request.'
     subscribe_url = 'https://www.reddit.com/message/compose/?to=HootyBot&subject=hb!subscribe&message=Hit%20send%20to%20finish%20resubscribing.%20You%20may%20replace%20this%20message%20with%20your%20feedback%20if%20you%20wish.%20Do%20NOT%20edit%20the%20subject%20line%2C%20otherwise%20HootyBot%20may%20not%20recognize%20the%20message%20as%20a%20subscribe%20request.'
 
     # Template reply ending for a bot
-    reply_ending = '\n\n^(I) ^(am) ^(a) ^(bot) ^(written) ^(by) [^({bot_creator})](https://www.reddit.com/user/{bot_creator}) ^(|) ^(Check) ^(out) ^(my) [^(Github)]({github_README_url}) \n\n'
+    reply_ending = '\n\n^(I) ^(am) ^(a) ^(bot) ^(written) ^(by) [^({bot_admin})](https://www.reddit.com/user/{bot_admin}) ^(|) ^(Check) ^(out) ^(my) [^(Github)]({github_README_url}) \n\n'
     reply_ending += '^(If) ^(you) ^(no) ^(longer) ^(wish) ^(to) ^(receive) ^(replies) ^(from) ^({bot_username},) [^(unsubscribe here)]({unsub_url}) ^(|) ^(Alternatively,) ^(you) ^(could) ^(block) ^(me) \n\n'
     reply_ending += '^(Help) ^(improve) ^(Hooty\'s) [^(vocabulary)]({reply_suggestions_form}) ^(|) ^(Current) ^(version:) ^({v})'
-    reply_ending = reply_ending.format(bot_creator = bot_creator, 
+    reply_ending = reply_ending.format(bot_admin = bot_admin, 
                                     github_README_url = github_README_url, 
                                     v = version, 
                                     reply_suggestions_form = reply_suggestions_form,
@@ -119,7 +139,7 @@ def old_config():
             'bot_username': bot_username,                       # str: the bots username
             'sr': sr,                                    # str: the subreddit being monitored
             'version': version,                                 # str: the version of the bot
-            'bot_creator': bot_creator,                         # str: the username of the bot creator
+            'bot_admin': bot_admin,                         # str: the username of the bot creator
             'bot_status_post_id': bot_status_post_id,           # str: Reddit id of the bot status post
         },
         
