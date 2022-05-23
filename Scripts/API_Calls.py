@@ -595,7 +595,7 @@ def check_admin_codes(msg_obj: pr.Reddit, bot_config: dict) -> dict:
     # Load the admin codes
     admin_codes = pd.read_csv(admin_codes_path)
     
-    # Find the mods of the subreddit and the bot creator
+    # Find the mods of the subreddit and the bot admin
     admin_code_users = [bot_admin]
     for i in msg_obj.subreddit.moderator():
         admin_code_users.append(i)
@@ -985,7 +985,7 @@ def activate_bot(bot_config: dict,
                                 bot_config = bot_config, 
                                 )  
             
-        # If an error is detected, notify creator and update status post 
+        # If an error is detected, notify admin and update status post 
         except BaseException as e:
             print(e)
             

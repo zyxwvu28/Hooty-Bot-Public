@@ -82,7 +82,7 @@ def old_config():
             bot_username = input('Enter your bot\'s username without the \'u/\':\n')
     # print('Setting up control for u/' + bot_username)
     
-    # Define creator of bot
+    # Define admin of bot
     bot_admin = os.environ.get('REDDIT_BOT_ADMIN')
     if bot_admin is None:
         bot_admin = '' # Change this string to be your main Reddit account username (without the u/)
@@ -139,7 +139,7 @@ def old_config():
             'bot_username': bot_username,                       # str: the bots username
             'sr': sr,                                    # str: the subreddit being monitored
             'version': version,                                 # str: the version of the bot
-            'bot_admin': bot_admin,                         # str: the username of the bot creator
+            'bot_admin': bot_admin,                         # str: the username of the bot admin
             'bot_status_post_id': bot_status_post_id,           # str: Reddit id of the bot status post
         },
         
