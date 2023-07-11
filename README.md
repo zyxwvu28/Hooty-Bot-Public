@@ -113,5 +113,5 @@ If you have any concerns, comments, compliments, insults, etc. fill out this for
     - The "delay between replies" limiter overrules this limiter
 
 HOOT HOOT!
-
+ 
 ![HootyBotProfilePic](https://user-images.githubusercontent.com/73264072/154608142-969ef356-1a2c-4fd8-b9bd-41ea4d9c431f.png)
